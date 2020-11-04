@@ -56,9 +56,15 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick")
+     */
+    private $illustrations;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->illustrations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -144,5 +150,35 @@ class Trick
     public function getComments(): Collection
     {
         return $this->comments;
+    }
+
+    /**
+     * @return Collection|Illustration[]
+     */
+    public function getIllustrations(): Collection
+    {
+        return $this->illustrations;
+    }
+
+    public function addIllustration(Illustration $illustration): self
+    {
+        if (!$this->illustrations->contains($illustration)) {
+            $this->illustrations[] = $illustration;
+            $illustration->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIllustration(Illustration $illustration): self
+    {
+        if ($this->illustrations->removeElement($illustration)) {
+            // set the owning side to null (unless already changed)
+            if ($illustration->getTrick() === $this) {
+                $illustration->setTrick(null);
+            }
+        }
+
+        return $this;
     }
 }
