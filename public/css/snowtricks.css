@@ -1,0 +1,155 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    transition: 0.6s;
+    padding: 40px 100px;
+}
+
+header ul {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header ul li {
+    position: relative;
+    list-style: none;
+}
+
+header ul li a {
+    position: relative;
+    margin: 0 15px;
+    text-decoration: none;
+    color: #fff;
+    letter-spacing: 2px;
+    font-weight: 500px;
+    transition: 0.6s;
+}
+
+header.sticky {
+    padding: 15px 100px;
+    padding-bottom: 0px;
+    background: #292929;
+    border-color: #292929;
+    opacity: 0.9;
+}
+
+header.sticky ul li a {
+    color: #fff;
+}
+
+header.sticky ul li a:hover {
+    color: #18bc9c;
+}
+
+.banner {
+    width: 100%;
+    height: 100vh;
+    background: url("../img/header5.jpg");
+    background-size: cover;
+}
+
+.banner-text {
+    width: 88%;
+    margin: auto;
+}
+
+.logo-site {
+    font-size: 20px;
+    color: #cfcfcf;
+    letter-spacing: 4px;
+}
+
+.banner-text h1 {
+    font-size: 200px;
+    font-weight: 100;
+    color: #cfcfcf;
+    padding-top: 200px;
+    margin-bottom: 30px;
+    letter-spacing: 4px;
+    line-height: 160px;
+}
+
+.banner-text p {
+    max-width: 450px;
+    color: #919191;
+    letter-spacing: 1px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+.banner-text .btn {
+    float: right;
+    border: 1px solid #fff;
+    color: #fff;
+    letter-spacing: 1px;
+    padding: 18px 34px;
+    border-radius: 70px;
+    display: inline-block;
+    margin-top: 150px;
+}
+
+.banner-text .btn:hover {
+    background: #292929;
+    border-color: #18bc9c;
+    opacity: 0.5;
+    color: #18bc9c;
+    transition: 0.5s;
+}
+
+.content {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.trick-list {
+    margin-left: 25px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.trick-thumbnail {
+    margin: 20px 10px 20px 10px;
+}
+
+.trick-title {
+    float: left;
+    font-size: 20px;
+}
+
+.trick-options {
+    float: right;
+}
+
+.load {
+    margin-bottom: 50px;
+    margin-left: 800px;
+    margin-top: 20px;
+}
+
+footer {
+    padding: 25px 0;
+    text-align: center;
+    background-color: #292929;
+    font-size: 20px;
+}
+footer span.copyright {
+    font-size: 90%;
+    color: #18bc9c;
+    line-height: 40px;
+    text-transform: none;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+footer ul.quicklinks {
+    font-size: 90%;
+    line-height: 40px;
+    margin-bottom: 0;
+    text-transform: none;
+    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
