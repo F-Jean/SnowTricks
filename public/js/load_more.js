@@ -1,9 +1,14 @@
 $(function() {
+
+    let page = 1;
+
     $(".load").click(function(e)
     {
         e.preventDefault();
+        page++;
+
         $.ajax({
-            url : '/load_more',
+            url : '/load_more/' + page,
             method: 'GET',
             dataType: 'html',
             success : function(code_html, statut)

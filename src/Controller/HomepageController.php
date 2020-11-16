@@ -32,12 +32,12 @@ class HomepageController extends AbstractController
     }
 
     /**
-     * @Route("/load_more", name="trick_load_more")
+     * @Route("/load_more/{page}", name="trick_load_more", requirements={"page": "\d+"})
      */
-    public function loadMore(TrickRepository $trickRepository)
+    public function loadMore(TrickRepository $trickRepository, int $page)
     {
         return new Response($this->twig->render("homepage/trick.html.twig", [
-            'tricks' => $trickRepository->getTricks(2, 5),
+            'tricks' => $trickRepository->getTricks($page, 5),
         ]));
     }
 }
