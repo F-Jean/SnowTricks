@@ -6,6 +6,7 @@ use App\Entity\User;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -43,7 +44,7 @@ class RegisterType extends AbstractType
                     ]),
                     'class' => 'input_validation'
                 ]))
-            ->add('password',    TextType::class, array(
+            ->add('password',    PasswordType::class, array(
                 'label' => 'Mot de passe',
                 'attr' => [
                     'placeholder' => 'Mot de passe',
@@ -51,14 +52,10 @@ class RegisterType extends AbstractType
                         'required' => true,
                         'minlength' => '8'
                     ]),
-                    'data-messages' => json_encode([
-                        'required' => 'Veuillez remplir ce champ',
-                        'minlength' => 'Votre nom doit contenir au moins 8 caractères'
-                    ]),
                     'class' => 'input_validation'
                 ]
             ))
-            ->add('confirm_password',    TextType::class, array(
+            ->add('confirm_password',    PasswordType::class, array(
                 'label' => 'Confirmer mot de passe',
                 'attr' => [
                     'placeholder' => 'Répétez votre mot de passe',
