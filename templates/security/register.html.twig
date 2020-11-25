@@ -1,12 +1,16 @@
 {% extends 'layout.html.twig' %}
     {% block container %}
-        <h1>S'enregistrer</h1>
-
-        {{ form_start(form) }}
-        {{ form_row(form.userName) }}
-        {{ form_row(form.email) }}
-        {{ form_row(form.password) }}
-        {{ form_row(form.confirm_password) }}
-        <button type="submit" class="btn btn-success">Valider</button>
-        {{ form_end(form) }}
+        <div class="register-section">
+            <h1>S'enregistrer</h1>
+            <div class="register-form">
+                {{ form_start(form) }}
+                    {{ form_row(form.userName, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
+                    {{ form_row(form.email, {'attr': {'placeholder': 'Email'}}) }}
+                    {{ form_row(form.password, {'attr': {'placeholder': 'Mot de passe'}}) }}
+                    <div class="register-form-btn">
+                        <button type="submit" class="btn btn-success">Valider</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
     {% endblock %} 

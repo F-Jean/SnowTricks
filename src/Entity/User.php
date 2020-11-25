@@ -11,8 +11,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
- *  fields= {"email"},
+ *  fields= {"email"}, 
  *  message= "L'email est déjà utilisé.")
+ * @UniqueEntity(
+ *  fields= {"userName"}, 
+ *  message= "Ce nom d'utilisateur est déjà utilisé.")
  */
 class User implements UserInterface
 {
@@ -26,13 +29,22 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="3", minMessage="Votre nom doit contenir au moins 3 lettres.")
+     * @Assert\NotBlank()
      */
     private $userName;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -41,9 +53,9 @@ class User implements UserInterface
     private $password;
 
     /**
-    * @Assert\EqualTo(propertyPath="password", message="Le mot de passe est différent !")
-    */
-    public $confirm_password;
+     * @ORM\Column(type="array")
+     */
+    private $roles;
 
     public function getId(): ?int
     {
@@ -74,6 +86,16 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -93,6 +115,7 @@ class User implements UserInterface
 
     public function getSalt()
     {
+        return null;
     }
 
     public function eraseCredentials()

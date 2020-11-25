@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class RegisterType extends AbstractType
 {
@@ -17,53 +18,14 @@ class RegisterType extends AbstractType
         $builder
             ->add('userName',    TextType::class, array(
                 'label' => 'Nom d\'utilisateur',
-                'attr' => [
-                    'placeholder' => 'Nom d\'utilisateur',
-                    'data-rules' => json_encode([
-                        'required' => true,
-                        'minlength' => '3'
-                    ]),
-                    'data-messages' => json_encode([
-                        'required' => 'Veuillez remplir ce champ',
-                        'minlength' => 'Votre nom doit contenir au moins 3 lettres'
-                    ]),
-                    'class' => 'input_validation'
-                ]
             ))
             ->add('email',  EmailType::class, array (
                 'label' => 'Email',
-                'attr' => [
-                    'placeholder' => 'Adresse email',
-                    'data-rules' => json_encode([
-                        'email' => true,
-                        "required" => true
-                    ]),
-                    'data-messages' => json_encode([
-                        'email' => 'Veuillez saisir une adresse email valide.',
-                        'required' => "Veuillez saisir une adresse email."
-                    ]),
-                    'class' => 'input_validation'
-                ]))
-            ->add('password',    PasswordType::class, array(
-                'label' => 'Mot de passe',
-                'attr' => [
-                    'placeholder' => 'Mot de passe',
-                    'data-rules' => json_encode([
-                        'required' => true,
-                        'minlength' => '8'
-                    ]),
-                    'class' => 'input_validation'
-                ]
             ))
-            ->add('confirm_password',    PasswordType::class, array(
-                'label' => 'Confirmer mot de passe',
-                'attr' => [
-                    'placeholder' => 'Répétez votre mot de passe',
-                    'data-messages' => json_encode([
-                        'required' => 'Veuillez remplir ce champ',
-                ]),
-                    'class' => 'input_validation'
-                ]
+            ->add('password',   RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_options' => array('label' => 'Mot de passe'),
+                'second_options' => array('label' => 'Confirmer mot de passe'),
             ))
         ;
     }
