@@ -29,19 +29,19 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email()
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Veuillez saisir un email.")
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(min="3", minMessage="Votre nom doit contenir au moins 3 lettres.")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Veuillez saisir un nom d'utilisateur.")
      */
     private $userName;
 
     /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Veuillez saisir un mot de passe.")
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
