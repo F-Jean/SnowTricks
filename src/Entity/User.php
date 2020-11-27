@@ -11,11 +11,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
- *  fields= {"email"}, 
- *  message= "L'email est déjà utilisé.")
+ *      fields = {"email"}, 
+ *      message = "L'email est déjà utilisé.")
  * @UniqueEntity(
- *  fields= {"userName"}, 
- *  message= "Ce nom d'utilisateur est déjà utilisé.")
+ *      fields = {"userName"}, 
+ *      message = "Ce nom d'utilisateur est déjà utilisé.")
  */
 class User implements UserInterface
 {
@@ -28,27 +28,51 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Email()
-     * @Assert\NotBlank(message="Veuillez saisir un email.")
+     * @Assert\Email(
+     *      message = "L'email '{{ value }}' n'est pas un email valide."
+     * )
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir un email."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="3", minMessage="Votre nom doit contenir au moins 3 lettres.")
-     * @Assert\NotBlank(message="Veuillez saisir un nom d'utilisateur.")
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 20, 
+     *      minMessage = "Votre nom d'utilisateur doit contenir au minimum {{ limit }} lettres.",
+     *      maxMessage = "Votre nom d'utilisateur ne peut pas faire plus de {{ limit }} lettres."
+     * )
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir un nom d'utilisateur."
+     * )
      */
     private $userName;
 
     /**
-     * @Assert\NotBlank(message="Veuillez saisir un mot de passe.")
-     * @Assert\Length(max=4096)
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir un mot de passe."
+     * )
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 30,
+     *      minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères.",
+     *      maxMessage = "Le mot de passe ne peut pas dépasser les {{ limit }} caractères."
+     * )
      */
     private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="8", minMessage="Le mot de passe doit faire minimum 8 caractères.")
+     * @Assert\NotBlank(
+     *      message = "Veuillez confirmer votre mot de passe."
+     * )
+     * @Assert\EqualTo(
+     *      propertyPath = "$plainPassword", 
+     *      message = "Le mot de passe est différent."
+     * )   
      */
     private $password;
 
