@@ -2,12 +2,21 @@
     {% block container %}
         <div class="register-section">
             <h1 id="register-title">S'enregistrer</h1>
+            <div>
+                <p>Le mot de passe doit contenir au minimum :</p>
+                <ul>
+                    <li> 8 caractères;</li>
+                    <li> 1 majuscule;</li>
+                    <li> 1 chiffre;</li>
+                    <li> 1 caractère spéciale.</li>
+                </ul>
+            </div>
             <div class="register-form">
                 {{ form_start(form) }}
                     {{ form_row(form.userName, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
                     {{ form_row(form.email, {'attr': {'placeholder': 'Email'} }) }}
                     {{ form_row(form.plainPassword.first, {'attr': {'placeholder': 'Mot de passe'}}) }}
-                    {{ form_row(form.plainPassword.second, {'attr': {'placeholder': 'Confirmer le mot de passe'}}) }}
+                    {{ form_row(form.plainPassword.second, {'attr': {'placeholder': 'Confirmer le mot de passe'},}) }}
                     <div class="register-form-btn">
                         <button type="submit" class="btn btn-success">Valider</button>
                     </div>

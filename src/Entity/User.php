@@ -57,22 +57,13 @@ class User implements UserInterface
      * )
      * @Assert\Length(
      *      min = 8,
-     *      max = 30,
-     *      minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères.",
-     *      maxMessage = "Le mot de passe ne peut pas dépasser les {{ limit }} caractères."
+     *      minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères."     
      * )
      */
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(
-     *      message = "Veuillez confirmer votre mot de passe."
-     * )
-     * @Assert\EqualTo(
-     *      propertyPath = "$plainPassword", 
-     *      message = "Le mot de passe est différent."
-     * )   
+     * @ORM\Column(type="string", length=255) 
      */
     private $password;
 

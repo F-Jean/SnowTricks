@@ -26,6 +26,7 @@ class RegisterType extends AbstractType
                 'type' => PasswordType::class,
                 'first_options' => array('label' => 'Mot de passe'),
                 'second_options' => array('label' => 'Confirmer mot de passe'),
+                'invalid_message' => 'Le mot de passe n\'est pas le même !',
             ))
         ;
     }

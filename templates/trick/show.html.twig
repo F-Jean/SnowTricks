@@ -1,0 +1,21 @@
+{% extends 'layout.html.twig' %}
+
+{% block container %}
+    <!-- Trick Section-->
+    <div class="trick-thumbnail">
+        <div class="trick-title">
+            <a href="" class="trick-number">{{ trick.name }}</a>
+        </div>
+        <div class="trick-description">
+            <a href="">{{ trick.description | raw }}</a>
+        </div>
+        <div class="trick-illustration">
+            <img src="https://placehold.co/325x225" alt="">
+        </div>
+    </div>
+
+    <!-- Comment Section-->
+    <div class="trick-comment">
+        <h1>Commentaire</h1>
+    </div>
+{% endblock %}

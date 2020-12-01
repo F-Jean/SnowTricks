@@ -16,8 +16,8 @@ class TrickFixtures extends Fixture
         for ($i = 1; $i <=3; $i++) {
             $user = new User();
             $user->setUserName("Utilisateur : $i")
-                 ->setEmail("Email : $i")
-                 ->setPassword("Mot de passe : $i");
+                ->setEmail("Email : $i")
+                ->setPassword("Mot de passe : $i");
 
             $manager->persist($user);
         }
@@ -34,11 +34,11 @@ class TrickFixtures extends Fixture
             $illustration->setPath("https://placehold.co/350x300");
             $trick = new Trick();
             $trick->setName("Trick N° $k")
-                  ->addIllustration($illustration)
-                  ->setDescription("<p>Description figure : $k</p>")
-                  ->setAddedAt(new \DateTimeImmutable())
-                  ->setUser($user)
-                  ->setCategory($category);
+                ->addIllustration($illustration)
+                ->setDescription("<p>Description figure : $k</p>")
+                ->setAddedAt(new \DateTimeImmutable())
+                ->setUser($user)
+                ->setCategory($category);
 
             $manager->persist($illustration);
             $manager->persist($trick);

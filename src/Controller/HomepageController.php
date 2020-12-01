@@ -2,11 +2,12 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Trick;
+use Twig\Environment;
+use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\TrickRepository;
-use Twig\Environment;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class HomepageController extends AbstractController
@@ -38,6 +39,16 @@ class HomepageController extends AbstractController
     {
         return new Response($this->twig->render("homepage/trick.html.twig", [
             'tricks' => $trickRepository->getTricks($page, 5),
+        ]));
+    }
+
+    /**
+     * @Route("/trick/{id}", name="trick_show")
+     */
+    public function show(Trick $trick)
+    {
+        return new Response($this->twig->render("trick/show.html.twig", [
+            'trick' => $trick
         ]));
     }
 }

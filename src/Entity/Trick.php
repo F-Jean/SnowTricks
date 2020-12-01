@@ -31,7 +31,7 @@ class Trick
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity=Category::class)
      * @ORM\JoinColumn(nullable=false)
      */
     private $category;
