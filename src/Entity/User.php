@@ -65,14 +65,7 @@ class User implements UserInterface
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(
-     *      message = "Veuillez confirmer votre mot de passe."
-     * )
-     * @Assert\EqualTo(
-     *      propertyPath = "$plainPassword", 
-     *      message = "Le mot de passe est différent."
-     * )   
+     * @ORM\Column(type="string", length=255) 
      */
     private $password;
 
