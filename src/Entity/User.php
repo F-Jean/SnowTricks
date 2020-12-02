@@ -4,11 +4,20 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *      fields = {"email"}, 
+ *      message = "L'email est déjà utilisé.")
+ * @UniqueEntity(
+ *      fields = {"userName"}, 
+ *      message = "Ce nom d'utilisateur est déjà utilisé.")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -19,18 +28,51 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Email(
+     *      message = "L'email '{{ value }}' n'est pas un email valide."
+     * )
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir un email."
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(
+     *      min = 3,
+     *      max = 20, 
+     *      minMessage = "Votre nom d'utilisateur doit contenir au minimum {{ limit }} lettres.",
+     *      maxMessage = "Votre nom d'utilisateur ne peut pas faire plus de {{ limit }} lettres."
+     * )
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir un nom d'utilisateur."
+     * )
      */
     private $userName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir un mot de passe."
+     * )
+     * @Assert\Length(
+     *      min = 8,
+     *      max = 30,
+     *      minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères.",
+     *      maxMessage = "Le mot de passe ne peut pas dépasser les {{ limit }} caractères."
+     * )
+     */
+    private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=255) 
      */
     private $password;
+
+    /**
+     * @ORM\Column(type="array")
+     */
+    private $roles;
 
     public function getId(): ?int
     {
@@ -61,6 +103,16 @@ class User
         return $this;
     }
 
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
     public function getPassword(): ?string
     {
         return $this->password;
@@ -71,5 +123,19 @@ class User
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
     }
 }
