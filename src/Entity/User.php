@@ -59,6 +59,16 @@ class User implements UserInterface
      *      min = 8,
      *      minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères."     
      * )
+     * 
+     * \S*: any set of characters
+     * (?=\S{8,}): of at least length 8
+     * (?=\S*[a-z]): containing at least one lowercase letter
+     * (?=\S*[A-Z]): and at least one uppercase letter
+     * (?=\S*[\d]): and at least one number
+     * (?=\S*[\W]): and at least one special character
+     * @Assert\Regex(
+     *      "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/"
+     * )
      */
     private $plainPassword;
 
