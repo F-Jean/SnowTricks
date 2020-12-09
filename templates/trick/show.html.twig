@@ -8,7 +8,7 @@
             <h2>Description</h2>
             <p>{{ trick.description | raw }}</p>
         </div>
-        <h2 class="trick-group"></h2>
+        <h2 class="trick-group">Groupe de la figure : {{ trick.category }}</h2>
         <h2 class="trick-illustration-title">Images</h2>
         <div class="trick-show-illustrations">
             {% for illustration in trick.illustrations %}

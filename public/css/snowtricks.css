@@ -164,6 +164,7 @@ footer ul.quicklinks {
 
 /* TRICK SHOWPAGE */
 
+/* Image section */
 .trick-show-illustrations {
     margin-left: 25px;
     display: flex;
@@ -172,4 +173,10 @@ footer ul.quicklinks {
 
 .trick-show-illustration {
     margin: 20px 10px 20px 10px;
+}
+
+/* Video section */
+
+video {
+    margin: 40px 10px 20px 10px;
 }
