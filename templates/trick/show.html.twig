@@ -2,19 +2,28 @@
 
 {% block container %}
     <!-- Trick Section-->
-    <div class="trick-thumbnail">
-        <div class="trick-title">
-            <a href="" class="trick-number">{{ trick.name }}</a>
-        </div>
+    <section class="trick-show">
+        <h1 class="trick-name">{{ trick.name }}</h1>
         <div class="trick-description">
-            <a href="">{{ trick.description | raw }}</a>
+            <h2>Description</h2>
+            <p>{{ trick.description | raw }}</p>
         </div>
-        {% for illustration in trick.illustrations %}
-            <div class="trick-illustration">
-                <img src="{{ asset(illustration.path) }}" alt="">
-            </div>
-        {% endfor %}
-    </div>
+        <h2 class="trick-group"></h2>
+        <h2 class="trick-illustration-title">Images</h2>
+        <div class="trick-show-illustrations">
+            {% for illustration in trick.illustrations %}
+                <img src="{{ asset(illustration.path) }}" alt="" class="trick-show-illustration">
+            {% endfor %}
+        </div>
+        <h2 class="trick-video-title">Vidéos</h2>
+        <div class="trick-show-videos">
+            {% for video in trick.videos %}
+                <video controls>
+                    <source src="{{ asset(video.url) }}" type="video/mime" class="trick-show-video">
+                </video>
+            {% endfor %}
+        </div>
+    </section>
 
     <!-- Comment Section-->
     <div class="trick-comment">

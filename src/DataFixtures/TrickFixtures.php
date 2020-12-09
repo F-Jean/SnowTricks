@@ -8,6 +8,7 @@ use App\Entity\Trick;
 use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Illustration;
+use App\Entity\Video;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -48,11 +49,18 @@ class TrickFixtures extends Fixture
                     $manager->persist($trick);
                 
 
-                    for ($l = 1; $l <= 10; $l++) {
+                    for ($l = 1; $l <= 5; $l++) {
                         $illustration = new Illustration();
                         $illustration->setPath("https://placehold.co/350x300");
                         $trick->addIllustration($illustration);
                         $manager->persist($illustration);
+                    }
+
+                    for ($m = 1; $m <= 5; $m++) {
+                        $video = new Video();
+                        $video->setUrl("https://www.youtube.com/watch?v=8CtWgw9xYRE");
+                        $trick->addVideo($video);
+                        $manager->persist($video);
                     }
                 }
             }

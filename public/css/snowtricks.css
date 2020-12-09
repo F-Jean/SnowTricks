@@ -1,3 +1,5 @@
+/* HEADER */
+
 header {
     position: fixed;
     top: 0;
@@ -47,6 +49,8 @@ header.sticky ul li a {
 header.sticky ul li a:hover {
     color: #18bc9c;
 }
+
+/* BANNER */
 
 .banner {
     width: 100%;
@@ -103,6 +107,8 @@ header.sticky ul li a:hover {
     transition: 0.5s;
 }
 
+/* HOMEPAGE TRICK SECTION */
+
 .content {
     margin-left: 50px;
     margin-right: 50px;
@@ -133,6 +139,8 @@ header.sticky ul li a:hover {
     margin-top: 20px;
 }
 
+/* FOOTER */
+
 footer {
     padding: 25px 0;
     text-align: center;
@@ -152,4 +160,16 @@ footer ul.quicklinks {
     margin-bottom: 0;
     text-transform: none;
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* TRICK SHOWPAGE */
+
+.trick-show-illustrations {
+    margin-left: 25px;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.trick-show-illustration {
+    margin: 20px 10px 20px 10px;
 }
