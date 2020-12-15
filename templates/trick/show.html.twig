@@ -8,7 +8,7 @@
             <h2>Description</h2>
             <p>{{ trick.description | raw }}</p>
         </div>
-        <h2 class="trick-group">Groupe de la figure : {{ trick.category }}</h2>
+        <h2 class="trick-group">Groupe de la figure : {{ trick.category.name}}</h2>
         <h2 class="trick-illustration-title">Images</h2>
         <div class="trick-show-illustrations">
             {% for illustration in trick.illustrations %}
@@ -18,9 +18,9 @@
         <h2 class="trick-video-title">Vidéos</h2>
         <div class="trick-show-videos">
             {% for video in trick.videos %}
-                <video controls>
-                    <source src="{{ asset(video.url) }}" type="video/mime" class="trick-show-video">
-                </video>
+                <iframe width="400" height="300" src="{{ asset(video.url) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    Votre navigateur ne peut pas lire la vidéo.
+                </iframe>
             {% endfor %}
         </div>
     </section>

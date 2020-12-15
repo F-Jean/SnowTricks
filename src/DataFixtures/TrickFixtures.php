@@ -58,7 +58,7 @@ class TrickFixtures extends Fixture
 
                     for ($m = 1; $m <= 5; $m++) {
                         $video = new Video();
-                        $video->setUrl("https://www.youtube.com/watch?v=8CtWgw9xYRE");
+                        $video->setUrl("https://www.youtube.com/embed/8CtWgw9xYRE");
                         $trick->addVideo($video);
                         $manager->persist($video);
                     }
