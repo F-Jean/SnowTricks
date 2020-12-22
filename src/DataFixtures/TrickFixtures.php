@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Entity\Category;
 use App\Entity\Illustration;
 use App\Entity\Video;
+use App\Entity\Comment;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
@@ -23,6 +24,7 @@ class TrickFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
+        // USERS
         for ($i = 1; $i <=3; $i++) {
             $user = new User();
             $user->setUserName("Utilisateur $i")
@@ -32,13 +34,14 @@ class TrickFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
-
+        // CATEGORIES
         for ($j = 1; $j <=2; $j++) {
             $category = new Category();
             $category->setName("catégorie : $j");
             $manager->persist($category);
 
             foreach ($users as $user) {
+                // TRICKS
                 for ($k = 1; $k <=20; $k++) {
                     $trick = new Trick();
                     $trick->setName("Trick N° $k")
@@ -48,7 +51,7 @@ class TrickFixtures extends Fixture
                     ->setCategory($category);
                     $manager->persist($trick);
                 
-
+                    // ILLUSTRATIONS
                     for ($l = 1; $l <= 5; $l++) {
                         $illustration = new Illustration();
                         $illustration->setPath("https://placehold.co/350x300");
@@ -56,15 +59,45 @@ class TrickFixtures extends Fixture
                         $manager->persist($illustration);
                     }
 
+                    //VIDEOS
                     for ($m = 1; $m <= 5; $m++) {
                         $video = new Video();
-                        $video->setUrl("https://www.youtube.com/embed/8CtWgw9xYRE");
+                        // manually setting the url for the moment (copy of the user's  one will be sending)
+                        $video->setUrl("https://www.youtube.com/watch?v=1TJ08caetkw");
+                        $urlVideo = $video->getUrl();
+                        $ytUrl = "https://www.youtube.com/embed/";
+                        $dmUrl = "https://www.dailymotion.com/embed/video/";
+                        if (preg_match("#youtube#", $urlVideo)) {
+                            // regex to isolate a youtube url' id specifically
+                            preg_match('#https:\/\/www\.youtube\.com\/watch\?v=(.+)#', $urlVideo, $matches);
+                            $ytId = $matches[1];
+                            // adding embed url to isolate id
+                            $ytUrlVideo = $ytUrl . $ytId;
+                            $video->setUrl($ytUrlVideo);
+                        } elseif (preg_match("#dailymotion#", $urlVideo)) {
+                            // regex to isolate a dailymotion url' id specifically
+                            preg_match('#https:\/\/www\.dailymotion\.com\/video\/(.+)#', $urlVideo, $matches);
+                            $dmId = $matches[1];
+                            // adding embed url to isolate id
+                            $dmUrlVideo = $dmUrl . $dmId;
+                            $video->setUrl($dmUrlVideo);
+                        }
                         $trick->addVideo($video);
                         $manager->persist($video);
                     }
+
+                    // COMMENTS
+                    for ($n = 1; $n <=1; $n++) {
+                        $comment = new Comment();
+                        $comment->setUser($user)
+                        ->setTrick($trick)
+                        ->setPostedAt(new \DateTimeImmutable())
+                        ->setContent("Commentaire n° $n");
+                        $manager->persist($comment);
+                    }
                 }
             }
+            $manager->flush();
         }
-    $manager->flush();
     }
-}     
+}

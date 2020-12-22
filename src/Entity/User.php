@@ -146,4 +146,12 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
 }

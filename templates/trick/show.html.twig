@@ -24,9 +24,32 @@
             {% endfor %}
         </div>
     </section>
-
     <!-- Comment Section-->
     <div class="trick-comment">
-        <h1>Commentaire</h1>
+        <h1>{{ trick.comments | length }} Commentaires</h1>
+        {% for comment in trick.comments %}
+            <div>
+                <div>
+                    {{ comment.user }}
+                </div>
+                <div>
+                    {{ comment.content | raw }}
+                </div>
+                <div>
+                    {{ comment.postedAt }}
+                </div>
+            </div>
+        {% endfor %}
+        <!-- Form Section-->
+        <div class="comment-form">
+            <h1>Ajouter un commentaire :</h1>
+            {{ form_start(commentForm) }}
+                {{ form_row(commentForm.user, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
+                {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
+                <div class="register-form-btn">
+                    <button type="submit" class="btn btn-success">Ajouter le commentaire</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
