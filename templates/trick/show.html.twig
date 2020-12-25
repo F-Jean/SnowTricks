@@ -30,13 +30,13 @@
         {% for comment in trick.comments %}
             <div>
                 <div>
-                    {{ comment.user }}
+                    {{ comment.user.username }}
                 </div>
                 <div>
                     {{ comment.content | raw }}
                 </div>
                 <div>
-                    {{ comment.postedAt }}
+                    {{ comment.postedAt |  format_datetime(locale='en') }}
                 </div>
             </div>
         {% endfor %}
@@ -49,7 +49,7 @@
                 <div class="register-form-btn">
                     <button type="submit" class="btn btn-success">Ajouter le commentaire</button>
                 </div>
-            {{ form_end(form) }}
+            {{ form_end(commentForm) }}
         </div>
     </div>
 {% endblock %}

@@ -34,6 +34,7 @@ class TrickFixtures extends Fixture
             $manager->persist($user);
             $users[] = $user;
         }
+
         // CATEGORIES
         for ($j = 1; $j <=2; $j++) {
             $category = new Category();
@@ -41,6 +42,7 @@ class TrickFixtures extends Fixture
             $manager->persist($category);
 
             foreach ($users as $user) {
+                
                 // TRICKS
                 for ($k = 1; $k <=20; $k++) {
                     $trick = new Trick();
@@ -50,7 +52,7 @@ class TrickFixtures extends Fixture
                     ->setUser($user)
                     ->setCategory($category);
                     $manager->persist($trick);
-                
+            
                     // ILLUSTRATIONS
                     for ($l = 1; $l <= 5; $l++) {
                         $illustration = new Illustration();
@@ -87,15 +89,15 @@ class TrickFixtures extends Fixture
                     }
 
                     // COMMENTS
-                    for ($n = 1; $n <=1; $n++) {
+                    for ($n = 1; $n <=3; $n++) {
                         $comment = new Comment();
-                        $comment->setUser($user)
-                        ->setTrick($trick)
+                        $comment->setUser($user);
+                        $comment->setTrick($trick)
                         ->setPostedAt(new \DateTimeImmutable())
                         ->setContent("Commentaire n° $n");
                         $manager->persist($comment);
                     }
-                }
+                }      
             }
             $manager->flush();
         }
