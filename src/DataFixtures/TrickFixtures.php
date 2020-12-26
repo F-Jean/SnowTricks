@@ -40,54 +40,53 @@ class TrickFixtures extends Fixture
             $category = new Category();
             $category->setName("catégorie : $j");
             $manager->persist($category);
-
-            foreach ($users as $user) {
                 
-                // TRICKS
-                for ($k = 1; $k <=20; $k++) {
-                    $trick = new Trick();
-                    $trick->setName("Trick N° $k")
-                    ->setDescription("<p>Description figure : $k</p>")
-                    ->setAddedAt(new \DateTimeImmutable())
-                    ->setUser($user)
-                    ->setCategory($category);
-                    $manager->persist($trick);
-            
-                    // ILLUSTRATIONS
-                    for ($l = 1; $l <= 5; $l++) {
-                        $illustration = new Illustration();
-                        $illustration->setPath("https://placehold.co/350x300");
-                        $trick->addIllustration($illustration);
-                        $manager->persist($illustration);
-                    }
+            // TRICKS
+            for ($k = 1; $k <=20; $k++) {
+                $trick = new Trick();
+                $trick->setName("Trick N° $k")
+                ->setDescription("<p>Description figure : $k</p>")
+                ->setAddedAt(new \DateTimeImmutable())
+                ->setUser($user)
+                ->setCategory($category);
+                $manager->persist($trick);
+        
+                // ILLUSTRATIONS
+                for ($l = 1; $l <= 5; $l++) {
+                    $illustration = new Illustration();
+                    $illustration->setPath("https://placehold.co/350x300");
+                    $trick->addIllustration($illustration);
+                    $manager->persist($illustration);
+                }
 
-                    //VIDEOS
-                    for ($m = 1; $m <= 5; $m++) {
-                        $video = new Video();
-                        // manually setting the url for the moment (copy of the user's  one will be sending)
-                        $video->setUrl("https://www.youtube.com/watch?v=1TJ08caetkw");
-                        $urlVideo = $video->getUrl();
-                        $ytUrl = "https://www.youtube.com/embed/";
-                        $dmUrl = "https://www.dailymotion.com/embed/video/";
-                        if (preg_match("#youtube#", $urlVideo)) {
-                            // regex to isolate a youtube url' id specifically
-                            preg_match('#https:\/\/www\.youtube\.com\/watch\?v=(.+)#', $urlVideo, $matches);
-                            $ytId = $matches[1];
-                            // adding embed url to isolate id
-                            $ytUrlVideo = $ytUrl . $ytId;
-                            $video->setUrl($ytUrlVideo);
-                        } elseif (preg_match("#dailymotion#", $urlVideo)) {
-                            // regex to isolate a dailymotion url' id specifically
-                            preg_match('#https:\/\/www\.dailymotion\.com\/video\/(.+)#', $urlVideo, $matches);
-                            $dmId = $matches[1];
-                            // adding embed url to isolate id
-                            $dmUrlVideo = $dmUrl . $dmId;
-                            $video->setUrl($dmUrlVideo);
-                        }
-                        $trick->addVideo($video);
-                        $manager->persist($video);
+                //VIDEOS
+                for ($m = 1; $m <= 5; $m++) {
+                    $video = new Video();
+                    // manually setting the url for the moment (copy of the user's  one will be sending)
+                    $video->setUrl("https://www.youtube.com/watch?v=1TJ08caetkw");
+                    $urlVideo = $video->getUrl();
+                    $ytUrl = "https://www.youtube.com/embed/";
+                    $dmUrl = "https://www.dailymotion.com/embed/video/";
+                    if (preg_match("#youtube#", $urlVideo)) {
+                        // regex to isolate a youtube url' id specifically
+                        preg_match('#https:\/\/www\.youtube\.com\/watch\?v=(.+)#', $urlVideo, $matches);
+                        $ytId = $matches[1];
+                        // adding embed url to isolate id
+                        $ytUrlVideo = $ytUrl . $ytId;
+                        $video->setUrl($ytUrlVideo);
+                    } elseif (preg_match("#dailymotion#", $urlVideo)) {
+                        // regex to isolate a dailymotion url' id specifically
+                        preg_match('#https:\/\/www\.dailymotion\.com\/video\/(.+)#', $urlVideo, $matches);
+                        $dmId = $matches[1];
+                        // adding embed url to isolate id
+                        $dmUrlVideo = $dmUrl . $dmId;
+                        $video->setUrl($dmUrlVideo);
                     }
+                    $trick->addVideo($video);
+                    $manager->persist($video);
+                }
 
+                foreach ($users as $user) {
                     // COMMENTS
                     for ($n = 1; $n <=3; $n++) {
                         $comment = new Comment();

@@ -1,55 +1,57 @@
 {% extends 'layout.html.twig' %}
 
 {% block container %}
-    <!-- Trick Section-->
-    <section class="trick-show">
-        <h1 class="trick-name">{{ trick.name }}</h1>
-        <div class="trick-description">
-            <h2>Description</h2>
-            <p>{{ trick.description | raw }}</p>
-        </div>
-        <h2 class="trick-group">Groupe de la figure : {{ trick.category.name}}</h2>
-        <h2 class="trick-illustration-title">Images</h2>
-        <div class="trick-show-illustrations">
-            {% for illustration in trick.illustrations %}
-                <img src="{{ asset(illustration.path) }}" alt="" class="trick-show-illustration">
-            {% endfor %}
-        </div>
-        <h2 class="trick-video-title">Vidéos</h2>
-        <div class="trick-show-videos">
-            {% for video in trick.videos %}
-                <iframe width="400" height="300" src="{{ asset(video.url) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                    Votre navigateur ne peut pas lire la vidéo.
-                </iframe>
-            {% endfor %}
-        </div>
-    </section>
-    <!-- Comment Section-->
-    <div class="trick-comment">
-        <h1>{{ trick.comments | length }} Commentaires</h1>
-        {% for comment in trick.comments %}
-            <div>
-                <div>
-                    {{ comment.user.username }}
-                </div>
-                <div>
-                    {{ comment.content | raw }}
-                </div>
-                <div>
-                    {{ comment.postedAt |  format_datetime(locale='en') }}
-                </div>
+    <div class="all-sections-trick">
+        <!-- Trick Section-->
+        <section class="trick-show">
+            <h1 class="trick-name">{{ trick.name }}</h1>
+            <div class="trick-description">
+                <h2>Description</h2>
+                <p>{{ trick.description | raw }}</p>
             </div>
-        {% endfor %}
-        <!-- Form Section-->
-        <div class="comment-form">
-            <h1>Ajouter un commentaire :</h1>
-            {{ form_start(commentForm) }}
-                {{ form_row(commentForm.user, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
-                {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
-                <div class="register-form-btn">
-                    <button type="submit" class="btn btn-success">Ajouter le commentaire</button>
+            <h2 class="trick-group">Groupe de la figure : {{ trick.category.name}}</h2>
+            <h2 class="trick-illustration-title">Images</h2>
+            <div class="trick-show-illustrations">
+                {% for illustration in trick.illustrations %}
+                    <img src="{{ asset(illustration.path) }}" alt="" class="trick-show-illustration">
+                {% endfor %}
+            </div>
+            <h2 class="trick-video-title">Vidéos</h2>
+            <div class="trick-show-videos">
+                {% for video in trick.videos %}
+                    <iframe class="trick-video" width="350" height="300" src="{{ asset(video.url) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        Votre navigateur ne peut pas lire la vidéo.
+                    </iframe>
+                {% endfor %}
+            </div>
+        </section>
+        <!-- Comment Section-->
+        <div class="trick-comment">
+            <h1>{{ trick.comments | length }} Commentaires</h1>
+            {% for comment in trick.comments %}
+                <div>
+                    <div>
+                        {{ comment.user.username }}
+                    </div>
+                    <div>
+                        {{ comment.content | raw }}
+                    </div>
+                    <div>
+                        {{ comment.postedAt |  format_datetime(locale='en') }}
+                    </div>
                 </div>
-            {{ form_end(commentForm) }}
+            {% endfor %}
+            <!-- Form Section-->
+            <div class="comment-form">
+                <h1>Ajouter un commentaire :</h1>
+                {{ form_start(commentForm) }}
+                    {{ form_row(commentForm.user, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
+                    {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
+                    <div class="register-form-btn">
+                        <button type="submit" class="btn btn-success">Ajouter le commentaire</button>
+                    </div>
+                {{ form_end(commentForm) }}
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -166,7 +166,6 @@ footer ul.quicklinks {
 
 /* Image section */
 .trick-show-illustrations {
-    margin-left: 25px;
     display: flex;
     flex-flow: row wrap;
 }
@@ -177,6 +176,16 @@ footer ul.quicklinks {
 
 /* Video section */
 
-video {
+iframe.trick-video {
     margin: 40px 10px 20px 10px;
+}
+
+.all-sections-trick {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.comment-form {
+    margin-top: 25px;
+    margin-bottom: 25px;
 }
