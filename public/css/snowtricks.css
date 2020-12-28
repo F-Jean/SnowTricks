@@ -174,7 +174,7 @@ footer ul.quicklinks {
     margin: 20px 10px 20px 10px;
 }
 
-/* Video section */
+/* VIDEO section */
 
 iframe.trick-video {
     margin: 40px 10px 20px 10px;
@@ -185,7 +185,22 @@ iframe.trick-video {
     margin-right: 20px;
 }
 
+/* COMMENTS section */
 .comment-form {
     margin-top: 25px;
-    margin-bottom: 25px;
+    margin-bottom: 50px;
+}
+
+/* input's forms */
+input.form-control {
+    width: 35%;
+}
+
+textarea.form-control {
+    width: 35%;
+}
+
+/* button form*/
+.validate-comment {
+    float: right;
 }

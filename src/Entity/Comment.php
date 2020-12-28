@@ -39,6 +39,11 @@ class Comment
      */
     private $content;
 
+    /**
+     * Column(type="boolean")
+     */
+    private $rgpd;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,6 +93,18 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    public function getRgpd(): ?bool
+    {
+        return $this->rgpd;
+    }
+
+    public function setRgpd(string $rgpd): self
+    {
+        $this->content = $rgpd;
 
         return $this;
     }

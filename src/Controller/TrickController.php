@@ -3,14 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use Twig\Environment;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+
 
 class TrickController extends AbstractController
 {
@@ -29,13 +30,17 @@ class TrickController extends AbstractController
      */
     public function show(Trick $trick, Request $request, EntityManagerInterface $manager)
     {
+        // get the actual user of the session
+        $user = $this->getUser();
+
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             $comment->setPostedAt(new \DateTimeImmutable())
-                    ->setTrick($trick);
+                    ->setTrick($trick)
+                    ->setUser($user);
             $manager->persist($comment);
             $manager->flush();
 
