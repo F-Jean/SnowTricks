@@ -34,10 +34,10 @@
                         {{ comment.user.username }}
                     </div>
                     <div>
-                        {{ comment.content | raw }}
+                        {{ comment.content }}
                     </div>
                     <div>
-                        {{ comment.postedAt |  format_datetime('full', 'full', locale='en') }}
+                        {{ comment.postedAt|date('d/m/Y h:i') }}
                     </div>
                 </div>
             {% endfor %}
@@ -45,9 +45,7 @@
             <div class="comment-form">
                 <h1>Ajouter un commentaire :</h1>
                 {{ form_start(commentForm) }}
-                    {{ form_row(commentForm.user, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
                     {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
-                    {{ form_row(commentForm.rgpd) }}
                     <div class="col-md-4 col-lg-4 register-form-btn">
                         <button class="validate-comment" type="submit" class="btn btn-success">Ajouter le commentaire</button>
                     </div>

@@ -15,15 +15,9 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('user',    TextType::class, array(
-                'label' => 'Nom d\'utilisateur',
-            ))
             ->add('content',  TextareaType::class, array (
                 'label' => 'Votre commentaire',
             ))
-            ->add('rgpd', CheckboxType::class, [
-                'label' => 'J\'accepte que mes informations soient stockées dans la base de données de Snowtricks pour la gestion des commentaires. J\'ai bien noté qu\'en aucun cas ces données ne seront cédées à des tiers.'
-            ])
         ;
     }
 
