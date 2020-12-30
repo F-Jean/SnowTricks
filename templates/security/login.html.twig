@@ -2,7 +2,7 @@
     {% block container %}
         <h1 id="login-title">Connexion</h1>
 
-        <form action="{{ path('security_login') }}" method="post">
+        <form action="{{ path('security_login') }}" method="post" novalidate>
             <div class="form-group">
                 <input placeholder="Nom d'utilisateur..." required name="_username" type="text" class="form-control">
             </div>
@@ -17,4 +17,4 @@
                 <a href="#">Mot de passe oublié ?</a>
             </div>
         </form>
-    {% endblock %} 
+    {% endblock %}

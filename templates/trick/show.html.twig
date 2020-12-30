@@ -31,26 +31,31 @@
             {% for comment in trick.comments %}
                 <div>
                     <div>
-                        {{ comment.user.username }}
+                        <span>{{ comment.user.username }}</span>
                     </div>
                     <div>
-                        {{ comment.content }}
+                        <span>{{ comment.content }}</span>
                     </div>
                     <div>
-                        {{ comment.postedAt|date('d/m/Y h:i') }}
+                        <span>{{ comment.postedAt|date('d/m/Y h:i') }}</span>
                     </div>
                 </div>
             {% endfor %}
-            <!-- Form Section-->
-            <div class="comment-form">
-                <h1>Ajouter un commentaire :</h1>
-                {{ form_start(commentForm) }}
-                    {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
-                    <div class="col-md-4 col-lg-4 register-form-btn">
-                        <button class="validate-comment" type="submit" class="btn btn-success">Ajouter le commentaire</button>
-                    </div>
-                {{ form_end(commentForm) }}
-            </div>
+            {% if is_granted('ROLE_USER') %}
+                <!-- Form Section-->
+                <div class="comment-form">
+                    <h1>Ajouter un commentaire :</h1>
+                    {{ form_start(commentForm, {attr: {novalidate: 'novalidate'}}) }}
+                        {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
+                        <div class="col-md-4 col-lg-4 register-form-btn">
+                            <button class="validate-comment" type="submit" class="btn btn-success">Ajouter le commentaire</button>
+                        </div>
+                    {{ form_end(commentForm) }}
+                </div>
+            {% else %}
+                <h2>Il faut être connecté afin de pouvoir commenter.</h2>
+                <a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
