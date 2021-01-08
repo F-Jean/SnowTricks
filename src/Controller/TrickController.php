@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Entity\Comment;
+use App\Entity\Illustration;
+use App\Form\TrickType;
 use App\Form\CommentType;
 use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,6 +25,39 @@ class TrickController extends AbstractController
     public function __construct(Environment $twig)
     {
         $this->twig = $twig;
+    }
+
+    /**
+     * @Route("/trick/new", name="trick_add")
+     */
+    public function addTrick(Request $request, EntityManagerInterface $manager)
+    {
+        $user = $this->getUser();
+
+        $trick = new Trick();
+
+        // add some ilustrations to test
+        $illustration1 = new Illustration();
+        $illustration1->setPath('https://unsplash.com/photos/osE_JD9CG6A');
+        $trick->getillustrations()->add($illustration1);
+        $illustration2 = new Illustration();
+        $illustration2->setPath('https://unsplash.com/photos/wN4D-mVR7fE');
+        $trick->getIllustrations()->add($illustration2);
+        
+        $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $trick->setAddedAt(new \DateTimeImmutable())
+            ->setUser($user);
+            $manager->persist($trick);
+            $manager->flush();
+
+            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+        }
+
+        return new Response($this->twig->render("trick/addTrick.html.twig", [
+            'trickForm' => $form->createView()
+        ]));
     }
 
     /**

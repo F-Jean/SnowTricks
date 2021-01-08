@@ -4,6 +4,12 @@
     <!-- Trick Section-->
     <div class="content" id="content-trick">
         <h1>Liste des figures de snowboard</h1>
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{path('trick_add')}}">Ajouter une nouvelle figure</a>
+        {% else %}
+            <p>Il faut être connecté afin de pouvoir ajouter une nouvelle figure.</p>
+            <a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
+        {% endif %}
         <section id="trick-list" class="trick-list">
             {{ include("homepage/trick.html.twig") }}
         </section>
