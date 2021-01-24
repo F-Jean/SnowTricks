@@ -37,7 +37,7 @@ function addFormToCollection($collectionHolderClass) {
 
     // Replace '__name__' in the prototype's HTML to
     // instead be a number based on how many items we have
-    //newForm = newForm.replace(/__name__/g, index);
+    newForm = newForm.replace(/__name__/g, index);
 
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);

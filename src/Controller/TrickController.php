@@ -35,14 +35,6 @@ class TrickController extends AbstractController
         $user = $this->getUser();
 
         $trick = new Trick();
-
-        // add some ilustrations to test
-        $illustration1 = new Illustration();
-        $illustration1->setPath('https://unsplash.com/photos/osE_JD9CG6A');
-        $trick->getillustrations()->add($illustration1);
-        $illustration2 = new Illustration();
-        $illustration2->setPath('https://unsplash.com/photos/wN4D-mVR7fE');
-        $trick->getIllustrations()->add($illustration2);
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
