@@ -3,16 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\Comment;
 use App\Entity\Illustration;
+use Twig\Environment;
+use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
-use Twig\Environment;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class TrickController extends AbstractController
@@ -30,17 +31,34 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, EntityManagerInterface $manager)
+    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
     {
         $user = $this->getUser();
-
         $trick = new Trick();
+        $illustration = new Illustration();
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
             $trick->setAddedAt(new \DateTimeImmutable())
             ->setUser($user);
+
+            $uploadedFile = $form['imageFiles']->getData();
+            $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+
+            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+
+            $uploadedFile->move(
+                $destination,
+                $newFilename
+            );
+            
+            $illustration->setPath($newFilename);
+            $trick->addIllustration($illustration);
+            $manager->persist($illustration);
+
             $manager->persist($trick);
             $manager->flush();
 

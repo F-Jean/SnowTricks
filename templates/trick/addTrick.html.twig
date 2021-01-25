@@ -9,12 +9,9 @@
             {{ form_row(trickForm.category, {'attr': {'placeholder': 'Groupe de la figure'}}) }}
             <div class="add-illustrations">
                 <h3>Images</h3>
-                <ul class="illustrations" data-prototype="{{ form_widget(trickForm.illustrations.vars.prototype)|e('html_attr') }}">
-                    {% for illustration in trickForm.illustrations %}
-                        <li>{{ form_row(illustration.path) }}</li>
-                    {% endfor %}
+                <ul class="imageFiles">
+                    <li>{{ form_row(trickForm.imageFiles) }}</li>
                 </ul>
-                <button type="button" class="add_item_link" data-collection-holder-class="illustrations">Ajouter une image</button>
             </div>
             <div class="add-videos">
                 <h3>Vidéos</h3>

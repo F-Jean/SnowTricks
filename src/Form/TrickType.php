@@ -2,13 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\Category;
 use App\Entity\Trick;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
@@ -27,12 +28,10 @@ class TrickType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
             ))
-            ->add('illustrations', CollectionType::class, [
-                'entry_type' => IllustrationType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
+            ->add('imageFiles', FileType::class, [
+                'label' => 'Importer une image',
+                'mapped' =>false,
+                'required' => false,
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,
