@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use App\Entity\Illustration;
 use Twig\Environment;
 use App\Entity\Comment;
 use App\Form\TrickType;
@@ -35,7 +34,6 @@ class TrickController extends AbstractController
     {
         $user = $this->getUser();
         $trick = new Trick();
-        $illustration = new Illustration();
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -43,21 +41,22 @@ class TrickController extends AbstractController
             $trick->setAddedAt(new \DateTimeImmutable())
             ->setUser($user);
 
-            $uploadedFile = $form['imageFiles']->getData();
-            $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+            foreach ($trick->getIllustrations() as $illustration)
+            {
+                $uploadedFile = $illustration->getFile();
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
 
-            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
-            $uploadedFile->move(
-                $destination,
-                $newFilename
-            );
-            
-            $illustration->setPath($newFilename);
-            $trick->addIllustration($illustration);
-            $manager->persist($illustration);
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+
+                $illustration->setPath($newFilename);
+            }
 
             $manager->persist($trick);
             $manager->flush();
@@ -66,7 +65,7 @@ class TrickController extends AbstractController
         }
 
         return new Response($this->twig->render("trick/addTrick.html.twig", [
-            'trickForm' => $form->createView()
+            'trickForm' => $form->createView(),
         ]));
     }
 
