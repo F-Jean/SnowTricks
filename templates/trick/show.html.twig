@@ -1,29 +1,29 @@
 {% extends 'layout.html.twig' %}
 
 {% block container %}
+    <section class="trick-banner">
+        <h1 class="trick-name">{{ trick.name }}</h1>
+    </section>
     <div class="all-sections-trick">
         <!-- Trick Section-->
         <section class="trick-show">
-            <h1 class="trick-name">{{ trick.name }}</h1>
-            <div class="trick-description">
-                <h2>Description</h2>
-                <p>{{ trick.description | raw }}</p>
-            </div>
-            <h2 class="trick-group">Groupe de la figure : {{ trick.category.name}}</h2>
-            <h2 class="trick-illustration-title">Images</h2>
-            <div class="trick-show-illustrations">
+            <div class="display-vids-illus">
                 {% for illustration in trick.illustrations %}
-                    <img src="{{ asset(illustration.path) }}" alt="" class="trick-show-illustration">
+                    <img src="{{ asset('uploads/trick_images/'~illustration.path) }}" alt="" class="trick-show-illustration" width="350" height="300">
                 {% endfor %}
-            </div>
-            <h2 class="trick-video-title">Vidéos</h2>
-            <div class="trick-show-videos">
                 {% for video in trick.videos %}
                     <iframe class="trick-video" width="350" height="300" src="{{ asset(video.url) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                         Votre navigateur ne peut pas lire la vidéo.
                     </iframe>
                 {% endfor %}
             </div>
+            <div class="trick-description">
+                <div>
+                    <h2>Description :</h2>
+                    <p>{{ trick.description | raw }}</p>
+                </div>
+            </div>
+            <h2 class="trick-group">Groupe de la figure : {{ trick.category.name }}</h2>
         </section>
         <!-- Comment Section-->
         <div class="trick-comment">
@@ -45,7 +45,7 @@
                 <!-- Form Section-->
                 <div class="comment-form">
                     <h1>Ajouter un commentaire :</h1>
-                    {{ form_start(commentForm, {attr: {novalidate: 'novalidate'}}) }}
+                    {{ form_start(commentForm) }}
                         {{ form_row(commentForm.content, {'attr': {'placeholder': 'Votre commentaire ...'} }) }}
                         <div class="col-md-4 col-lg-4 register-form-btn">
                             <button class="validate-comment" type="submit" class="btn btn-success">Ajouter le commentaire</button>

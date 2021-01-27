@@ -1,5 +1,4 @@
-/* HEADER */
-
+/* MENU */
 header {
     position: fixed;
     top: 0;
@@ -11,19 +10,16 @@ header {
     transition: 0.6s;
     padding: 40px 100px;
 }
-
 header ul {
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: right;
     align-items: center;
 }
-
 header ul li {
     position: relative;
     list-style: none;
 }
-
 header ul li a {
     position: relative;
     margin: 0 15px;
@@ -33,7 +29,6 @@ header ul li a {
     font-weight: 500px;
     transition: 0.6s;
 }
-
 header.sticky {
     padding: 15px 100px;
     padding-bottom: 0px;
@@ -41,35 +36,29 @@ header.sticky {
     border-color: #292929;
     opacity: 0.9;
 }
-
 header.sticky ul li a {
     color: #fff;
 }
-
 header.sticky ul li a:hover {
     color: #18bc9c;
 }
 
-/* BANNER */
-
+/* HOMEPAGE BANNER */
 .banner {
     width: 100%;
     height: 100vh;
     background: url("../img/header5.jpg");
     background-size: cover;
 }
-
 .banner-text {
     width: 88%;
     margin: auto;
 }
-
 .logo-site {
     font-size: 20px;
     color: #cfcfcf;
     letter-spacing: 4px;
 }
-
 .banner-text h1 {
     font-size: 200px;
     font-weight: 100;
@@ -79,7 +68,6 @@ header.sticky ul li a:hover {
     letter-spacing: 4px;
     line-height: 160px;
 }
-
 .banner-text p {
     max-width: 450px;
     color: #919191;
@@ -87,7 +75,6 @@ header.sticky ul li a:hover {
     line-height: 20px;
     font-size: 14px;
 }
-
 .banner-text .btn {
     float: right;
     border: 1px solid #fff;
@@ -98,7 +85,6 @@ header.sticky ul li a:hover {
     display: inline-block;
     margin-top: 150px;
 }
-
 .banner-text .btn:hover {
     background: #292929;
     border-color: #18bc9c;
@@ -108,31 +94,41 @@ header.sticky ul li a:hover {
 }
 
 /* HOMEPAGE TRICK SECTION */
-
+/* Section just before homepage illustration's display */
 .content {
-    margin-left: 50px;
-    margin-right: 50px;
+    margin: 0px 70px 0px 70px;
 }
-
+.content-title {
+    margin: 35px 0px 0px 35px;
+}
+.homepage-content-text {
+    margin-top: 25px;
+}
+p.login-homepage-text {
+    margin-left: 35px;
+}
+a.login-homepage-btn {
+    margin-left: 35px;
+}
+a.login-homepage-text {
+    margin-left: 35px;
+}
+/* Section where illustrations are displayed */
 .trick-list {
     margin-left: 25px;
     display: flex;
     flex-flow: row wrap;
 }
-
 .trick-thumbnail {
-    margin: 20px 10px 20px 10px;
+    margin: 60px 10px 20px 10px;
 }
-
 .trick-title {
     float: left;
     font-size: 20px;
 }
-
 .trick-options {
     float: right;
 }
-
 .load {
     margin-bottom: 50px;
     margin-left: 800px;
@@ -140,7 +136,6 @@ header.sticky ul li a:hover {
 }
 
 /* FOOTER */
-
 footer {
     padding: 25px 0;
     text-align: center;
@@ -162,45 +157,131 @@ footer ul.quicklinks {
     font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-/* TRICK SHOWPAGE */
+/* ALL FORMS INPUTS */
+input.form-control {
+    width: 25%;
+}
 
-/* Image section */
+/* TRICK SHOWPAGE */
+/* Trick banner */
+.trick-banner {
+    height: 50vh;
+    background: url("../img/login-header.jpg");
+    background-size: cover;
+}
+.trick-name {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 200px;
+}
+.all-sections-trick {
+    margin-left: 70px;
+    margin-right: 70px;
+}
+/* Illustration section */
 .trick-show-illustrations {
     display: flex;
     flex-flow: row wrap;
 }
-
 .trick-show-illustration {
     margin: 20px 10px 20px 10px;
 }
-
-/* VIDEO section */
-
+/* Video section */
 iframe.trick-video {
     margin: 40px 10px 20px 10px;
 }
-
-.all-sections-trick {
-    margin-left: 20px;
-    margin-right: 20px;
+.trick-description {
+    display: flex;
+    justify-content: center;
+    padding-top: 35px;
 }
-
-/* COMMENTS section */
+/* Comment section */
 .comment-form {
     margin-top: 25px;
     margin-bottom: 50px;
 }
-
-/* input's forms */
-input.form-control {
-    width: 35%;
-}
-
 textarea.form-control {
     width: 35%;
 }
-
 /* button form*/
 .validate-comment {
     float: right;
+}
+
+/* ADDTRICK PAGE */
+.add-trick-banner {
+    height: 25vh;
+    background: url("../img/login-header.jpg");
+    background-size: cover;
+}
+.add-trick-section {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.add-trick-title {
+    padding-top: 35px;
+}
+.register-form {
+    padding-top: 20px;
+}
+#trick_category.form-control {
+    width: 20%;
+}
+.add-illustrations {
+    padding-top: 20px;
+}
+.add-videos {
+    padding-top: 20px;
+}
+.add-trick-btn {
+    padding-top: 20px;
+}
+
+/* REGISTER PAGE */
+/*
+.register-banner {
+    height: 50vh;
+    background: url("../img/");
+    background-size: cover;
+}
+*/
+.register-section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 35px;
+}
+/* Register form */
+.register-form {
+    width: 100%;
+}
+.foo {
+    width: 100%;
+    padding-left: 820px;
+}
+.register-title {
+    padding-top: 20px;
+}
+.register-text {
+    padding-top: 35px;
+}
+.register-btn {
+    padding-left: 65px;
+    padding-top: 20px;
+    padding-bottom: 60px;
+}
+
+/* LOGIN PAGE */
+.login-banner {
+    height: 60vh;
+    background: url("../img/login-header.jpg");
+    background-size: cover;
+}
+.login-section {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.login-title {
+    padding-top: 20px;
 }

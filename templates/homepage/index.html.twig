@@ -1,14 +1,28 @@
 {% extends 'layout.html.twig' %}
 
 {% block container %}
+    <!-- Banner -->
+    <section class="banner">
+        <div class="banner-text">
+            <div class="logo-site">Snowtricks logo</div>
+            <h1>more</br>tricks</h1>
+            <p>Bibliotèque de figures de snowboard. Inscris-toi et aide à
+            l'enrichissement des connaissances.</p>
+            <a href="#content-trick" class="btn">Voir Plus</br><i class="fas fa-arrow-circle-down"></i></a>
+        </div>
+    </section>
     <!-- Trick Section-->
     <div class="content" id="content-trick">
-        <h1>Liste des figures de snowboard</h1>
+        <h1 class="content-title">Liste des figures de snowboard</h1>
         {% if is_granted('ROLE_USER') %}
-            <a href="{{path('trick_add')}}">Ajouter une nouvelle figure</a>
+        <div class="homepage-content-text">
+            <a href="{{path('trick_add')}}" class="login-homepage-text">Ajouter une nouvelle figure</a>
+        </div>
         {% else %}
-            <p>Il faut être connecté afin de pouvoir ajouter une nouvelle figure.</p>
-            <a href="{{path('security_login')}}" class="btn btn-primary">Connexion</a>
+        <div class="homepage-content-text">
+            <p class="login-homepage-text">Il faut être connecté afin de pouvoir ajouter une nouvelle figure.</p>
+            <a href="{{path('security_login')}}" class="btn btn-primary login-homepage-btn">Connexion</a>
+        </div>
         {% endif %}
         <section id="trick-list" class="trick-list">
             {{ include("homepage/trick.html.twig") }}

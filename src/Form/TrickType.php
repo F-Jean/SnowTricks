@@ -26,17 +26,16 @@ class TrickType extends AbstractType
             ->add('category', EntityType::class, array(
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'label' => 'Groupe de la figure',
             ))
             ->add('illustrations', CollectionType::class, [
                 'entry_type' => IllustrationType::class,
-                'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,
-                'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
