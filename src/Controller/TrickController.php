@@ -7,6 +7,7 @@ use Twig\Environment;
 use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,7 +73,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}", name="trick_show")
      */
-    public function show(Trick $trick, Request $request, EntityManagerInterface $manager)
+    public function show(Trick $trick, Request $request, EntityManagerInterface $manager, CommentRepository $commentRepository)
     {
         // get the actual user of the session
         $user = $this->getUser();
@@ -93,7 +94,18 @@ class TrickController extends AbstractController
 
         return new Response($this->twig->render("trick/show.html.twig", [
             'trick' => $trick,
-            'commentForm' => $form->createView()
+            'commentForm' => $form->createView(),
+            'comments' => $commentRepository->getComments(1, 5),
+        ]));
+    }
+
+    /**
+     * @Route("/comment_load_more/{page}", name="comment_load_more", requirements={"page": "\d+"})
+     */
+    public function loadMore(CommentRepository $commentRepository, int $page)
+    {
+        return new Response($this->twig->render("trick/show.html.twig", [
+            'comments' => $commentRepository->getComments($page, 5),
         ]));
     }
 }

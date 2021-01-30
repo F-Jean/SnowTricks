@@ -1,0 +1,13 @@
+{% for comment in trick.comments %}
+    <div>
+        <div>
+            <span>{{ comment.user.username }}</span>
+        </div>
+        <div>
+            <span>{{ comment.content }}</span>
+        </div>
+        <div>
+            <span>{{ comment.postedAt|date('d/m/Y h:i') }}</span>
+        </div>
+    </div>
+{% endfor %}

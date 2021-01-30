@@ -1,7 +1,9 @@
 {% extends 'layout.html.twig' %}
     {% block container %}
-        <!-- BANNER SECTION -->
-        <section class="login-banner"></section>
+        <!-- MENU -->
+        <section id="menu-login-register" class="menu-login-register">
+            {{ include("security/menu.html.twig") }}
+        </section>
         <!-- REGISTER SECTION -->
         <div class="register-section">
             <h1 id="register-title">S'enregistrer</h1>
@@ -16,7 +18,7 @@
                 </ul>
             </div>
             <div class="register-form">
-                {{ form_start(form, { 'attr': {'class': 'foo'} }) }}
+                {{ form_start(form, { 'attr': {'class': 'register-form-start'} }) }}
                     {{ form_row(form.userName, {'attr': {'placeholder': 'Nom d\'utilisateur ...'} }) }}
                     {{ form_row(form.email, {'attr': {'placeholder': 'Email ...'} }) }}
                     {{ form_row(form.plainPassword.first, {'attr': {'placeholder': 'Mot de passe ...'}}) }}

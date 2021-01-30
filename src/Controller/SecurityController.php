@@ -46,5 +46,6 @@ class SecurityController extends AbstractController
     /**
      * @Route("/deconnexion", name="security_logout")
      */
+    /* The symfony component handles everything don't need to do something */
     public function logout(){}
 }

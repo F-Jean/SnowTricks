@@ -1,23 +1,29 @@
 {% extends 'layout.html.twig' %}
     {% block container %}
-        <!-- BANNER SECTION -->
-        <section class="login-banner"></section>
+        <!-- MENU -->
+        <section id="menu-login-register" class="menu-login-register">
+            {{ include("security/menu.html.twig") }}
+        </section>
         <!-- LOGIN-SECTION -->
         <div class="login-section">
             <h1 id="login-title">Connexion</h1>
-            <form action="{{ path('security_login') }}" method="post">
+            <!-- send the data to security_login -->
+            <form action="{{ path('security_login') }}" method="post" class="login-form">
                 <div class="form-group">
+                    <!-- _username and _password are the names taken into account for 
+                    the connection by symfony, symfony expects to receive those even 
+                    if it's not what we use for the auth -->
                     <input placeholder="Nom d'utilisateur..." required name="_username" type="text" class="form-control">
                 </div>
                 <div class="form-group">
                     <input placeholder="Mot de passe..." required name="_password" type="password" class="form-control">
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success">Connexion</button>
+                    <button id="login-btn" type="submit" class="btn btn-success">Connexion</button>
                 </div>
                 <div>
-                    <a href="/inscription/#register-title">S'enregistrer</a></br>
-                    <a href="#">Mot de passe oublié ?</a>
+                    <a href="/inscription/#register-title" class="login-link1">S'enregistrer</a></br>
+                    <a href="#" class="login-link2">Mot de passe oublié ?</a>
                 </div>
             </form>
         </div>
