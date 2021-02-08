@@ -100,11 +100,11 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/comment_load_more/{page}", name="comment_load_more", requirements={"page": "\d+"})
+     * @Route("/load_comments/{page}", name="load_comments", requirements={"page": "\d+"})
      */
-    public function loadMore(CommentRepository $commentRepository, int $page)
+    public function loadComments(CommentRepository $commentRepository, int $page)
     {
-        return new Response($this->twig->render("trick/show.html.twig", [
+        return new Response($this->twig->render("trick/comment.html.twig", [
             'comments' => $commentRepository->getComments($page, 5),
         ]));
     }

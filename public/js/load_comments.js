@@ -2,13 +2,13 @@ $(function() {
 
     let page = 1;
 
-    $(".comment-load-more").click(function(e)
+    $(".load-comments").click(function(e)
     {
         e.preventDefault();
         page++;
 
         $.ajax({
-            url : '/comment_load_more/' + page,
+            url : '/load_comments/' + page,
             method: 'GET',
             dataType: 'html',
             success : function(code_html, statut)

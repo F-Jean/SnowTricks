@@ -1,9 +1,5 @@
 {% extends 'layout.html.twig' %}
     {% block container %}
-        <!-- MENU -->
-        <section id="menu-login-register" class="menu-login-register">
-            {{ include("security/menu.html.twig") }}
-        </section>
         <!-- LOGIN-SECTION -->
         <div class="login-section">
             <h1 id="login-title">Connexion</h1>
@@ -19,7 +15,7 @@
                     <input placeholder="Mot de passe..." required name="_password" type="password" class="form-control">
                 </div>
                 <div class="form-group">
-                    <button id="login-btn" type="submit" class="btn btn-success">Connexion</button>
+                    <button id="login-btn" type="submit" class="btn btn-primary">Connexion</button>
                 </div>
                 <div>
                     <a href="/inscription/#register-title" class="login-link1">S'enregistrer</a></br>

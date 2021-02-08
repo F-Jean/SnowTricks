@@ -2,8 +2,8 @@ jQuery(document).ready(function() {
     // Get the ul that holds the collection of illustrations & videos
     var $illustrationsCollectionHolder = $('ul.illustrations');
     var $videosCollectionHolder = $('ul.videos');
-    // count the current form inputs we have (e.g. 2), use that as the new
-    // index when inserting a new item (e.g. 2)
+    // count the current form inputs we have, use that as the new
+    // index when inserting a new item
     $illustrationsCollectionHolder.data('index', $illustrationsCollectionHolder.find('input').length);
     $videosCollectionHolder.data('index', $videosCollectionHolder.find('input').length);
 

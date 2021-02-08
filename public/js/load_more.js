@@ -24,5 +24,21 @@ $(function() {
 
             }
         });
+
+        if (page >= 3) {
+            $('.btn-go-up').show();
+        }
     });
+
+    // Button to go back up the page
+    const btn = document.querySelector('.btn-go-up');
+
+    $('.btn-go-up').hide();
+    btn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "smooth"
+        })
+    })
 });
