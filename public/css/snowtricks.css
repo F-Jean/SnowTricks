@@ -11,6 +11,10 @@ header ul li a {
 header ul li a:hover {
     color: #18bc9c;
 }
+.menu-username {
+    color: #fff;
+    font-size: 16px;
+}
 /* HOMEPAGE BANNER */
 .banner {
     background-image: url("../img/header5.jpg");
@@ -337,24 +341,31 @@ ul.videos {
 /* LOGIN PAGE */
 .login-section {
     display: flex;
+    justify-content: center;
     align-items: center;
-    flex-direction: column;
-    height: 90vh;
-    margin: 0px 50px 0px 50px;
-}
-#login-title {
-    padding-top: 250px;
+    height: 87vh;
 }
 .login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+}
+.login-inputs {
     width: 100%;
-    padding: 35px 0px 0px 780px;
+    padding-left: 360px;
+}
+.login-infos {
+    padding-top: 30px;
 }
 #login-btn {
-    margin-left: 65px;
+    margin-top: 30px;
 }
-.login-link1 {
-    margin-left: 65px;
-}
-.login-link2 {
-    margin-left: 40px;
+.login-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 30px;
 }

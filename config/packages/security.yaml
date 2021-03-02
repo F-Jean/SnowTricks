@@ -22,16 +22,12 @@ security:
 
             # use provider in_database to protect main
             provider: in_database
-            # authentification mode
-            form_login:
-                # where the form is located (name of the path)
-                login_path: security_login
-                # location that is called to verify the informations of a login form
-                check_path: security_login
-
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
             logout:
-                path: security_logout
-                # where to redirect after the logout
+                path: app_logout
+                # where to redirect after logout
                 target: homepage
 
             # activate different ways to authenticate
