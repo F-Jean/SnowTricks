@@ -36,7 +36,7 @@ class TrickFixtures extends Fixture
         }
 
         // CATEGORIES
-        for ($j = 1; $j <=2; $j++) {
+        for ($j = 1; $j <=6; $j++) {
             $category = new Category();
             $category->setName("catégorie : $j");
             $manager->persist($category);

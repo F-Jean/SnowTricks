@@ -1,4 +1,8 @@
 /* HOMEPAGE MENU */
+header {
+    background: #292929;
+    opacity: 0.9;
+}
 header ul li a {
     margin: 0 15px;
     color: #fff;
@@ -8,6 +12,19 @@ header ul li a:hover {
     color: #18bc9c;
 }
 /* HOMEPAGE BANNER */
+.banner {
+    background-image: url("../img/header5.jpg");
+    background-size: cover;
+}
+.logo-site {
+    letter-spacing: 4px;
+}
+.banner-text h1 {
+    color: #cfcfcf;
+    letter-spacing: 4px;
+    font-size: 200px;
+    line-height: 160px;
+}
 .banner-text p {
     max-width: 450px;
     color: #919191;
@@ -15,7 +32,11 @@ header ul li a:hover {
     line-height: 20px;
     font-size: 14px;
 }
-.btn:hover {
+.banner-text .btn {
+    color: white;
+    letter-spacing: 1px;
+}
+.banner-text .btn:hover {
     background: #292929;
     border-color: #18bc9c;
     opacity: 0.5;
@@ -112,15 +133,26 @@ input.form-control {
 
 /* TRICK SHOWPAGE */
 /* Trick banner */
+
 .trick-banner {
     height: 50vh;
-    background-size: cover;
-}
-.trick-name {
-    height: 100%;
+    position: relative;
     display: flex;
     justify-content: center;
-    align-items: center;
+    border: solid 1px black;
+}
+.trick-banner-img {
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+.trick-name {
+    position: absolute;
+    z-index: 2;
+    top: 200px;
+}
+.trick-name-title {
+    color: darkblue;
 }
 .all-sections-trick {
     margin: 0px 70px 0px 70px;

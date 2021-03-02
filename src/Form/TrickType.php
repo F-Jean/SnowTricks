@@ -19,9 +19,11 @@ class TrickType extends AbstractType
         $builder
             ->add('name',    TextType::class, array(
                 'label' => 'Nom de la figure',
+                'required' => false,
             ))
             ->add('description',    TextareaType::class, array(
                 'label' => 'Description',
+                'required' => false,
             ))
             ->add('category', EntityType::class, array(
                 'class' => Category::class,
@@ -30,12 +32,14 @@ class TrickType extends AbstractType
             ))
             ->add('illustrations', CollectionType::class, [
                 'entry_type' => IllustrationType::class,
+                'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
             ->add('videos', CollectionType::class, [
                 'entry_type' => VideoType::class,
+                'label' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,

@@ -6,7 +6,6 @@ security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     # defines where the data of the users are
     providers:
-        users_in_memory: { memory: null }
         # provider based on an Entity, compare the property userName with the data the user gave then check the password
         in_database:
             entity:

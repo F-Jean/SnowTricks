@@ -9,9 +9,9 @@ jQuery(document).ready(function() {
 
     $('body').on('click', '.add_item_link', function(e) {
         var $collectionHolderClass = $(e.currentTarget).data('collectionHolderClass');
-        // add a new illustration form (see next code block)
+        // add a new illustration form
         addFormToCollection($collectionHolderClass);
-    })
+    });
 
     // add a delete link to all of the existing tag form li elements
     $illustrationsCollectionHolder.find('li').each(function() {
@@ -31,10 +31,6 @@ function addFormToCollection($collectionHolderClass) {
 
     var newForm = prototype;
     // You need this only if you didn't set 'label' => false in your illustrations field in TrickType
-    // Replace '__name__label__' in the prototype's HTML to
-    // instead be a number based on how many items we have
-    // newForm = newForm.replace(/__name__label__/g, index);
-
     // Replace '__name__' in the prototype's HTML to
     // instead be a number based on how many items we have
     newForm = newForm.replace(/__name__/g, index);
@@ -45,11 +41,12 @@ function addFormToCollection($collectionHolderClass) {
     // Display the form in the page in an li, before the "Add an illustration" link li
     var $newFormLi = $('<li></li>').append(newForm);
     // Add the new form at the end of the list
-    $collectionHolder.append($newFormLi)
+    $collectionHolder.append($newFormLi);
+    addTagFormDeleteLink($newFormLi);
 }
 
 function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button">Supprimer cette URL</button>');
+    var $removeFormButton = $('<button type="button">Supprimer</button>');
     $tagFormLi.append($removeFormButton);
 
     $removeFormButton.on('click', function(e) {

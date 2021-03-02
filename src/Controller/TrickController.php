@@ -45,18 +45,36 @@ class TrickController extends AbstractController
             foreach ($trick->getIllustrations() as $illustration)
             {
                 $uploadedFile = $illustration->getFile();
-                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+                /* check if illustration file's input is empty, if so then add a predefined illustration */
+                if(empty($uploadedFile))
+                {
+                    $uploadedFile = $illustration->setPath("img/header5.jpg");
+                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
 
-                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
-                $uploadedFile->move(
-                    $destination,
-                    $newFilename
-                );
+                    $uploadedFile->move(
+                        $destination,
+                        $newFilename
+                    );
 
-                $illustration->setPath($newFilename);
+                    $illustration->setPath($newFilename);
+                } else {
+                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+
+                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+
+                    $uploadedFile->move(
+                        $destination,
+                        $newFilename
+                    );
+
+                    $illustration->setPath($newFilename);
+                }
             }
 
             $manager->persist($trick);
@@ -64,7 +82,7 @@ class TrickController extends AbstractController
 
             return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
         }
-
+        
         return new Response($this->twig->render("trick/addTrick.html.twig", [
             'trickForm' => $form->createView(),
         ]));

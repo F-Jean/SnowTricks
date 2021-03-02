@@ -28,6 +28,9 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir le nom de la figure."
+     * )
      */
     private $name;
 
@@ -40,6 +43,9 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir une description."
+     * )
      */
     private $description;
 

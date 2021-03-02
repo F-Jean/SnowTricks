@@ -2,7 +2,12 @@
 
 {% block container %}
     <section class="trick-banner">
-        <h1 class="trick-name">{{ trick.name }}</h1>
+        <div class="trick-banner-img">
+            <img src="{{ asset('uploads/trick_images/'~trick.illustrations|first.path) }}" alt="">
+        </div>
+        <div class="trick-name">
+            <h1 class="trick-name-title">{{ trick.name }}</h1>
+        </div>
     </section>
     <div class="all-sections-trick">
         <!-- Trick Section-->

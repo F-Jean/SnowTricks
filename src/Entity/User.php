@@ -67,7 +67,8 @@ class User implements UserInterface
      * (?=\S*[\d]): and at least one number
      * (?=\S*[\W]): and at least one special character
      * @Assert\Regex(
-     *      "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/"
+     *      "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/",
+     *      message = "Le mot de passe {{ value }} ne respect pas les demandes."
      * )
      */
     private $plainPassword;
