@@ -12,8 +12,7 @@ header ul li a:hover {
     color: #18bc9c;
 }
 .menu-username {
-    color: #fff;
-    font-size: 16px;
+    cursor: pointer;
 }
 /* HOMEPAGE BANNER */
 .banner {
@@ -147,8 +146,22 @@ input.form-control {
 }
 .trick-banner-img {
     height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
     position: absolute;
     z-index: 1;
+}
+.trick-banner-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.trick-options-banner {
+    z-index: 2;
+    position: absolute;
+    top: 40px;
+    right: 40px;
 }
 .trick-name {
     position: absolute;
@@ -203,9 +216,20 @@ iframe.trick-video {
     justify-content: center;
     border: 1px solid black;
     font-size: 15px;
-    width: 15%;
+    width: 13%;
 }
 /* Comment section */
+.comment-user {
+    display: flex;
+}
+.avatar-comment {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 15px;
+}
 .trick-comment {
     padding: 40px 0px 40px 0px;
     display: flex;
@@ -277,6 +301,12 @@ textarea#comment_content.form-control {
 }
 #trick_category.form-control {
     width: 20%;
+}
+ul.illustrations li {
+    padding-top: 20px;
+}
+ul.videos li {
+    padding-top: 20px;
 }
 .add-illustrations {
     width: 50%;
@@ -368,4 +398,43 @@ ul.videos {
     align-items: center;
     flex-direction: column;
     padding-top: 30px;
+}
+.login-error {
+    font-size: 17px;
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 15px;
+    border: 1px solid crimson;
+    border-radius: 30px;
+    color: crimson;
+}
+
+/* USER ACCOUNT PAGE */
+.user-account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 88vh;
+}
+.avatar-container {
+    padding-top: 40px;
+}
+.avatar-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.avatar-input {
+    padding-top: 30px;
+}
+.dot {
+    height: 250px;
+    width: 250px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+#avatar-btn {
+    margin-top: 15px;
 }

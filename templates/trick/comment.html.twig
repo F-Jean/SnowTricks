@@ -1,7 +1,12 @@
 {% for comment in comments %}
     <div class="comment-container">
-        <div>
-            <span>{{ comment.user.username }}</span>
+        <div class="comment-user">
+            <div>
+                <span>{{ comment.user.username }}</span>
+            </div>
+            <div>
+                <span class="avatar-comment">{{ comment.user.avatar }}</span>
+            </div>
         </div>
         <div>
             <span>{{ comment.content }}</span>

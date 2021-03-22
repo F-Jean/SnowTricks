@@ -66,6 +66,9 @@ class Trick
 
     /**
      * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"})
+     * @Assert\Count(
+     *      min = 1,
+     *      minMessage = "Merci d'ajouter au minimum une image.")
      */
     private $illustrations;
 

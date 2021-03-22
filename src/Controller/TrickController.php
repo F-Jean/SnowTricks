@@ -30,11 +30,15 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/new", name="trick_add")
+     * @Route("/trick/{id}/edit", name="trick_edit")
      */
-    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    public function addTrick(Trick $trick = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
     {
         $user = $this->getUser();
-        $trick = new Trick();
+        /* needed because of edit mode, if there is no trick it will be a new one */
+        if(!$trick) {
+            $trick = new Trick();
+        }
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -45,36 +49,18 @@ class TrickController extends AbstractController
             foreach ($trick->getIllustrations() as $illustration)
             {
                 $uploadedFile = $illustration->getFile();
-                /* check if illustration file's input is empty, if so then add a predefined illustration */
-                if(empty($uploadedFile))
-                {
-                    $uploadedFile = $illustration->setPath("img/header5.jpg");
-                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
 
-                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
-                    $uploadedFile->move(
-                        $destination,
-                        $newFilename
-                    );
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
 
-                    $illustration->setPath($newFilename);
-                } else {
-                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
-
-                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-
-                    $uploadedFile->move(
-                        $destination,
-                        $newFilename
-                    );
-
-                    $illustration->setPath($newFilename);
-                }
+                $illustration->setPath($newFilename);
             }
 
             $manager->persist($trick);
