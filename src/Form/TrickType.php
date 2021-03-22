@@ -31,6 +31,7 @@ class TrickType extends AbstractType
                 'label' => 'Groupe de la figure',
             ))
             ->add('illustrations', CollectionType::class, [
+                'error_bubbling' => true,
                 'entry_type' => IllustrationType::class,
                 'label' => false,
                 'allow_add' => true,

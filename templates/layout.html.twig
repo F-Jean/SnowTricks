@@ -4,7 +4,7 @@
         <!-- Custom styles for this template -->
         <link href="/css/snowtricks.css" rel="stylesheet">
         <!-- Flatly theme - Bootstrap -->
-        <link rel="stylesheet" href="../bootstrap/css/flatly/bootstrap.min.css">
+        <link rel="stylesheet" href="/bootstrap/css/flatly/bootstrap.min.css">
     {% endblock %}
 
     {% block javascripts %}
@@ -19,6 +19,20 @@
     {% endblock %}
 
     {% block body %}
+        <!-- 
+        SUCCESS FLASH MESSAGE AFTER TRICK SUBMISSION
+
+        we place the rendered message at the root file 'cause no matter the page we redirect
+        after the form submit, the flash message will be rendered
+
+        Remember : Symfony adds a global variable to Twig called app
+        -->
+        {% for message in app.flashes('success') %}
+            <div id="success-submit" class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         <!-- Menu -->
         <header class="px-1 pb-1 pt-3">
             <ul class="d-flex justify-content-end">

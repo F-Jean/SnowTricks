@@ -66,7 +66,10 @@ class TrickController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            /* add a success flash message */
+            $this->addFlash('success', 'La figure a bien été ajouté !');
+
+            return $this->redirectToRoute('homepage',);
         }
         
         return new Response($this->twig->render("trick/addTrick.html.twig", [

@@ -340,6 +340,16 @@ ul.videos {
     justify-content: center;
     padding-top: 20px;
 }
+/* flash messages when form submit */
+#success-submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50vh;
+    left: 50vw;
+}
+
 /* REGISTER PAGE */
 .register-section {
     display: flex;
