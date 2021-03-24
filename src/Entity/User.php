@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  *      fields = {"userName"}, 
  *      message = "Ce nom d'utilisateur est déjà utilisé.")
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -198,5 +198,15 @@ class User implements UserInterface
     public function __toString()
     {
         return (string) $this->getId();
+    }
+
+    public function serialize()
+    {
+        return serialize([$this->avatarFile]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list ($this->avatarFile) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
