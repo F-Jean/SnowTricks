@@ -202,11 +202,11 @@ class User implements UserInterface, \Serializable
 
     public function serialize()
     {
-        return serialize([$this->avatarFile]);
+        return serialize([$this->id, $this->email, $this->userName, $this->avatar, $this->password, $this->roles]);
     }
 
     public function unserialize($serialized)
     {
-        list ($this->avatarFile) = unserialize($serialized, ['allowed_classes' => false]);
+        list ($this->id, $this->email, $this->userName, $this->avatar, $this->password, $this->roles) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

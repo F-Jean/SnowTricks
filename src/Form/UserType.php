@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+
 
 class UserType extends AbstractType
 {
@@ -15,6 +17,9 @@ class UserType extends AbstractType
         $builder
             ->add('avatarFile', FileType::class, [
                 'label' => 'Merci de choisir une photo.',
+            ])
+            ->add('plainPassword', PasswordType::class, [
+                'label' => 'Merci de saisir à nouveau votre mot de passe.',
             ])
         ;
     }
