@@ -73,6 +73,7 @@ class TrickController extends AbstractController
         }
         
         return new Response($this->twig->render("trick/addTrick.html.twig", [
+            'trick' => $trick,
             'trickForm' => $form->createView(),
         ]));
     }

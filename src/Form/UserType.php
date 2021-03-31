@@ -18,9 +18,6 @@ class UserType extends AbstractType
             ->add('avatarFile', FileType::class, [
                 'label' => 'Merci de choisir une photo.',
             ])
-            ->add('plainPassword', PasswordType::class, [
-                'label' => 'Merci de saisir à nouveau votre mot de passe.',
-            ])
         ;
     }
 
@@ -28,6 +25,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => 'avatar',
         ]);
     }
 }

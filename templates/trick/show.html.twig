@@ -6,8 +6,10 @@
             <img src="{{ asset('uploads/trick_images/'~trick.illustrations|first.path) }}" alt="">
         </div>
         <div class="trick-options-banner">
+            {% if app.user %}
                 <a href="{{ path('trick_edit', {'id' : trick.id}) }}" class="btn btn-primary edit-btn"><i class="fas fa-edit"></i></a>
                 <a href="" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
+            {% endif %}
         </div>
         <div class="trick-name">
             <h1 class="trick-name-title">{{ trick.name }}</h1>
@@ -16,7 +18,7 @@
     <div class="all-sections-trick">
         <!-- Trick Section-->
         <section class="trick-show">
-            <div class="display-vids-illus">
+            <div class="trick-medias">
                 {% for illustration in trick.illustrations %}
                     <img src="{{ asset('uploads/trick_images/'~illustration.path) }}" alt="" class="trick-show-illustration" width="325" height="200">
                 {% endfor %}

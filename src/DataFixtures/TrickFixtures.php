@@ -62,7 +62,7 @@ class TrickFixtures extends Fixture
                 //VIDEOS
                 for ($m = 1; $m <= 5; $m++) {
                     $video = new Video();
-                    // manually setting the url for the moment (copy of the user's  one will be sending)
+                    // manually setting the url for the moment (copy of the user's one will be sending)
                     $video->setUrl("https://www.youtube.com/watch?v=1TJ08caetkw");
                     $urlVideo = $video->getUrl();
                     $ytUrl = "https://www.youtube.com/embed/";

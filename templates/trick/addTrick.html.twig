@@ -14,6 +14,7 @@
                     <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="illustrations"><i class="fas fa-plus-circle"></i></button>
                     <ul class="illustrations" data-prototype="{{ form_widget(trickForm.illustrations.vars.prototype)|e('html_attr') }}">
                         {% for illustration in trickForm.illustrations %}
+                            <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" class="trick-show-illustration" width="325" height="200">
                             <li>{{ form_row(illustration.file) }}</li>
                         {% endfor %}
                     </ul>

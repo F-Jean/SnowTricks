@@ -98,6 +98,21 @@ a.edit-btn {
 .load {
     margin: 20px 0px 50px 800px;
 }
+/* Button to go back up the page */
+.btn-go-up {
+    height: 40px;
+    width: 40px;
+    background: #292929;
+    opacity: 0.9;
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 20px;
+    bottom: 115px;
+    cursor: pointer;
+}
 
 /* FOOTER */
 footer {
@@ -175,25 +190,7 @@ input.form-control {
     margin: 0px 70px 0px 70px;
 }
 /* Illustration section */
-.trick-show-illustrations {
-    display: flex;
-    flex-flow: row wrap;
-}
-/* Button to go back up the page */
-.btn-go-up {
-    height: 40px;
-    width: 40px;
-    background: #292929;
-    opacity: 0.9;
-    border-radius: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    right: 20px;
-    bottom: 115px;
-    cursor: pointer;
-}
+
 .icone-arrow {
     width: 20px;
 }
