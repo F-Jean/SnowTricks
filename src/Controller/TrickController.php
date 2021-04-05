@@ -69,7 +69,7 @@ class TrickController extends AbstractController
             /* add a success flash message */
             $this->addFlash('success', 'La figure a bien été ajouté !');
 
-            return $this->redirectToRoute('homepage',);
+            return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
         }
         
         return new Response($this->twig->render("trick/addTrick.html.twig", [

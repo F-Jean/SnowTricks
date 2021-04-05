@@ -1,3 +1,5 @@
+// ADD MORE ILLUSTRATIONS SECTIONS
+
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of illustrations & videos
     var $illustrationsCollectionHolder = $('ul.illustrations');
@@ -54,3 +56,5 @@ function addTagFormDeleteLink($tagFormLi) {
         $tagFormLi.remove();
     });
 }
+
+// MOD EDIT DISPLAY SECTION

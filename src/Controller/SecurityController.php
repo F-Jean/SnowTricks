@@ -23,6 +23,7 @@ class SecurityController extends AbstractController
     public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) 
     {
         $user = new User();
+        $user->setAvatar('basicAvatar.png');
         $form = $this->createForm(RegisterType::class, $user)->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -32,7 +33,7 @@ class SecurityController extends AbstractController
 
             $manager->persist($user);
             $manager->flush();
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/register.html.twig', [

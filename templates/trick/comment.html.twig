@@ -5,7 +5,7 @@
                 <span>{{ comment.user.username }}</span>
             </div>
             <div>
-                <span class="avatar-comment">{{ comment.user.avatar }}</span>
+                <img src="{{ asset('uploads/users_avatar/'~comment.user.avatar) }}" class="avatar-comment" alt="">
             </div>
         </div>
         <div>
