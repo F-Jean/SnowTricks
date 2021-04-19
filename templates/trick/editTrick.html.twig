@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+
+{% block container %}
+    <!-- BANNER SECTION -->
+    <section class="edit-trick-banner"></section>
+    <!-- EDIT TRICK SECTION -->
+    <div class="edit-trick-form">
+        {{ form_start(editTrickForm) }}
+        {{ form_errors(editTrickForm) }}
+            <div class="edit-media-container">
+                <div class="edit-illustrations">
+                    <!-- Image -->
+                    <ul class="editIllustrations" data-prototype="{{ form_widget(editTrickForm.illustrations.vars.prototype)|e('html_attr') }}">
+                        <div>
+                        {% for illustration in editTrickForm.illustrations %}
+                            <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" class="trick-show-illustration" width="325" height="200">                        {% endfor %}
+                        </div>
+                    </ul>
+                    <h1 class="edit-illustration-title">Ajouter une image</h1>
+                    <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="illustrations"><i class="fas fa-plus-circle"></i></button>
+                </div>
+                <div class="edit-videos">
+                    <!-- Video -->
+                    <ul class="editVideos" data-prototype="{{ form_widget(editTrickForm.videos.vars.prototype)|e('html_attr') }}">
+                        {% for video in editTrickForm.videos %}
+                            <li>{{ form_row(video.url) }}</li>
+                        {% endfor %}
+                    </ul>
+                    <h1 class="edit-video-title">Ajouter une vidéo</h1>
+                    <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="videos"><i class="fas fa-plus-circle"></i></button>
+                </div>
+            </div>
+            <div class="edit-trick-inputs-container">
+                <div class="edit-trick-inputs">
+                    {{ form_row(editTrickForm.name, {'attr': {'placeholder': 'Nom de la figure ...'}}) }}
+                    {{ form_row(editTrickForm.description, {'attr': {'placeholder': 'Description'} }) }}
+                    {{ form_row(editTrickForm.category, {'attr': {'placeholder': 'Groupe de la figure'}}) }}
+                </div>
+            </div>
+            <div class="register-form-btn edit-trick-btn">
+                <button type="submit" class="btn btn-primary">Modifier la figure</button>
+            </div>
+        {{form_widget(editTrickForm._token)}}
+        {{ form_end(editTrickForm, {render_rest:false}) }}
+    </div>
+{% endblock %}

@@ -30,7 +30,7 @@ class Illustration
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="illustrations")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $trick;
 

@@ -2,12 +2,12 @@
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of illustrations & videos
-    var $illustrationsCollectionHolder = $('ul.illustrations');
-    var $videosCollectionHolder = $('ul.videos');
+    var $editIllustrationsCollectionHolder = $('ul.editIllustrations');
+    var $editVideosCollectionHolder = $('ul.editVideos');
     // count the current form inputs we have, use that as the new
     // index when inserting a new item
-    $illustrationsCollectionHolder.data('index', $illustrationsCollectionHolder.find('input').length);
-    $videosCollectionHolder.data('index', $videosCollectionHolder.find('input').length);
+    $editIllustrationsCollectionHolder.data('index', $editIllustrationsCollectionHolder.find('input').length);
+    $editVideosCollectionHolder.data('index', $editVideosCollectionHolder.find('input').length);
 
     $('body').on('click', '.add_item_link', function(e) {
         var $collectionHolderClass = $(e.currentTarget).data('collectionHolderClass');
@@ -16,7 +16,10 @@ jQuery(document).ready(function() {
     });
 
     // add a delete link to all of the existing tag form li elements
-    $illustrationsCollectionHolder.find('li').each(function() {
+    $editIllustrationsCollectionHolder.find('li').each(function() {
+        addTagFormDeleteLink($(this));
+    });
+    $editVideosCollectionHolder.find('li').each(function() {
         addTagFormDeleteLink($(this));
     });
 });
@@ -56,12 +59,3 @@ function addTagFormDeleteLink($tagFormLi) {
         $tagFormLi.remove();
     });
 }
-
-// DISPLAY ILLUSTRATION AFTER SELECT
-
-$("body").on('change', 'input.custom-file-input', loadFile)
-
-const loadFile = function(event) {
-	const image = document.getElementById('output');
-	image.src = URL.createObjectURL(event.target.files[0]);
-};

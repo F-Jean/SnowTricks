@@ -151,7 +151,6 @@ input.form-control {
 
 /* TRICK SHOWPAGE */
 /* Trick banner */
-
 .trick-banner {
     height: 50vh;
     position: relative;
@@ -190,7 +189,6 @@ input.form-control {
     margin: 0px 70px 0px 70px;
 }
 /* Illustration section */
-
 .icone-arrow {
     width: 20px;
 }
@@ -345,6 +343,50 @@ ul.videos {
     position: absolute;
     top: 50vh;
     left: 50vw;
+}
+
+/* EDITTRICK PAGE */
+.edit-trick-banner {
+    height: 50vh;
+    background: url("../img/login-header.jpg");
+    background-size: cover;
+}
+.edit-trick-form {
+    margin: 0px 70px 0px 70px;
+}
+.edit-media-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+.edit-illustrations {
+    width: 50vw;
+}
+.editIllustrations {
+}
+.edit-illustration-title {
+    font-size: 25px;
+}
+.edit-videos {
+    width: 50vw;
+}
+.edit-video-title {
+    font-size: 25px;
+}
+.edit-trick-inputs-container {
+    display: flex;
+    justify-content: center;
+}
+.edit-trick-inputs {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.edit-trick-btn {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
 }
 
 /* REGISTER PAGE */

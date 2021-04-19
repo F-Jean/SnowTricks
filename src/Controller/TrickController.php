@@ -7,6 +7,7 @@ use Twig\Environment;
 use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
+use App\Form\EditTrickType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,15 +31,11 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/new", name="trick_add")
-     * @Route("/trick/{id}/edit", name="trick_edit")
      */
-    public function addTrick(Trick $trick = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
     {
         $user = $this->getUser();
-        /* needed because of edit mode, if there is no trick it will be a new one */
-        if(!$trick) {
-            $trick = new Trick();
-        }
+        $trick = new Trick();
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
@@ -73,8 +70,52 @@ class TrickController extends AbstractController
         }
         
         return new Response($this->twig->render("trick/addTrick.html.twig", [
-            'trick' => $trick,
             'trickForm' => $form->createView(),
+        ]));
+    }
+
+    /**
+     * @Route("/trick/{id}/edit", name="trick_edit")
+     */
+    public function editTrick(Trick $trick = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    {
+        $user = $this->getUser();
+        
+        $form = $this->createForm(EditTrickType::class, $trick,)->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $trick->setAddedAt(new \DateTimeImmutable())
+            ->setUser($user);
+
+            foreach ($trick->getIllustrations() as $illustration)
+            {
+                $uploadedFile = $illustration->getFile();
+                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+
+                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+
+                $uploadedFile->move(
+                    $destination,
+                    $newFilename
+                );
+
+                $illustration->setPath($newFilename);
+            }
+
+            $manager->persist($trick);
+            $manager->flush();
+
+            /* add a success flash message */
+            $this->addFlash('success', 'La figure a bien été modifié !');
+
+            return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
+        }
+        
+        return new Response($this->twig->render("trick/editTrick.html.twig", [
+            'trick' => $trick,
+            'editTrickForm' => $form->createView(),
         ]));
     }
 
