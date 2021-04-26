@@ -14,14 +14,6 @@ jQuery(document).ready(function() {
         // add a new illustration form
         addFormToCollection($collectionHolderClass);
     });
-
-    // add a delete link to all of the existing tag form li elements
-    $editIllustrationsCollectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
-    });
-    $editVideosCollectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
-    });
 });
 
 function addFormToCollection($collectionHolderClass) {
@@ -47,7 +39,6 @@ function addFormToCollection($collectionHolderClass) {
     var $newFormLi = $('<li></li>').append(newForm);
     // Add the new form at the end of the list
     $collectionHolder.append($newFormLi);
-    addTagFormDeleteLink($newFormLi);
 }
 
 function addTagFormDeleteLink($tagFormLi) {

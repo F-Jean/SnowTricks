@@ -13,7 +13,9 @@
                     <ul class="editIllustrations" data-prototype="{{ form_widget(editTrickForm.illustrations.vars.prototype)|e('html_attr') }}">
                         <div>
                         {% for illustration in editTrickForm.illustrations %}
-                            <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" class="trick-show-illustration" width="325" height="200">                        {% endfor %}
+                            <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" class="trick-show-illustration" width="325" height="200">
+                            <li>{{ form_row(illustration.delete) }}</li>
+                        {% endfor %}
                         </div>
                     </ul>
                     <h1 class="edit-illustration-title">Ajouter une image</h1>

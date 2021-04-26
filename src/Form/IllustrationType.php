@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class IllustrationType extends AbstractType
 {
@@ -16,7 +17,12 @@ class IllustrationType extends AbstractType
         ->add('file', FileType::class, [
             'label' => false,
         ])
-        ;
+        ->add('delete', ButtonType::class, [
+            'label' => 'Supprimer',
+            'attr' => [
+                'class' => 'delete_btn',
+            ],
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

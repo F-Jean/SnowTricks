@@ -14,11 +14,6 @@ jQuery(document).ready(function() {
         // add a new illustration form
         addFormToCollection($collectionHolderClass);
     });
-
-    // add a delete link to all of the existing tag form li elements
-    $illustrationsCollectionHolder.find('li').each(function() {
-        addTagFormDeleteLink($(this));
-    });
 });
 
 function addFormToCollection($collectionHolderClass) {
@@ -44,17 +39,16 @@ function addFormToCollection($collectionHolderClass) {
     var $newFormLi = $('<li></li>').append(newForm);
     // Add the new form at the end of the list
     $collectionHolder.append($newFormLi);
-    addTagFormDeleteLink($newFormLi);
 }
 
-function addTagFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button">Supprimer</button>');
-    $tagFormLi.append($removeFormButton);
-
-    $removeFormButton.on('click', function(e) {
-        // remove the li for the tag form
-        $tagFormLi.remove();
-    });
+    function addTagFormDeleteLink($tagFormLi) {
+        var $removeFormButton = document.querySelector('.delete_btn');
+        $tagFormLi.append($removeFormButton);
+    
+        $removeFormButton.on('click', function(e) {
+            // remove the li for the tag form
+            $tagFormLi.remove();
+        });
 }
 
 // DISPLAY ILLUSTRATION AFTER SELECT
@@ -63,5 +57,5 @@ $("body").on('change', 'input.custom-file-input', loadFile)
 
 const loadFile = function(event) {
 	const image = document.getElementById('output');
-	image.src = URL.createObjectURL(event.target.files[0]);
+	image.src = URL.createObjectURL(event.target.files);
 };
