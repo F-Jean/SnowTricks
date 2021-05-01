@@ -2,7 +2,11 @@
 
 {% block container %}
     <!-- BANNER SECTION -->
-    <section class="edit-trick-banner"></section>
+    <section class="edit-trick-banner">
+        <div class="trick-name">
+            <h1 class="trick-name-title">{{ trick.name }}</h1>
+        </div>
+    </section>
     <!-- EDIT TRICK SECTION -->
     <div class="edit-trick-form">
         {{ form_start(editTrickForm) }}
@@ -10,11 +14,13 @@
             <div class="edit-media-container">
                 <div class="edit-illustrations">
                     <!-- Image -->
-                    <ul class="editIllustrations" data-prototype="{{ form_widget(editTrickForm.illustrations.vars.prototype)|e('html_attr') }}">
+                    <ul class="illustrations" data-prototype="{{ form_widget(editTrickForm.illustrations.vars.prototype)|e('html_attr') }}">
                         <div>
                         {% for illustration in editTrickForm.illustrations %}
-                            <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" class="trick-show-illustration" width="325" height="200">
-                            <li>{{ form_row(illustration.delete) }}</li>
+                            <div>
+                                <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" id="media-container" class="trick-show-illustration" width="325" height="200">
+                                <li>{{ form_row(illustration.delete) }}</li>
+                            </div>
                         {% endfor %}
                         </div>
                     </ul>
@@ -23,9 +29,12 @@
                 </div>
                 <div class="edit-videos">
                     <!-- Video -->
-                    <ul class="editVideos" data-prototype="{{ form_widget(editTrickForm.videos.vars.prototype)|e('html_attr') }}">
+                    <ul class="videos" data-prototype="{{ form_widget(editTrickForm.videos.vars.prototype)|e('html_attr') }}">
                         {% for video in editTrickForm.videos %}
-                            <li>{{ form_row(video.url) }}</li>
+                            <div>
+                                <li id="media-container">{{ form_row(video.url) }}</li>
+                                <li>{{ form_row(video.delete) }}</li>
+                            </div>
                         {% endfor %}
                     </ul>
                     <h1 class="edit-video-title">Ajouter une vidéo</h1>

@@ -82,6 +82,10 @@ a.login-homepage-text {
     border-top: none;
     border-right: none;
     border-left: none;
+    height: 201px;
+}
+.trick-illustration img {
+    object-fit: cover;
 }
 .trick-title {
     float: left;
@@ -340,9 +344,9 @@ ul.videos {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: 50vh;
-    left: 50vw;
+    position: fixed;
+    top: 40%;
+    left: 45%;
 }
 
 /* EDITTRICK PAGE */
@@ -350,6 +354,8 @@ ul.videos {
     height: 50vh;
     background: url("../img/login-header.jpg");
     background-size: cover;
+    display: flex;
+    justify-content: center;
 }
 .edit-trick-form {
     margin: 0px 70px 0px 70px;
@@ -361,8 +367,6 @@ ul.videos {
 }
 .edit-illustrations {
     width: 50vw;
-}
-.editIllustrations {
 }
 .edit-illustration-title {
     font-size: 25px;

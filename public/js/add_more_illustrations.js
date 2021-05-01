@@ -1,4 +1,4 @@
-// ADD MORE ILLUSTRATIONS SECTIONS
+// ADD MORE ILLUSTRATIONS
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of illustrations & videos
@@ -41,21 +41,11 @@ function addFormToCollection($collectionHolderClass) {
     $collectionHolder.append($newFormLi);
 }
 
-    function addTagFormDeleteLink($tagFormLi) {
-        var $removeFormButton = document.querySelector('.delete_btn');
-        $tagFormLi.append($removeFormButton);
-    
-        $removeFormButton.on('click', function(e) {
-            // remove the li for the tag form
-            $tagFormLi.remove();
-        });
-}
+// DELETE ILLUSTRATIONS & VIDEOS BUTTON IN ADDTRICK.HTML
+
+$("body").on("click", ".delete_btn", function(e) {
+    $(e.currentTarget).closest("li").remove();
+    $("#media-container").parent().remove();
+});
 
 // DISPLAY ILLUSTRATION AFTER SELECT
-
-$("body").on('change', 'input.custom-file-input', loadFile)
-
-const loadFile = function(event) {
-	const image = document.getElementById('output');
-	image.src = URL.createObjectURL(event.target.files);
-};

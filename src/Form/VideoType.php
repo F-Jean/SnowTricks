@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 
 class VideoType extends AbstractType
 {
@@ -16,6 +17,12 @@ class VideoType extends AbstractType
             ->add('url', TextType::class, array(
                 'label' => false,
             ))
+            ->add('delete', ButtonType::class, [
+                'label' => 'Supprimer',
+                'attr' => [
+                    'class' => 'delete_btn btn-primary',
+                ],
+            ]);
         ;
     }
 

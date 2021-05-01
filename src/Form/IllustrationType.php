@@ -20,7 +20,7 @@ class IllustrationType extends AbstractType
         ->add('delete', ButtonType::class, [
             'label' => 'Supprimer',
             'attr' => [
-                'class' => 'delete_btn',
+                'class' => 'delete_btn btn-primary',
             ],
         ]);
     }
