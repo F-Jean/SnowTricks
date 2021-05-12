@@ -4,42 +4,14 @@
     <!-- BANNER SECTION -->
     <section class="add-trick-banner"></section>
     <!-- ADD TRICK SECTION -->
-    <div class="add-trick-form">
-        {{ form_start(trickForm) }}
-        {{ form_errors(trickForm) }}
-            <div class="media-container">
-                <div class="add-illustrations">
-                    <!-- Image -->
-                    <h1 class="add-illustration-title">Ajouter une image</h1>
-                    <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="illustrations"><i class="fas fa-plus-circle"></i></button>
-                    <ul class="illustrations" data-prototype="{{ form_widget(trickForm.illustrations.vars.prototype)|e('html_attr') }}">
-                        {% for illustration in trickForm.illustrations %}
-                            <img src="{{ asset('uploads/trick_images/'~illustration.vars.data.path) }}" alt="" id="output" class="trick-show-illustration" width="325" height="200">
-                            <li>{{ form_row(illustration.file) }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="add-videos">
-                    <!-- Video -->
-                    <h1 class="add-video-title">Ajouter une vidéo</h1>
-                    <button type="button" class="btn btn-primary add_item_link" data-collection-holder-class="videos"><i class="fas fa-plus-circle"></i></button>
-                    <ul class="videos" data-prototype="{{ form_widget(trickForm.videos.vars.prototype)|e('html_attr') }}">
-                        {% for video in trickForm.videos %}
-                            <li>{{ form_row(video.url) }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                {{ form_start(trickForm) }}
+                    {{ include("trick/_form.html.twig", {form: trickForm}) }}
+                    <button class="btn btn-primary">Ajouter la figure</button>
+                {{ form_end(trickForm, {render_rest: false}) }}
             </div>
-            <div class="add-trick-inputs-container">
-                <div class="add-trick-inputs">
-                    {{ form_row(trickForm.name, {'attr': {'placeholder': 'Nom de la figure ...'}}) }}
-                    {{ form_row(trickForm.description, {'attr': {'placeholder': 'Description'} }) }}
-                    {{ form_row(trickForm.category, {'attr': {'placeholder': 'Groupe de la figure'}}) }}
-                </div>
-            </div>
-            <div class="register-form-btn add-trick-btn">
-                <button type="submit" class="btn btn-primary">Ajouter la nouvelle figure</button>
-            </div>
-        {{ form_end(trickForm) }}
+        </div>
     </div>
 {% endblock %}

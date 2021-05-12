@@ -73,11 +73,13 @@ class Trick
      * @Assert\Count(
      *      min = 1,
      *      minMessage = "Merci d'ajouter au minimum une image.")
+     * @Assert\Valid
      */
     private $illustrations;
 
     /**
      * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
+     * @Assert\Valid
      */
     private $videos;
 

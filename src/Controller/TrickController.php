@@ -81,7 +81,7 @@ class TrickController extends AbstractController
     {
         $user = $this->getUser();
         
-        $form = $this->createForm(EditTrickType::class, $trick,)->handleRequest($request);
+        $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
             $trick->setAddedAt(new \DateTimeImmutable())
@@ -115,7 +115,7 @@ class TrickController extends AbstractController
         
         return new Response($this->twig->render("trick/editTrick.html.twig", [
             'trick' => $trick,
-            'editTrickForm' => $form->createView(),
+            'trickForm' => $form->createView(),
         ]));
     }
 

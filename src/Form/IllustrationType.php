@@ -16,12 +16,6 @@ class IllustrationType extends AbstractType
         $builder
         ->add('file', FileType::class, [
             'label' => false,
-        ])
-        ->add('delete', ButtonType::class, [
-            'label' => 'Supprimer',
-            'attr' => [
-                'class' => 'delete_btn btn-primary',
-            ],
         ]);
     }
 

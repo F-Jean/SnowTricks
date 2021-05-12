@@ -31,7 +31,7 @@ class TrickType extends AbstractType
                 'label' => 'Groupe de la figure',
             ))
             ->add('illustrations', CollectionType::class, [
-                'error_bubbling' => true,
+                'error_bubbling' => false,
                 'entry_type' => IllustrationType::class,
                 'label' => false,
                 'allow_add' => true,
@@ -39,6 +39,7 @@ class TrickType extends AbstractType
                 'by_reference' => false,
             ])
             ->add('videos', CollectionType::class, [
+                'error_bubbling' => false,
                 'entry_type' => VideoType::class,
                 'label' => false,
                 'allow_add' => true,

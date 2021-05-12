@@ -17,12 +17,6 @@ class VideoType extends AbstractType
             ->add('url', TextType::class, array(
                 'label' => false,
             ))
-            ->add('delete', ButtonType::class, [
-                'label' => 'Supprimer',
-                'attr' => [
-                    'class' => 'delete_btn btn-primary',
-                ],
-            ]);
         ;
     }
 
