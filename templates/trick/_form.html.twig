@@ -1,31 +1,40 @@
 {{ form_widget(trickForm._token) }}
 {{ form_errors(trickForm) }}
-{{ form_row(trickForm.name, {'attr': {'placeholder': 'Nom de la figure ...'}}) }}
-{{ form_row(trickForm.description, {'attr': {'placeholder': 'Description'} }) }}
-{{ form_row(trickForm.category, {'attr': {'placeholder': 'Groupe de la figure'}}) }}
-<button type="button" class="btn btn-primary btn-new" data-collection="#illustrations">Nouvelle image</button>
-<div 
-id="illustrations" 
-class="row" 
-data-prototype="{{ include("trick/_illustration.html.twig", {form: trickForm.illustrations.vars.prototype})|e("html_attr") }}" 
-data-index="{{ trickForm.illustrations|length > 0 ? form.illustrations|last.vars.name + 1 : 0 }}">
-    {% for illustration in trickForm.illustrations %}
-        <div class="col-4">
-            {{ include("trick/_illustration.html.twig", {form: illustration}) }}
-        </div>
-    {% endfor %}
+<!-- IMAGES -->
+<div class="add-illus">
+    <button type="button" class="btn btn-primary btn-new" data-collection="#illustrations"><i class="fas fa-plus-circle"></i> Image</button>
+    <div 
+    id="illustrations" 
+    class="row" 
+    data-prototype="{{ include("trick/_illustration.html.twig", {form: trickForm.illustrations.vars.prototype})|e("html_attr") }}" 
+    data-index="{{ trickForm.illustrations|length > 0 ? form.illustrations|last.vars.name + 1 : 0 }}">
+        {% for illustration in trickForm.illustrations %}
+            <div class="media">
+                {{ include("trick/_illustration.html.twig", {form: illustration}) }}
+            </div>
+        {% endfor %}
+    </div>
+    {{ form_errors(trickForm.illustrations) }}
 </div>
-{{ form_errors(trickForm.illustrations) }}
-<button type="button" class="btn btn-primary btn-new" data-collection="#videos">Nouvelle video</button>
-<div 
-id="videos" 
-class="row" 
-data-prototype="{{ include("trick/_video.html.twig", {form: trickForm.videos.vars.prototype})|e("html_attr") }}" 
-data-index="{{ trickForm.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}">
-    {% for video in trickForm.videos %}
-        <div class="col-4">
-            {{ include("trick/_video.html.twig", {form: video}) }}
-        </div>
-    {% endfor %}
+<!-- VIDEOS -->
+<div class="add-video">
+    <button type="button" class="btn btn-primary btn-new" data-collection="#videos"><i class="fas fa-plus-circle"></i> Video</button>
+    <div 
+    id="videos" 
+    class="row" 
+    data-prototype="{{ include("trick/_video.html.twig", {form: trickForm.videos.vars.prototype})|e("html_attr") }}" 
+    data-index="{{ trickForm.videos|length > 0 ? form.videos|last.vars.name + 1 : 0 }}">
+        {% for video in trickForm.videos %}
+            <div class="media">
+                {{ include("trick/_video.html.twig", {form: video}) }}
+            </div>
+        {% endfor %}
+    </div>
+    {{ form_errors(trickForm.videos) }}
 </div>
-{{ form_errors(trickForm.videos) }}
+<!-- OTHER FIELDS -->
+<div class="other-fields">
+    {{ form_row(trickForm.name, {'attr': {'placeholder': 'Nom de la figure ...'}}) }}
+    {{ form_row(trickForm.description, {'attr': {'placeholder': 'Description'} }) }}
+    {{ form_row(trickForm.category, {'attr': {'placeholder': 'Groupe de la figure'}}) }}
+</div>

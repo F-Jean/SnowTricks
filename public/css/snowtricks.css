@@ -280,65 +280,31 @@ textarea#comment_content.form-control {
     background: url("../img/login-header.jpg");
     background-size: cover;
 }
-.add-trick-form {
-    margin: 0px 70px 0px 70px;
+.add-trick {
+    margin: 70px;
 }
-.media-container {
-    width: 100%;
+.media {
     display: flex;
-    justify-content: flex-start;
-}
-.add-trick-inputs-container {
-    display: flex;
-    justify-content: center;
-}
-.add-trick-inputs {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
     align-items: center;
-}
-#trick_category.form-control {
-    width: 20%;
-}
-ul.illustrations li {
-    padding-top: 20px;
-}
-ul.videos li {
-    padding-top: 20px;
-}
-.add-illustrations {
-    width: 50%;
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
+    width: 325px;
+    margin: 40px 0px 40px 30px;
 }
-.add-illustration-title {
-    font-size: 25px;
+.add-video {
+    padding-top: 15px;
 }
-ul.illustrations {
-    padding-top: 20px;
-}
-.add-videos {
-    width: 50%;
+.other-fields {
     display: flex;
+    align-items: center;
     flex-direction: column;
-    align-items: center;
-    padding-top: 20px;
-    margin-left: 20px;
 }
-.add-video-title {
-    font-size: 25px;
+.btn-trick {
+    margin: 40px 0px 0px 800px;
 }
-ul.videos {
-    padding-top: 20px;
+.btn-remove {
+    margin-top: 20px;
 }
-.add-trick-btn {
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
-}
+
 /* flash messages when form submit */
 #success-submit {
     display: flex;
@@ -357,40 +323,8 @@ ul.videos {
     display: flex;
     justify-content: center;
 }
-.edit-trick-form {
-    margin: 0px 70px 0px 70px;
-}
-.edit-media-container {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-}
-.edit-illustrations {
-    width: 50vw;
-}
-.edit-illustration-title {
-    font-size: 25px;
-}
-.edit-videos {
-    width: 50vw;
-}
-.edit-video-title {
-    font-size: 25px;
-}
-.edit-trick-inputs-container {
-    display: flex;
-    justify-content: center;
-}
-.edit-trick-inputs {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-.edit-trick-btn {
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
+.edit-trick {
+    margin: 70px;
 }
 
 /* REGISTER PAGE */
