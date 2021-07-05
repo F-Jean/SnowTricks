@@ -6,6 +6,8 @@ use App\Entity\User;
 use Twig\Environment;
 use App\Form\UserType;
 use App\Form\RegisterType;
+use App\Service\Mailer;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,10 +16,26 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Uid\Uuid;
 
 class SecurityController extends AbstractController
 {
+
+    /**
+     * @var Environment
+     */
+    private $twig;
+
+    /**
+     * @var MailerInterface
+     */
+    private $mailer;
+
+    public function __construct(Environment $twig, Mailer $mailer)
+    {
+        $this->twig = $twig;
+        $this->mailer = $mailer;
+    }
+
     /**
      * @Route("/inscription", name="security_registration")
      */
@@ -31,11 +49,12 @@ class SecurityController extends AbstractController
         {
             $password = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
-
             $user->setToken(Uuid::v4());
-            
             $manager->persist($user);
             $manager->flush();
+            $this->mailer->sendEmail($user->getEmail(), $user->getToken());
+            $this->addFlash("success", "Inscription réussie ! Merci d'aller vérifier votre email.");
+
             return $this->redirectToRoute('app_login');
         }
 
@@ -65,16 +84,6 @@ class SecurityController extends AbstractController
      * @Route("/logout", name="app_logout")
      */
     public function logout(){}
-
-    /**
-     * @var Environment
-     */
-    private $twig;
-
-    public function __construct(Environment $twig)
-    {
-        $this->twig = $twig;
-    }
 
     /**
      * @Route("/account", name="user_account")
