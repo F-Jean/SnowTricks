@@ -14,6 +14,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Uid\Uuid;
 
 class SecurityController extends AbstractController
 {
@@ -31,6 +32,8 @@ class SecurityController extends AbstractController
             $password = $encoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
+            $user->setToken(Uuid::v4());
+            
             $manager->persist($user);
             $manager->flush();
             return $this->redirectToRoute('app_login');

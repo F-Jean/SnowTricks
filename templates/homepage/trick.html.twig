@@ -9,7 +9,7 @@
         {% if is_granted('ROLE_USER') %}
             <div class="trick-options">
                 <a href="{{ path('trick_edit', {'id' : trick.id}) }}" class="btn btn-primary edit-btn"><i class="fas fa-edit"></i></a>
-                <a href="" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
+                <a href="{{ path('trick_delete', {'id' : trick.id}) }}" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
             </div>
         {% endif %}
     </div>

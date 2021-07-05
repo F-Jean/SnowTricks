@@ -8,6 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -93,6 +94,23 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="array")
      */
     private $roles;
+
+    /**
+     * @ORM\Column(type="uuid", nullable=true, unique=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $enabled;
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_USER'];
+        // the account is disactivated after the inscription
+        $this->enabled = false;
+    }
 
     public function getId(): ?int
     {
@@ -180,7 +198,18 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
     }
 
     public function getSalt()
@@ -208,5 +237,29 @@ class User implements UserInterface, \Serializable
     public function unserialize($serialized)
     {
         list ($this->id, $this->email, $this->userName, $this->avatar, $this->password, $this->roles) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getToken(): ?Uuid
+    {
+        return $this->token;
+    }
+
+    public function setToken(?Uuid $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
     }
 }

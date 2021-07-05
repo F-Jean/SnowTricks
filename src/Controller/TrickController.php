@@ -7,7 +7,6 @@ use Twig\Environment;
 use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
-use App\Form\EditTrickType;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,7 +76,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{id}/edit", name="trick_edit")
      */
-    public function editTrick(Trick $trick = null, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    public function editTrick(Trick $trick, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
     {
         $user = $this->getUser();
         
@@ -156,5 +155,17 @@ class TrickController extends AbstractController
         return new Response($this->twig->render("trick/comment.html.twig", [
             'comments' => $commentRepository->getComments($page, 5),
         ]));
+    }
+
+    /**
+     * @Route("/trick/{id}/delete", name="trick_delete")
+     */
+    public function delete(Trick $trick)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($trick);
+        $em->flush();
+
+        return $this->redirectToRoute('homepage');
     }
 }
