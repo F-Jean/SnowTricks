@@ -29,7 +29,12 @@
         Remember : Symfony adds a global variable to Twig called app
         -->
         {% for message in app.flashes('success') %}
-            <div id="success-submit" class="alert alert-success">
+            <div id="flash-notice" class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div id="flash-notice" class="alert alert-danger">
                 {{ message }}
             </div>
         {% endfor %}

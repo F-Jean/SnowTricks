@@ -306,7 +306,7 @@ textarea#comment_content.form-control {
 }
 
 /* flash messages when form submit */
-#success-submit {
+#flash-notice {
     display: flex;
     justify-content: center;
     align-items: center;

@@ -25,7 +25,7 @@ class Mailer
         $email = (new TemplatedEmail())
             ->from('snowtricks@example.com')
             ->to(new Address($email))
-            ->subject('Valider votre compte !')
+            ->subject('Snowtriks - Valider votre compte !')
 
             // path of the Twig template to render
             ->htmlTemplate('emails/validate.html.twig')

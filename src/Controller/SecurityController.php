@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
 use Twig\Environment;
 use App\Form\UserType;
 use App\Form\RegisterType;
@@ -53,7 +54,7 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
             $this->mailer->sendEmail($user->getEmail(), $user->getToken());
-            $this->addFlash("success", "Inscription réussie ! Merci d'aller vérifier votre email.");
+            $this->addFlash("success", "Inscription réussie ! Allez vérifier votre email avant la connexion.");
 
             return $this->redirectToRoute('app_login');
         }
@@ -71,7 +72,6 @@ class SecurityController extends AbstractController
         // if ($this->getUser()) {
         //     return $this->redirectToRoute('target_path');
         // }
-
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
@@ -118,5 +118,25 @@ class SecurityController extends AbstractController
             'user' => $user,
             'userForm' => $form->createView(),
         ]));
+    }
+
+    /**
+     * @Route("/confirm_account/{token}", name="confirm_account")
+     */
+    public function confirmAccount(UserRepository $userRepository ,$token, EntityManagerInterface $manager)
+    {
+        $user = $userRepository->findOneBy(["token" => $token]);
+        if($user)
+        {
+            $user->setToken(null);
+            $user->setEnabled(true);
+            $manager->persist($user);
+            $manager->flush();
+            $this->addFlash("success", "Votre compte est activé !");
+            return $this->redirectToRoute('homepage');
+        } else {
+            $this->addFlash("error", "Ce compte n'existe pas !");
+            return $this->redirectToRoute('homepage');
+        }
     }
 }
