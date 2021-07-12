@@ -8,7 +8,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 
 
-class Mailer 
+class ValidationMail
 {
     /**
      * @var MailerInterface

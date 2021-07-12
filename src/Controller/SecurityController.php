@@ -7,7 +7,7 @@ use App\Repository\UserRepository;
 use Twig\Environment;
 use App\Form\UserType;
 use App\Form\RegisterType;
-use App\Service\Mailer;
+use App\Service\ValidationMail;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +31,7 @@ class SecurityController extends AbstractController
      */
     private $mailer;
 
-    public function __construct(Environment $twig, Mailer $mailer)
+    public function __construct(Environment $twig, ValidationMail $mailer)
     {
         $this->twig = $twig;
         $this->mailer = $mailer;
@@ -123,9 +123,8 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirm_account/{token}", name="confirm_account")
      */
-    public function confirmAccount(UserRepository $userRepository ,$token, EntityManagerInterface $manager)
+    public function confirmAccount(User $user, EntityManagerInterface $manager)
     {
-        $user = $userRepository->findOneBy(["token" => $token]);
         if($user)
         {
             $user->setToken(null);
