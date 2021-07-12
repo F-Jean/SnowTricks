@@ -1,15 +1,26 @@
 {% extends 'layout.html.twig' %}
     {% block container %}
+        <!-- REGISTER SECTION -->
         <div class="register-section">
             <h1 id="register-title">S'enregistrer</h1>
-            <div class="register-form">
-                {{ form_start(form) }}
-                    {{ form_row(form.userName, {'attr': {'placeholder': 'Nom d\'utilisateur ...'}}) }}
-                    {{ form_row(form.email, {'attr': {'placeholder': 'Email'} }) }}
-                    {{ form_row(form.plainPassword.first, {'attr': {'placeholder': 'Mot de passe'}}) }}
-                    {{ form_row(form.plainPassword.second, {'attr': {'placeholder': 'Confirmer le mot de passe'}}) }}
-                    <div class="register-form-btn">
-                        <button type="submit" class="btn btn-success">Valider</button>
+            <div>
+                <p class="register-text">Le mot de passe doit contenir au minimum :</p>
+                <ul>
+                    <li> 8 caractères comprenant :</li>
+                    <li> 1 majuscule;</li>
+                    <li> 1 minuscule;</li>
+                    <li> 1 chiffre;</li>
+                    <li> 1 caractère spécial.</li>
+                </ul>
+            </div>
+            <div class="register-container">
+                {{ form_start(form, { 'attr': {'class': 'register-form-start'} }) }}
+                    {{ form_row(form.userName, {'attr': {'placeholder': 'Nom d\'utilisateur ...'} }) }}
+                    {{ form_row(form.email, {'attr': {'placeholder': 'Email ...'} }) }}
+                    {{ form_row(form.plainPassword.first, {'attr': {'placeholder': 'Mot de passe ...'}}) }}
+                    {{ form_row(form.plainPassword.second, {'attr': {'placeholder': 'Confirmer le mot de passe ...'},}) }}
+                    <div class="register-form-btn register-btn">
+                        <button type="submit" class="btn btn-primary">Créer le compte</button>
                     </div>
                 {{ form_end(form) }}
             </div>

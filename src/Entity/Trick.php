@@ -5,10 +5,15 @@ namespace App\Entity;
 use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueEntity(
+ *   fields = {"name"}, 
+ *   message = "Cette figure existe déjà !")
  */
 class Trick
 {
@@ -27,17 +32,24 @@ class Trick
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir le nom de la figure."
+     * )
      */
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity=Category::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid
      */
     private $category;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(
+     *      message = "Veuillez saisir une description."
+     * )
      */
     private $description;
 
@@ -57,12 +69,17 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"})
+     * @Assert\Count(
+     *      min = 1,
+     *      minMessage = "Merci d'ajouter au minimum une image.")
+     * @Assert\Valid
      */
     private $illustrations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
+     * @Assert\Valid
      */
     private $videos;
 
@@ -166,26 +183,23 @@ class Trick
         return $this->illustrations;
     }
 
-    public function addIllustration(Illustration $illustration): self
+    /**
+     * @param Illustration $illustration
+     * @return void
+     */
+    public function addIllustration(Illustration $illustration): void
     {
-        if (!$this->illustrations->contains($illustration)) {
-            $this->illustrations[] = $illustration;
-            $illustration->setTrick($this);
-        }
-
-        return $this;
+        $illustration->setTrick($this);
+        $this->illustrations->add($illustration);
     }
 
-    public function removeIllustration(Illustration $illustration): self
+    /**
+     * @param Illustration $illustration
+     * @return void
+     */
+    public function removeIllustration(Illustration $illustration): void
     {
-        if ($this->illustrations->removeElement($illustration)) {
-            // set the owning side to null (unless already changed)
-            if ($illustration->getTrick() === $this) {
-                $illustration->setTrick(null);
-            }
-        }
-
-        return $this;
+        $this->illustrations->removeElement($illustration);
     }
 
     /**
@@ -196,25 +210,22 @@ class Trick
         return $this->videos;
     }
 
-    public function addVideo(Video $video): self
+    /**
+     * @param Video $video
+     * @return void
+     */
+    public function addVideo(Video $video): void
     {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
-            $video->setTrick($this);
-        }
-
-        return $this;
+        $video->setTrick($this);
+        $this->videos->add($video);
     }
 
-    public function removeVideo(Video $video): self
+    /**
+     * @param Video $video
+     * @return void
+     */
+    public function removeVideo(Video $video): void
     {
-        if ($this->videos->removeElement($video)) {
-            // set the owning side to null (unless already changed)
-            if ($video->getTrick() === $this) {
-                $video->setTrick(null);
-            }
-        }
-
-        return $this;
+        $this->videos->removeElement($video);
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\IllustrationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\IllustrationRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=IllustrationRepository::class)
@@ -22,9 +23,14 @@ class Illustration
      */
     private $path;
 
+    /** 
+     * @var UploadedFile
+     */
+    private $file;
+
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="illustrations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
      */
     private $trick;
 
@@ -53,6 +59,27 @@ class Illustration
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of file
+     * @return  UploadedFile
+     */ 
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * Set the value of file
+     * @param  UploadedFile  $file
+     * @return  self
+     */ 
+    public function setFile(UploadedFile $file)
+    {
+        $this->file = $file;
 
         return $this;
     }

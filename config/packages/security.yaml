@@ -1,14 +1,17 @@
 security:
+    # defines how the data are encoded
     encoders:
         App\Entity\User:
             algorithm: auto
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    # defines where the data of the users are
     providers:
-        users_in_memory: { memory: null }
+        # provider based on an Entity, compare the property userName with the data the user gave then check the password
         in_database:
             entity:
                 class: App\Entity\User
                 property: userName
+    # defines what parts of the application are protected
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -17,15 +20,16 @@ security:
             anonymous: true
             lazy: true
 
+            # use provider in_database to protect main
             provider: in_database
-
-            form_login:
-                login_path: security_login
-                check_path: security_login
-
+            guard:
+                authenticators:
+                    - App\Security\LoginFormAuthenticator
             logout:
-                path: security_logout
+                path: app_logout
+                # where to redirect after logout
                 target: homepage
+            user_checker: App\Security\UserChecker
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

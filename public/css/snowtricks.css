@@ -1,81 +1,33 @@
+/* HOMEPAGE MENU */
 header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    transition: 0.6s;
-    padding: 40px 100px;
-}
-
-header ul {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-header ul li {
-    position: relative;
-    list-style: none;
-}
-
-header ul li a {
-    position: relative;
-    margin: 0 15px;
-    text-decoration: none;
-    color: #fff;
-    letter-spacing: 2px;
-    font-weight: 500px;
-    transition: 0.6s;
-}
-
-header.sticky {
-    padding: 15px 100px;
-    padding-bottom: 0px;
     background: #292929;
-    border-color: #292929;
     opacity: 0.9;
 }
-
-header.sticky ul li a {
+header ul li a {
+    margin: 0 15px;
     color: #fff;
+    letter-spacing: 2px;
 }
-
-header.sticky ul li a:hover {
+header ul li a:hover {
     color: #18bc9c;
 }
-
+.menu-username {
+    cursor: pointer;
+}
+/* HOMEPAGE BANNER */
 .banner {
-    width: 100%;
-    height: 100vh;
-    background: url("../img/header5.jpg");
+    background-image: url("../img/header5.jpg");
     background-size: cover;
 }
-
-.banner-text {
-    width: 88%;
-    margin: auto;
-}
-
 .logo-site {
-    font-size: 20px;
-    color: #cfcfcf;
     letter-spacing: 4px;
 }
-
 .banner-text h1 {
-    font-size: 200px;
-    font-weight: 100;
     color: #cfcfcf;
-    padding-top: 200px;
-    margin-bottom: 30px;
     letter-spacing: 4px;
+    font-size: 200px;
     line-height: 160px;
 }
-
 .banner-text p {
     max-width: 450px;
     color: #919191;
@@ -83,18 +35,10 @@ header.sticky ul li a:hover {
     line-height: 20px;
     font-size: 14px;
 }
-
 .banner-text .btn {
-    float: right;
-    border: 1px solid #fff;
-    color: #fff;
+    color: white;
     letter-spacing: 1px;
-    padding: 18px 34px;
-    border-radius: 70px;
-    display: inline-block;
-    margin-top: 150px;
 }
-
 .banner-text .btn:hover {
     background: #292929;
     border-color: #18bc9c;
@@ -103,53 +47,381 @@ header.sticky ul li a:hover {
     transition: 0.5s;
 }
 
+/* HOMEPAGE TRICK SECTION */
+/* Section just before homepage illustration's display */
 .content {
-    margin-left: 50px;
-    margin-right: 50px;
+    margin: 0px 70px 0px 70px;
 }
-
+.content-title {
+    margin: 35px 0px 0px 35px;
+}
+.homepage-content-text {
+    margin-top: 25px;
+}
+p.login-homepage-text {
+    margin-left: 35px;
+}
+a.login-homepage-btn {
+    margin-left: 35px;
+}
+a.login-homepage-text {
+    margin-left: 35px;
+}
+/* Section where illustrations are displayed */
 .trick-list {
-    margin-left: 25px;
     display: flex;
     flex-flow: row wrap;
+    margin-left: 25px;
 }
-
 .trick-thumbnail {
-    margin: 20px 10px 20px 10px;
+    margin: 60px 10px 20px 10px;
+    border: 1px solid black;
 }
-
+.trick-illustration {
+    border: 1px solid black;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    height: 201px;
+}
+.trick-illustration img {
+    object-fit: cover;
+}
 .trick-title {
     float: left;
     font-size: 20px;
+    padding: 10px 0px 10px 10px;
 }
-
 .trick-options {
     float: right;
+    padding: 10px 20px 10px 0px;
 }
-
+a.edit-btn {
+    margin-right: 20px;
+}
 .load {
-    margin-bottom: 50px;
-    margin-left: 800px;
-    margin-top: 20px;
+    margin: 20px 0px 50px 800px;
+}
+/* Button to go back up the page */
+.btn-go-up {
+    height: 40px;
+    width: 40px;
+    background: #292929;
+    opacity: 0.9;
+    border-radius: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 20px;
+    bottom: 115px;
+    cursor: pointer;
 }
 
+/* FOOTER */
 footer {
-    padding: 25px 0;
-    text-align: center;
+    height: 7vh;
     background-color: #292929;
     font-size: 20px;
+}
+.footer-links {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 footer span.copyright {
     font-size: 90%;
     color: #18bc9c;
-    line-height: 40px;
-    text-transform: none;
-    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 footer ul.quicklinks {
     font-size: 90%;
     line-height: 40px;
     margin-bottom: 0;
-    text-transform: none;
-    font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* FORM GROUP */
+.form-group {
+    width: 50%;
+}
+/* ALL FORMS INPUTS */
+input.form-control {
+    width: 50%;
+}
+/* ALL LIST STYLE */
+* {
+    list-style-type: none;
+}
+
+/* TRICK SHOWPAGE */
+/* Trick banner */
+.trick-banner {
+    height: 50vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    border: solid 1px black;
+}
+.trick-banner-img {
+    height: 100%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+}
+.trick-banner-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.trick-options-banner {
+    z-index: 2;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+}
+.trick-name {
+    position: absolute;
+    z-index: 2;
+    top: 200px;
+}
+.trick-name-title {
+    color: darkblue;
+}
+.all-sections-trick {
+    margin: 0px 70px 0px 70px;
+}
+/* Illustration section */
+.icone-arrow {
+    width: 20px;
+}
+.trick-show-illustration {
+    margin: 20px 10px 20px 10px;
+}
+/* Video section */
+iframe.trick-video {
+    margin: 40px 10px 20px 10px;
+}
+.trick-description {
+    padding-top: 35px;
+}
+.trick-infos {
+    display: flex;
+    justify-content: center;
+}
+.trick-group {
+    display: flex;
+    justify-content: center;
+    border: 1px solid black;
+    font-size: 15px;
+    width: 13%;
+}
+/* Comment section */
+.comment-user {
+    display: flex;
+}
+.avatar-comment {
+    height: 25px;
+    width: 25px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 15px;
+}
+.trick-comment {
+    padding: 40px 0px 40px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.comment-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.comment-title {
+    margin-right: 20px;
+}
+.comment-list {
+    width: 25%;
+}
+.comment-form {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    margin: 25px 0px 50px 0px;
+}
+.comment-container {
+    margin-top: 15px;
+}
+.comment-form-start {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+textarea#comment_content.form-control {
+    width: 100%;
+}
+.validate-comment {
+    height: 60px;
+    width: 20%;
+    margin: 5px 0px 10px 15px;
+}
+.load-comments {
+    margin-top: 50px;
+}
+
+/* ADDTRICK PAGE */
+.add-trick-banner {
+    height: 50vh;
+    background: url("../img/login-header.jpg");
+    background-size: cover;
+}
+.add-trick {
+    margin: 70px;
+}
+.media {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 325px;
+    margin: 40px 0px 40px 30px;
+}
+.add-video {
+    padding-top: 15px;
+}
+.other-fields {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.btn-trick {
+    margin: 40px 0px 0px 800px;
+}
+.btn-remove {
+    margin-top: 20px;
+}
+
+/* flash messages when form submit */
+#flash-notice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 40%;
+    left: 45%;
+}
+
+/* EDITTRICK PAGE */
+.edit-trick-banner {
+    height: 50vh;
+    background: url("../img/login-header.jpg");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+.edit-trick {
+    margin: 70px;
+}
+
+/* REGISTER PAGE */
+.register-section {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 35px;
+    height: 88vh;
+}
+/* Register form */
+.register-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.register-title {
+    padding-top: 20px;
+}
+.register-text {
+    padding-top: 35px;
+}
+.register-form-start {
+    width: 50%;
+    margin: 0px 0px 0px 700px;
+}
+.register-btn {
+    padding: 20px 0px 60px 47px;
+}
+
+/* LOGIN PAGE */
+.login-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 87vh;
+}
+.login-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+}
+.login-inputs {
+    width: 100%;
+    padding-left: 360px;
+}
+.login-infos {
+    padding-top: 30px;
+}
+#login-btn {
+    margin-top: 30px;
+}
+.login-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 30px;
+}
+.login-error {
+    font-size: 17px;
+    margin-top: 30px;
+    margin-left: 50px;
+    padding: 15px;
+    border: 1px solid crimson;
+    border-radius: 30px;
+    color: crimson;
+}
+
+/* USER ACCOUNT PAGE */
+.user-account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 88vh;
+}
+.avatar-container {
+    padding-top: 40px;
+}
+.avatar-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.avatar-input {
+    padding-top: 30px;
+}
+.dot {
+    height: 250px;
+    width: 250px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+}
+#avatar-btn {
+    margin-top: 15px;
 }

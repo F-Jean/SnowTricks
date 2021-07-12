@@ -1,0 +1,18 @@
+{% for comment in comments %}
+    <div class="comment-container">
+        <div class="comment-user">
+            <div>
+                <span>{{ comment.user.username }}</span>
+            </div>
+            <div>
+                <img src="{{ asset('uploads/users_avatar/'~comment.user.avatar) }}" class="avatar-comment" alt="">
+            </div>
+        </div>
+        <div>
+            <span>{{ comment.content }}</span>
+        </div>
+        <div>
+            <span>{{ comment.postedAt|date('d/m/Y h:i') }}</span>
+        </div>
+    </div>
+{% endfor %}
