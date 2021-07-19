@@ -2,29 +2,26 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
-
-class UserType extends AbstractType
+class ForgottenPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('avatarFile', FileType::class, [
-                'label' => 'Merci de choisir une photo.',
-            ])
+            ->add('email',  EmailType::class, array (
+                'label' => 'Email',
+            ))
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
-            'validation_groups' => 'avatar',
+            // Configure your form options here
         ]);
     }
 }

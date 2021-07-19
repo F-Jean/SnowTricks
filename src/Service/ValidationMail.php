@@ -38,4 +38,23 @@ class ValidationMail
 
         $this->mailer->send($email);
     }
+
+    public function sendResetEmail($email, $resetToken)
+    {
+        $resetEmail = (new TemplatedEmail())
+            ->from('snowtricks@example.com')
+            ->to(new Address($email))
+            ->subject('Snowtriks - Mot de passe oublié !')
+
+            // path of the Twig template to render
+            ->htmlTemplate('emails/resetEmail.html.twig')
+
+            // pass variables (name => value) to the template
+            ->context([
+                'resetToken' => $resetToken,
+            ])
+        ;
+
+        $this->mailer->send($resetEmail);
+    }
 }

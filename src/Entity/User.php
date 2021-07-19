@@ -105,6 +105,16 @@ class User implements UserInterface, \Serializable
      */
     private $enabled;
 
+    /**
+     * @ORM\Column(type="uuid", length=255, nullable=true, unique=true)
+     */
+    private $resetToken;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPassword;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
@@ -259,6 +269,30 @@ class User implements UserInterface, \Serializable
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?Uuid
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?Uuid $resetToken): self
+    {
+        $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getResetPassword(): ?string
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword(?string $resetPassword): self
+    {
+        $this->resetPassword = $resetPassword;
 
         return $this;
     }

@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Repository\UserRepository;
 use Twig\Environment;
 use App\Form\UserType;
 use App\Form\RegisterType;
+use App\Form\ResetPasswordType;
 use App\Service\ValidationMail;
 use Symfony\Component\Uid\Uuid;
+use App\Repository\UserRepository;
+use App\Form\ForgottenPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -137,5 +139,75 @@ class SecurityController extends AbstractController
             $this->addFlash("error", "Ce compte n'existe pas !");
             return $this->redirectToRoute('homepage');
         }
+    }
+
+    /**
+     * @Route("/forgotten_password", name="forgotten_password")
+     */
+    public function forgottenPassword(Request $request, UserRepository $userRepository, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(ForgottenPasswordType::class)->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Fetching data
+            $data = $form->getData();
+            // we're searching if a user have this email
+            $user = $userRepository->findOneByEmail($data['email']);
+            // if there is no user
+            if(!$user)
+            {
+                $this->addFlash("error", "Cette adresse n'existe pas !");
+                return $this->redirectToRoute('app_login');
+            }
+            // otherwise generate a token
+            $resetToken = Uuid::v4();
+            // checking if well written in db ('cause if failed it's useless to send the email)
+            try{
+                $user->setResetToken($resetToken);
+                $manager->persist($user);
+                $manager->flush();
+            }catch(\Exception $e){
+                $this->addFlash("error", "Une erreur est survenue :". $e->getMessage());
+                return $this->redirectToRoute('app_login');
+            }
+            // sending the email
+            $this->mailer->sendResetEmail($user->getEmail(), $user->getResetToken());
+
+            $this->addFlash("success", "Un e-mail de réinitialisation de mot de passe vous a été envoyé.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        return new Response($this->twig->render("security/forgottenPassword.html.twig", [
+            'forgottenPasswordForm' => $form->createView(),
+        ]));
+    }
+
+    /**
+     * @Route("/reset_password/{resetToken}", name="reset_password")
+     */
+    public function resetPassword($resetToken, UserRepository $userRepository, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
+    {
+        $form = $this->createForm(ResetPasswordType::class)->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // we seach the user corresponding to the token used
+            $user = $userRepository->findOneBy(['resetToken' => $resetToken]);
+            if(!$user)
+            {
+                $this->addFlash("error", "Token inconnu !");
+                return $this->redirectToRoute('app_login');
+            }
+        
+            $user->setResetToken(null);
+            $resetPassword = $encoder->encodePassword($user, $form->get('resetPassword')->getData());
+            $user->setPassword($resetPassword);
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash("success", "Le mot de passe a bien été modifié.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        return new Response($this->twig->render("security/resetPassword.html.twig", [
+            'resetPasswordForm' => $form->createView(),
+        ]));
     }
 }
