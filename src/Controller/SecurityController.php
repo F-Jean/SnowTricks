@@ -197,7 +197,7 @@ class SecurityController extends AbstractController
             }
         
             $user->setResetToken(null);
-            $resetPassword = $encoder->encodePassword($user, $request->request->get('resetPassword'));
+            $resetPassword = $encoder->encodePassword($user, $form->get('resetPassword')->getData());
             $user->setPassword($resetPassword);
             $manager->persist($user);
             $manager->flush();

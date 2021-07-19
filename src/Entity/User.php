@@ -110,6 +110,11 @@ class User implements UserInterface, \Serializable
      */
     private $resetToken;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPassword;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
@@ -276,6 +281,18 @@ class User implements UserInterface, \Serializable
     public function setResetToken(?Uuid $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getResetPassword(): ?string
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword(?string $resetPassword): self
+    {
+        $this->resetPassword = $resetPassword;
 
         return $this;
     }
