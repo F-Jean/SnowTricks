@@ -11,15 +11,19 @@ use App\Entity\Illustration;
 use App\Entity\Video;
 use App\Entity\Comment;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class TrickFixtures extends Fixture
 {
     private $userEncoder;
+    protected $slugger;
 
-    public function __construct(UserPasswordEncoderInterface $userEncoder)
+    public function __construct(UserPasswordEncoderInterface $userEncoder, SluggerInterface $slugger)
     {
+
         $this->userEncoder = $userEncoder;
+        $this->slugger = $slugger;
     }
 
     public function load(ObjectManager $manager)
@@ -48,7 +52,8 @@ class TrickFixtures extends Fixture
                 ->setDescription("<p>Description figure : $k</p>")
                 ->setAddedAt(new \DateTimeImmutable())
                 ->setUser($user)
-                ->setCategory($category);
+                ->setCategory($category)
+                ->setSlug($this->slugger->slug($trick->getName()));
                 $manager->persist($trick);
         
                 // ILLUSTRATIONS
