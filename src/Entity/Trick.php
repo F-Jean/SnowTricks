@@ -32,7 +32,7 @@ class Trick
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(
      *      message = "Veuillez saisir le nom de la figure."
      * )
