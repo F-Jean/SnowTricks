@@ -28,7 +28,48 @@ class TrickFixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        $categories = array(
+        $users = [
+            'fjean' => (new User())->setUsername('fjean')->setEmail('jean@symfony.com'), 
+            'marie' => (new User())->setUsername('marie')->setEmail('marie@symfony.com'),
+            'antoine' => (new User())->setUsername('antoine')->setEmail('antoine@symfony.com'),
+            'john' => (new User())->setUsername('john')->setEmail('john@symfony.com'),
+            'loic' => (new User())->setUsername('loic')->setEmail('loic@symfony.com'),
+            'claire' => (new User())->setUsername('claire')->setEmail('claire@symfony.com')
+        ];
+
+        foreach ($users as $user) {
+            $user->setPassword($this->userEncoder->encodePassword($user, 'password'));
+            $manager->persist($user);
+        }
+
+        $comments = [
+            '1' => (new Comment())->setContent("ça à l'air dure par contre.")->setUser($user('fjean')), 
+            '2' => (new Comment())->setContent("En vrai facile")->setUser($user('marie')),
+            '3' => (new Comment())->setContent("j'ai déjà réussi celle-la")->setUser($user('antoine')),
+            '4' => (new Comment())->setContent("Je me suis cassé le bras la dernière fois que j'ai tenté celle-là..")->setUser($user('john')),
+            '5' => (new Comment())->setContent("Mouaih pas mal !!")->setUser($user('loic')),
+            '6' => (new Comment())->setContent("Tranquille !")->setUser($user('claire')),
+            '7' => (new Comment())->setContent("Facile !")->setUser($user('antoine')),
+            '8' => (new Comment())->setContent("Trop cool !")->setUser($user('fjean')),
+            '9' => (new Comment())->setContent("Dites moi ce que vous pensez de celle-là.")->setUser($user('claire')),
+            '10' => (new Comment())->setContent("Pas mal !")->setUser($user('john')),
+            '11' => (new Comment())->setContent("Pas sûr que je l'essai celle-là !!!")->setUser($user('loic')),
+            '12' => (new Comment())->setContent("Je comprend pas ..")->setUser($user('fjean')),
+            '13' => (new Comment())->setContent("Les yeux fermés, easy.")->setUser($user('claire')),
+            '14' => (new Comment())->setContent("J'aime pas la faire celle-la.")->setUser($user('antoine')),
+            '15' => (new Comment())->setContent("Moui elle est dure à rentrer.")->setUser($user('john')),
+            '16' => (new Comment())->setContent("J'avoue !")->setUser($user('claire')),
+            '17' => (new Comment())->setContent("J'aime bien les slides aussi !")->setUser($user('loic')),
+            '18' => (new Comment())->setContent("Au début on aime pas forcément ehehe!")->setUser($user('fjean')),
+            '19' => (new Comment())->setContent("Bah ça viendra tkt !")->setUser($user('antoine')),
+            '20' => (new Comment())->setContent("Mais oui, mais oui !")->setUser($user('fjean')),
+            '21' => (new Comment())->setContent("Même pas en rêve !")->setUser($user('loic')),
+            '22' => (new Comment())->setContent("Juste une question d'entrainement, comme d'hab")->setUser($user('john')),
+            '23' => (new Comment())->setContent("Les jump, y'a quand même rien de mieux je trouve")->setUser($user('antoine')),
+            '24' => (new Comment())->setContent("Pour bien s'éclater oui c'est sûr !!!!")->setUser($user('claire'))
+        ];
+
+        $categories = [
             "Grabs" => [
                 [
                     "name" => "Nose Grab",
@@ -54,25 +95,13 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=nIS14rVlbyQ",
                         "https://www.youtube.com/watch?v=_Qq-YoXwNQY"
                     ],
-                    "user" => [
-                        "email" => "jean@symfony.com",
-                        "username" => "fjean",
-                        "password" => "Passwordf"
+                    "user" => $users[
+                        "fjean"
                     ],
-                    "comments" => [
-                        [
-                            "content" => "ça à l'air dure par contre.",
-                            "user"=> "bigJ"
-                        ],
-                        [
-                            "content" => "En vrai facile",
-                            "user"=> "fjean"
-                        ], 
-                        [
-                            "content" => "j'ai déjà réussi celle-la",
-                            "user"=> "tonio"
-                        ],              
-                    ]           
+                    "comments" => $comments[
+                        "1",
+                        "2"
+                    ]       
                 ],
                 [
                     "name" => "China air",
@@ -85,21 +114,9 @@ class TrickFixtures extends Fixture
                     "videos" => [
                         "https://www.youtube.com/watch?v=CA5bURVJ5zk"
                     ],
-                    "user" => [
-                        "email" => "loic@orange.com",
-                        "username" => "lolo",
-                        "password" => "Passwordl"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "Je me suis cassé le bras la dernière fois que j'ai tenté celle-là..",
-                            "user"=> "claire"
-                        ],
-                        [
-                            "content" => "Tranquille !",
-                            "user"=> "lolo"
-                        ],              
-                    ]             
+                    "user" => $users[
+                        "loic"
+                    ],           
                 ]
             ],
             "Rotations" => [
@@ -134,17 +151,9 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=Sj7CJH9YvAo",
                         "https://www.youtube.com/watch?v=JMS2PGAFMcE"
                     ],
-                    "user" => [
-                        "email" => "antoine@gmail.com",
-                        "username" => "tonio",
-                        "password" => "Passwordt"
+                    "user" => $users[
+                        "marie"
                     ],
-                    "comments" => [
-                        [
-                            "content" => "Je comprend pas ..",
-                            "user"=> "bigJ"
-                        ],             
-                    ]
                 ],
                 [
                     "name" => "360",
@@ -176,25 +185,9 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=GS9MMT_bNn8",
                         "https://www.youtube.com/watch?v=grXpguVaqls"
                     ],
-                    "user" => [
-                        "email" => "claire@symfony.com",
-                        "username" => "claire",
-                        "password" => "Passwordc"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "Mouaih pas mal !!",
-                            "user"=> "claire"
-                        ],
-                        [
-                            "content" => "Facile !",
-                            "user"=> "fjean"
-                        ], 
-                        [
-                            "content" => "Trop cool !",
-                            "user"=> "lolo"
-                        ],              
-                    ]             
+                    "user" => $users[
+                        "john"
+                    ],           
                 ]
             ],
             "Flips" => [
@@ -220,25 +213,9 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=Sj7CJH9YvAo",
                         "https://www.youtube.com/watch?v=JMS2PGAFMcE"
                     ],
-                    "user" => [
-                        "email" => "marie@symfony.com",
-                        "username" => "marie",
-                        "password" => "Passwordm"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "Dites moi ce que vous pensez de celle-là.",
-                            "user"=> "marie"
-                        ],
-                        [
-                            "content" => "Pas mal !",
-                            "user"=> "fjean"
-                        ], 
-                        [
-                            "content" => "Trop cool !",
-                            "user"=> "tonio"
-                        ],              
-                    ]            
+                    "user" => $users[
+                        "claire"
+                    ],           
                 ]               
             ],
             "Rotations désaxées" => [
@@ -253,21 +230,9 @@ class TrickFixtures extends Fixture
                     "videos" => [
                         "https://www.youtube.com/watch?v=k-CoAquRSwY"
                     ],
-                    "user" => [
-                        "email" => "john@symfony.com",
-                        "username" => "bigJ",
-                        "password" => "Passwordj"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "Pas sûr que je l'essai celle-là !!!",
-                            "user"=> "bigJ"
-                        ],
-                        [
-                            "content" => "Les yeux fermés, easy.",
-                            "user"=> "fjean"
-                        ]             
-                    ]             
+                    "user" => $users[
+                        "antoine"
+                    ],            
                 ],
                 [
                     "name" => "Misty",
@@ -293,25 +258,9 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=hPuVJkw1MmI",
                         "https://www.youtube.com/watch?v=FMHiSF0rHF8"
                     ],
-                    "user" => [
-                        "email" => "antoine@gmail.com",
-                        "username" => "tonio",
-                        "password" => "Passwordt"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "J'aime pas la faire celle-la.",
-                            "user"=> "tonio"
-                        ],
-                        [
-                            "content" => "Moui elle est dure à rentrer.",
-                            "user"=> "fjean"
-                        ], 
-                        [
-                            "content" => "J'avoue !",
-                            "user"=> "lolo"
-                        ],              
-                    ]              
+                    "user" => $users[
+                        "fjean"
+                    ],             
                 ]              
             ],
             "Slides" => [
@@ -336,29 +285,9 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=hdqAhRO7bIw",
                         "https://www.youtube.com/watch?v=gO5GLk7oQhU"
                     ],
-                    "user" => [
-                        "email" => "marie@symfony.com",
-                        "username" => "marie",
-                        "password" => "Passwordm"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "J'aime bien les slides aussi !",
-                            "user"=> "marie"
-                        ],
-                        [
-                            "content" => "Au début on aime pas forcément ehehe!",
-                            "user"=> "bigJ"
-                        ],
-                        [
-                            "content" => "Bah ça viendra tkt !",
-                            "user"=> "claire"
-                        ],
-                        [
-                            "content" => "Mais oui, mais oui !",
-                            "user"=> "bigJ"
-                        ],             
-                    ]               
+                    "user" => $users[
+                        "loic"
+                    ],             
                 ]              
             ],
             "One foot tricks" => [
@@ -376,21 +305,9 @@ class TrickFixtures extends Fixture
                         "https://www.youtube.com/watch?v=7WJb_igyZ5w",
                         "https://www.youtube.com/watch?v=LWUfrwCofuA&t=8s"
                     ],
-                    "user" => [
-                        "email" => "marie@symfony.com",
-                        "username" => "marie",
-                        "password" => "Passwordm"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "Même pas en rêve !",
-                            "user"=> "fjean"
-                        ],
-                        [
-                            "content" => "Juste une question d'entrainement, comme d'hab",
-                            "user"=> "marie"
-                        ],            
-                    ]              
+                    "user" => $users[
+                        "fjean"
+                    ],          
                 ]              
             ],
             "Old school" => [
@@ -417,24 +334,12 @@ class TrickFixtures extends Fixture
                     "videos" => [
                         "url" => ["https://www.youtube.com/watch?v=I7N45iRPrhw"],
                     ],
-                    "user" => [
-                        "email" => "jean@symfony.com",
-                        "username" => "fjean",
-                        "password" => "Passwordf"
-                    ],
-                    "comments" => [
-                        [
-                            "content" => "Les jump, y'a quand même rien de mieux je trouve",
-                            "user"=> "fjean"
-                        ],
-                        [
-                            "content" => "Pour bien s'éclater oui c'est sûr !!!!",
-                            "user"=> "bigJ"
-                        ],             
-                    ]               
+                    "user" => $users[
+                        "claire"
+                    ]      
                 ]         
-            ],
-        );
+            ]
+        ];
 
         foreach ($categories as $categoryName => $tricks) {
             $category = new Category();
@@ -444,20 +349,14 @@ class TrickFixtures extends Fixture
 
             foreach ($tricks as $trickData) {
                 $trick = new Trick();
-                $user = new User();
-                $user->setUserName($trickData['user']['username'])
-                ->setEmail($trickData['user']['email'])
-                ->setPassword($this->userEncoder->encodePassword($user, $trickData['user']['password']));
-
-                $manager->persist($user);
-
+                $trick->setUser($trickData['user']);
                 $trick->setName($trickData['name'])
                 ->setDescription($trickData['description'])
                 ->setAddedAt(new \DateTimeImmutable())
                 ->setUser($user)
                 ->setCategory($category)
                 ->setSlug($this->slugger->slug($trick->getName()));
-
+                
                 foreach ($trick["videos"] as $video) {
                     $video = new Video();
                     $video->setUrl($video['url']);
@@ -491,12 +390,8 @@ class TrickFixtures extends Fixture
                     $manager->persist($illustration);
                 }
                 foreach ($trick["comments"] as $comment) {
-                    $comment = new Comment();
-                    $comment->setUser($comment['user']);
                     $comment->setTrick($trick)
-                    ->setPostedAt(new \DateTimeImmutable())
-                    ->setContent($comment['content']);
-
+                    ->setPostedAt(new \DateTimeImmutable());
                     $manager->persist($comment);
                 }
                 $manager->persist($trick);
@@ -505,84 +400,3 @@ class TrickFixtures extends Fixture
         $manager->flush();
     } 
 }
-
-        // OLD ONES
-        /*
-        // USERS
-        for ($i = 1; $i <=3; $i++) {
-            $user = new User();
-            $user->setUserName("Utilisateur $i")
-                ->setEmail("Email" . $i . "@email.com")
-                ->setPassword($this->userEncoder->encodePassword($user, "password"));
-
-            $manager->persist($user);
-            $users[] = $user;
-        }
-
-        // CATEGORIES
-        for ($j = 1; $j <=6; $j++) {
-            $category = new Category();
-            $category->setName("catégorie : $j");
-            $manager->persist($category);
-                
-            // TRICKS
-            for ($k = 1; $k <=20; $k++) {
-                $trick = new Trick();
-                $trick->setName("Trick N° $k")
-                ->setDescription("<p>Description figure : $k</p>")
-                ->setAddedAt(new \DateTimeImmutable())
-                ->setUser($user)
-                ->setCategory($category)
-                ->setSlug($this->slugger->slug($trick->getName()));
-                $manager->persist($trick);
-        
-                // ILLUSTRATIONS
-                for ($l = 1; $l <= 5; $l++) {
-                    $illustration = new Illustration();
-                    $illustration->setPath("https://placehold.co/350x300");
-                    $trick->addIllustration($illustration);
-                    $manager->persist($illustration);
-                }
-
-                //VIDEOS
-                for ($m = 1; $m <= 5; $m++) {
-                    $video = new Video();
-                    // manually setting the url for the moment (copy of the user's one will be sending)
-                    $video->setUrl("https://www.youtube.com/watch?v=1TJ08caetkw");
-                    $urlVideo = $video->getUrl();
-                    $ytUrl = "https://www.youtube.com/embed/";
-                    $dmUrl = "https://www.dailymotion.com/embed/video/";
-                    if (preg_match("#youtube#", $urlVideo)) {
-                        // regex to isolate a youtube url' id specifically
-                        preg_match('#https:\/\/www\.youtube\.com\/watch\?v=(.+)#', $urlVideo, $matches);
-                        $ytId = $matches[1];
-                        // adding embed url to isolate id
-                        $ytUrlVideo = $ytUrl . $ytId;
-                        $video->setUrl($ytUrlVideo);
-                    } elseif (preg_match("#dailymotion#", $urlVideo)) {
-                        // regex to isolate a dailymotion url' id specifically
-                        preg_match('#https:\/\/www\.dailymotion\.com\/video\/(.+)#', $urlVideo, $matches);
-                        $dmId = $matches[1];
-                        // adding embed url to isolate id
-                        $dmUrlVideo = $dmUrl . $dmId;
-                        $video->setUrl($dmUrlVideo);
-                    }
-                    $trick->addVideo($video);
-                    $manager->persist($video);
-                }
-
-                foreach ($users as $user) {
-                    // COMMENTS
-                    for ($n = 1; $n <=3; $n++) {
-                        $comment = new Comment();
-                        $comment->setUser($user);
-                        $comment->setTrick($trick)
-                        ->setPostedAt(new \DateTimeImmutable())
-                        ->setContent("Commentaire n° $n");
-                        $manager->persist($comment);
-                    }
-                }      
-            }
-            $manager->flush();
-        }
-        */

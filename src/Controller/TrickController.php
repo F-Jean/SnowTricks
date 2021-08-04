@@ -37,7 +37,7 @@ class TrickController extends AbstractController
         $trick = new Trick();
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
-        $trick->setSlug($slugger->slug($trick->getName()));
+        $trick->setSlug($slugger->slug($trick->getName())->lower()->toString());
         if($form->isSubmitted() && $form->isValid())
         {
             $trick->setAddedAt(new \DateTimeImmutable())
