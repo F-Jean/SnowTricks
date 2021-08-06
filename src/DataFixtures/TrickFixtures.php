@@ -29,7 +29,7 @@ class TrickFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $users = [
-            'fjean' => (new User())->setUsername('fjean')->setEmail('jean@symfony.com'), 
+            'fjean' => (new User())->setUsername('fjean')->setEmail('fjean@symfony.com'), 
             'marie' => (new User())->setUsername('marie')->setEmail('marie@symfony.com'),
             'antoine' => (new User())->setUsername('antoine')->setEmail('antoine@symfony.com'),
             'john' => (new User())->setUsername('john')->setEmail('john@symfony.com'),
@@ -39,34 +39,42 @@ class TrickFixtures extends Fixture
 
         foreach ($users as $user) {
             $user->setPassword($this->userEncoder->encodePassword($user, 'password'));
+            $user->setAvatar('basicAvatar.png');
+            $user->setEnabled("1");
             $manager->persist($user);
         }
 
         $comments = [
-            '1' => (new Comment())->setContent("ça à l'air dure par contre.")->setUser($user('fjean')), 
-            '2' => (new Comment())->setContent("En vrai facile")->setUser($user('marie')),
-            '3' => (new Comment())->setContent("j'ai déjà réussi celle-la")->setUser($user('antoine')),
-            '4' => (new Comment())->setContent("Je me suis cassé le bras la dernière fois que j'ai tenté celle-là..")->setUser($user('john')),
-            '5' => (new Comment())->setContent("Mouaih pas mal !!")->setUser($user('loic')),
-            '6' => (new Comment())->setContent("Tranquille !")->setUser($user('claire')),
-            '7' => (new Comment())->setContent("Facile !")->setUser($user('antoine')),
-            '8' => (new Comment())->setContent("Trop cool !")->setUser($user('fjean')),
-            '9' => (new Comment())->setContent("Dites moi ce que vous pensez de celle-là.")->setUser($user('claire')),
-            '10' => (new Comment())->setContent("Pas mal !")->setUser($user('john')),
-            '11' => (new Comment())->setContent("Pas sûr que je l'essai celle-là !!!")->setUser($user('loic')),
-            '12' => (new Comment())->setContent("Je comprend pas ..")->setUser($user('fjean')),
-            '13' => (new Comment())->setContent("Les yeux fermés, easy.")->setUser($user('claire')),
-            '14' => (new Comment())->setContent("J'aime pas la faire celle-la.")->setUser($user('antoine')),
-            '15' => (new Comment())->setContent("Moui elle est dure à rentrer.")->setUser($user('john')),
-            '16' => (new Comment())->setContent("J'avoue !")->setUser($user('claire')),
-            '17' => (new Comment())->setContent("J'aime bien les slides aussi !")->setUser($user('loic')),
-            '18' => (new Comment())->setContent("Au début on aime pas forcément ehehe!")->setUser($user('fjean')),
-            '19' => (new Comment())->setContent("Bah ça viendra tkt !")->setUser($user('antoine')),
-            '20' => (new Comment())->setContent("Mais oui, mais oui !")->setUser($user('fjean')),
-            '21' => (new Comment())->setContent("Même pas en rêve !")->setUser($user('loic')),
-            '22' => (new Comment())->setContent("Juste une question d'entrainement, comme d'hab")->setUser($user('john')),
-            '23' => (new Comment())->setContent("Les jump, y'a quand même rien de mieux je trouve")->setUser($user('antoine')),
-            '24' => (new Comment())->setContent("Pour bien s'éclater oui c'est sûr !!!!")->setUser($user('claire'))
+            '1' => (new Comment())->setContent("ça à l'air dure par contre.")->setUser($users['fjean']), 
+            '2' => (new Comment())->setContent("En vrai facile")->setUser($users['marie']),
+            '3' => (new Comment())->setContent("j'ai déjà réussi celle-la")->setUser($users['antoine']),
+            '4' => (new Comment())->setContent("Je me suis cassé le bras la dernière fois que j'ai tenté celle-là..")->setUser($users['john']),
+            '5' => (new Comment())->setContent("Mouaih pas mal !!")->setUser($users['loic']),
+            '6' => (new Comment())->setContent("Tranquille !")->setUser($users['claire']),
+            '7' => (new Comment())->setContent("Facile !")->setUser($users['antoine']),
+            '8' => (new Comment())->setContent("Trop cool !")->setUser($users['fjean']),
+            '9' => (new Comment())->setContent("Dites moi ce que vous pensez de celle-là.")->setUser($users['claire']),
+            '10' => (new Comment())->setContent("Pas mal !")->setUser($users['john']),
+            '11' => (new Comment())->setContent("Pas sûr que je l'essai celle-là !!!")->setUser($users['loic']),
+            '12' => (new Comment())->setContent("Je comprend pas ..")->setUser($users['fjean']),
+            '13' => (new Comment())->setContent("Les yeux fermés, easy.")->setUser($users['claire']),
+            '14' => (new Comment())->setContent("J'aime pas la faire celle-la.")->setUser($users['antoine']),
+            '15' => (new Comment())->setContent("Moui elle est dure à rentrer.")->setUser($users['john']),
+            '16' => (new Comment())->setContent("J'avoue !")->setUser($users['claire']),
+            '17' => (new Comment())->setContent("J'aime bien les slides aussi !")->setUser($users['loic']),
+            '18' => (new Comment())->setContent("Au début on aime pas forcément ehehe!")->setUser($users['fjean']),
+            '19' => (new Comment())->setContent("Bah ça viendra tkt !")->setUser($users['antoine']),
+            '20' => (new Comment())->setContent("Mais oui, mais oui !")->setUser($users['fjean']),
+            '21' => (new Comment())->setContent("Même pas en rêve !")->setUser($users['loic']),
+            '22' => (new Comment())->setContent("Juste une question d'entrainement, comme d'hab")->setUser($users['john']),
+            '23' => (new Comment())->setContent("Les jump, y'a quand même rien de mieux je trouve")->setUser($users['antoine']),
+            '24' => (new Comment())->setContent("Pour bien s'éclater oui c'est sûr !!!!")->setUser($users['claire']),
+            '25' => (new Comment())->setContent("Je trouve ça jolie les rotations moi")->setUser($users['john']),
+            '26' => (new Comment())->setContent("Une figure de base.")->setUser($users['fjean']),
+            '27' => (new Comment())->setContent("Pas mal pour les débutants")->setUser($users['loic']),
+            '28' => (new Comment())->setContent("Moi perso quand j'ai débuter je faisais pas ça !!")->setUser($users['marie']),
+            '29' => (new Comment())->setContent("Pas vraiment pour les grands débutants c'est sur")->setUser($users['antoine']),
+            '30' => (new Comment())->setContent("Si elle est bien rentré oui ça peut être classe")->setUser($users['john'])
         ];
 
         $categories = [
@@ -87,36 +95,30 @@ class TrickFixtures extends Fixture
                     que le grab est tweaké (le verbe anglais to tweak signifie « pincer » 
                     mais a également le sens de « peaufiner »).",
                     "illustrations" => [
-                        "/public/uploads/trick_images/nose-grab_01.jpg",
-                        "/public/uploads/trick_images/nose-grab_02.jpg",
-                        "/public/uploads/trick_images/nose-grab_03.jpg"
+                        "nose-grab_01.jpg",
+                        "nose-grab_02.jpg",
+                        "nose-grab_03.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=nIS14rVlbyQ",
                         "https://www.youtube.com/watch?v=_Qq-YoXwNQY"
                     ],
-                    "user" => $users[
-                        "fjean"
-                    ],
-                    "comments" => $comments[
-                        "1",
-                        "2"
-                    ]       
+                    "user" => $users["fjean"],
+                    "comments" => [$comments[ "26"], $comments["27"], $comments["28"], $comments["29"]]      
                 ],
                 [
                     "name" => "China air",
                     "description" => "La main avant grab la partie avant du snowboard. 
                     Les deux genoux sont pliés.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/china-air_01.jpg",
-                        "/public/uploads/trick_images/china-air_02.jpg"
+                        "china-air_01.jpg",
+                        "china-air_02.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=CA5bURVJ5zk"
                     ],
-                    "user" => $users[
-                        "loic"
-                    ],           
+                    "user" => $users["loic"],
+                    "comments" => [$comments[ "1"], $comments["2"]]         
                 ]
             ],
             "Rotations" => [
@@ -144,16 +146,15 @@ class TrickFixtures extends Fixture
                     tellement élevée qu'un grab devient difficile, ce qui rend le saut 
                     considérablement moins esthétique.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/180_01.jpg",
-                        "/public/uploads/trick_images/180_02.jpg"
+                        "180_01.jpeg",
+                        "180_02.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=Sj7CJH9YvAo",
                         "https://www.youtube.com/watch?v=JMS2PGAFMcE"
                     ],
-                    "user" => $users[
-                        "marie"
-                    ],
+                    "user" => $users["marie"],
+                    "comments" => [$comments[ "7"]]
                 ],
                 [
                     "name" => "360",
@@ -178,16 +179,15 @@ class TrickFixtures extends Fixture
                     tellement élevée qu'un grab devient difficile, ce qui rend le saut 
                     considérablement moins esthétique.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/360_01.jpg",
-                        "/public/uploads/trick_images/360_02.jpg"
+                        "360_01.jpg",
+                        "360_02.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=GS9MMT_bNn8",
                         "https://www.youtube.com/watch?v=grXpguVaqls"
                     ],
-                    "user" => $users[
-                        "john"
-                    ],           
+                    "user" => $users["john"],
+                    "comments" => [$comments[ "25"], $comments["30"]]          
                 ]
             ],
             "Flips" => [
@@ -204,18 +204,17 @@ class TrickFixtures extends Fixture
                     conduit certaines stations de ski à interdire de telles figures dans 
                     ses snowparks.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/backflip_01.jpg",
-                        "/public/uploads/trick_images/backflip_02.jpg",
-                        "/public/uploads/trick_images/backflip_03.jpg",
-                        "/public/uploads/trick_images/backflip_04.jpg"
+                        "backflip_01.jpeg",
+                        "backflip_02.jpeg",
+                        "backflip_03.jpg",
+                        "backflip_04.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=Sj7CJH9YvAo",
                         "https://www.youtube.com/watch?v=JMS2PGAFMcE"
                     ],
-                    "user" => $users[
-                        "claire"
-                    ],           
+                    "user" => $users["claire"],
+                    "comments" => [$comments[ "3"], $comments["4"], $comments["6"]]          
                 ]               
             ],
             "Rotations désaxées" => [
@@ -224,15 +223,14 @@ class TrickFixtures extends Fixture
                     "description" => "Un backside 540 avant-flip, exécuté dans un 
                     half-pipe, un quarterpipe ou un obstacle similaire.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/McTwist_01.jpg",
-                        "/public/uploads/trick_images/McTwist_02.jpg"
+                        "McTwist_01.jpeg",
+                        "McTwist_02.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=k-CoAquRSwY"
                     ],
-                    "user" => $users[
-                        "antoine"
-                    ],            
+                    "user" => $users["antoine"],
+                    "comments" => [$comments[ "9"], $comments["5"], $comments["11"], $comments["13"]]          
                 ],
                 [
                     "name" => "Misty",
@@ -252,15 +250,14 @@ class TrickFixtures extends Fixture
                     Il est également possible d'agrémenter une rotation désaxée par un 
                     grab.)",
                     "illustrations" => [
-                        "/public/uploads/trick_images/misty.jpg"
+                        "misty.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=hPuVJkw1MmI",
                         "https://www.youtube.com/watch?v=FMHiSF0rHF8"
                     ],
-                    "user" => $users[
-                        "fjean"
-                    ],             
+                    "user" => $users["fjean"],
+                    "comments" => [$comments[ "8"], $comments["10"]]          
                 ]              
             ],
             "Slides" => [
@@ -276,18 +273,17 @@ class TrickFixtures extends Fixture
                     car avec un boardslide frontside vous reculez et avec un boardslide 
                     backside vous avancez.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/slide_01.jpg",
-                        "/public/uploads/trick_images/slide_02.jpg",
-                        "/public/uploads/trick_images/slide_03.jpg"
+                        "slide_01.jpg",
+                        "slide_02.jpeg",
+                        "slide_03.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=R3OG9rNDIcs",
                         "https://www.youtube.com/watch?v=hdqAhRO7bIw",
                         "https://www.youtube.com/watch?v=gO5GLk7oQhU"
                     ],
-                    "user" => $users[
-                        "loic"
-                    ],             
+                    "user" => $users["loic"],
+                    "comments" => [$comments[ "17"], $comments["18"], $comments["19"], $comments["20"]]
                 ]              
             ],
             "One foot tricks" => [
@@ -298,16 +294,15 @@ class TrickFixtures extends Fixture
                     écarté vers l'arrière du snowboard avant de revenir en place avant 
                     la fin du saut en restant toujours détaché.",
                     "illustrations" => [
-                        "/public/uploads/trick_images/one-foot-indy_01.jpg",
-                        "/public/uploads/trick_images/one-foot-indy_02.jpg"
+                        "one-foot-indy_01.jpg",
+                        "one-foot-indy_02.jpeg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=7WJb_igyZ5w",
                         "https://www.youtube.com/watch?v=LWUfrwCofuA&t=8s"
                     ],
-                    "user" => $users[
-                        "fjean"
-                    ],          
+                    "user" => $users["fjean"],
+                    "comments" => [$comments[ "21"], $comments["22"]]
                 ]              
             ],
             "Old school" => [
@@ -326,24 +321,21 @@ class TrickFixtures extends Fixture
                     grab est tweaké (le verbe anglais to tweak signifie « pincer » mais 
                     a également le sens de « peaufiner »).",
                     "illustrations" => [
-                        "path" => [
-                            "/public/uploads/trick_images/japan-air_01.jpg",
-                            "/public/uploads/trick_images/japan-air_02.jpg"
-                        ]
+                            "japan-air_01.jpg",
+                            "japan-air_02.jpg"
                     ],
                     "videos" => [
-                        "url" => ["https://www.youtube.com/watch?v=I7N45iRPrhw"],
+                        "https://www.youtube.com/watch?v=I7N45iRPrhw",
                     ],
-                    "user" => $users[
-                        "claire"
-                    ]      
+                    "user" => $users["claire"],
+                    "comments" => [$comments[ "12"], $comments["14"], $comments["15"]]
                 ]         
             ]
         ];
 
         foreach ($categories as $categoryName => $tricks) {
             $category = new Category();
-            $category->setName($categoryName['name']);
+            $category->setName($categoryName);
 
             $manager->persist($category);
 
@@ -355,11 +347,11 @@ class TrickFixtures extends Fixture
                 ->setAddedAt(new \DateTimeImmutable())
                 ->setUser($user)
                 ->setCategory($category)
-                ->setSlug($this->slugger->slug($trick->getName()));
+                ->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
                 
-                foreach ($trick["videos"] as $video) {
+                foreach ($trickData["videos"] as $videoData) {
                     $video = new Video();
-                    $video->setUrl($video['url']);
+                    $video->setUrl($videoData);
                     $urlVideo = $video->getUrl();
                     $ytUrl = "https://www.youtube.com/embed/";
                     $dmUrl = "https://www.dailymotion.com/embed/video/";
@@ -382,14 +374,14 @@ class TrickFixtures extends Fixture
 
                     $manager->persist($video);
                 }
-                foreach ($trick["illustrations"] as $illustration) {
+                foreach ($trickData["illustrations"] as $illustrationData) {
                     $illustration = new Illustration();
-                    $illustration->setPath($illustration['path']);
+                    $illustration->setPath($illustrationData);
                     $trick->addIllustration($illustration);
 
                     $manager->persist($illustration);
                 }
-                foreach ($trick["comments"] as $comment) {
+                foreach ($trickData["comments"] ?? [] as $comment) {
                     $comment->setTrick($trick)
                     ->setPostedAt(new \DateTimeImmutable());
                     $manager->persist($comment);

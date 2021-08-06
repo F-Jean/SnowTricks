@@ -37,10 +37,10 @@ class TrickController extends AbstractController
         $trick = new Trick();
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
-        $trick->setSlug($slugger->slug($trick->getName())->lower()->toString());
         if($form->isSubmitted() && $form->isValid())
         {
-            $trick->setAddedAt(new \DateTimeImmutable())
+            $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
+            ->setAddedAt(new \DateTimeImmutable())
             ->setUser($user);
 
             foreach ($trick->getIllustrations() as $illustration)

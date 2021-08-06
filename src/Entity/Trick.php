@@ -32,7 +32,7 @@ class Trick
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank(
      *      message = "Veuillez saisir le nom de la figure."
      * )
@@ -47,7 +47,7 @@ class Trick
     private $category;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      * @Assert\NotBlank(
      *      message = "Veuillez saisir une description."
      * )
