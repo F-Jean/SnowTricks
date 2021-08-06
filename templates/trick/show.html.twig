@@ -6,9 +6,9 @@
             <img src="{{ asset('uploads/trick_images/'~trick.illustrations|first.path) }}" alt="">
         </div>
         <div class="trick-options-banner">
-            {% if app.user %}
-                <a href="{{ path('trick_edit', {'id' : trick.id}) }}" class="btn btn-primary edit-btn"><i class="fas fa-edit"></i></a>
-                <a href="{{ path('trick_delete', {'id' : trick.id}) }}" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ path('trick_edit', {'slug' : trick.slug}) }}" class="btn btn-primary edit-btn"><i class="fas fa-edit"></i></a>
+                <a href="{{ path('trick_delete', {'slug' : trick.slug}) }}" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
             {% endif %}
         </div>
         <div class="trick-name">
@@ -48,11 +48,11 @@
                 </div>
             {% else %}
                 <div class="comment-text">
-                    <h1 class="comment-title">{{ trick.comments | length }} Commentaires</h1>
                     <a class="btn btn-primary" href="{{path('app_login')}}">Se connecter pour commenter</a>
                 </div>
             {% endif %}
             <section id="comment-list" class="comment-list">
+                <h1 class="comment-title">{{ trick.comments | length }} Commentaires</h1>
                 {{ include("trick/comment.html.twig") }}
             </section>
             <div>

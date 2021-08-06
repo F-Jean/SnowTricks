@@ -39,7 +39,8 @@ class TrickController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if($form->isSubmitted() && $form->isValid())
         {
-            $trick->setAddedAt(new \DateTimeImmutable())
+            $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
+            ->setAddedAt(new \DateTimeImmutable())
             ->setUser($user);
 
             foreach ($trick->getIllustrations() as $illustration)
@@ -74,7 +75,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/edit", name="trick_edit")
+     * @Route("/trick/{slug}/edit", name="trick_edit")
      */
     public function editTrick(Trick $trick, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
     {
@@ -119,7 +120,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", name="trick_show")
+     * @Route("/trick/{slug}", name="trick_show")
      */
     public function show(Trick $trick, Request $request, EntityManagerInterface $manager, CommentRepository $commentRepository)
     {
@@ -137,7 +138,7 @@ class TrickController extends AbstractController
             $manager->persist($comment);
             $manager->flush();
 
-            return $this->redirectToRoute('trick_show', ['id' => $trick->getId()]);
+            return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
         return new Response($this->twig->render("trick/show.html.twig", [
@@ -158,7 +159,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}/delete", name="trick_delete")
+     * @Route("/trick/{slug}/delete", name="trick_delete")
      */
     public function delete(Trick $trick)
     {
