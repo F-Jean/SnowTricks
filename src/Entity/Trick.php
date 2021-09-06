@@ -14,7 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *   fields = {"slug"},
  *   errorPath = "name", 
- *   message = "Cette figure existe déjà !")
+ *   message = "Cette figure existe déjà !"
+ * )
  */
 class Trick
 {
@@ -32,7 +33,7 @@ class Trick
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(
      *      message = "Veuillez saisir le nom de la figure."
      * )
@@ -60,7 +61,7 @@ class Trick
     private $addedAt;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 

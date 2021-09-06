@@ -7,7 +7,9 @@ use Twig\Environment;
 use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
+use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,42 +33,47 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger, TrickRepository $trickRepository)
     {
         $user = $this->getUser();
         $trick = new Trick();
         
-        $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
-            ->setAddedAt(new \DateTimeImmutable())
-            ->setUser($user);
-
-            foreach ($trick->getIllustrations() as $illustration)
-            {
-                $uploadedFile = $illustration->getFile();
-                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
-
-                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-
-                $uploadedFile->move(
-                    $destination,
-                    $newFilename
-                );
-
-                $illustration->setPath($newFilename);
+        $form = $this->createForm(TrickType::class, $trick, ['validation_groups' => 'Default'])->handleRequest($request);
+        if ($form->isSubmitted()) {
+            if ($trick->getName() !== null) {
+                $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
+                ->setAddedAt(new \DateTimeImmutable())
+                ->setUser($user);
             }
-
-            $manager->persist($trick);
-            $manager->flush();
-
-            /* add a success flash message */
-            $this->addFlash('success', 'La figure a bien été ajouté !');
-
-            return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
+            if ($form->isValid()) {
+                if ($trickRepository->count(['slug' => $trick->getSlug()]) > 0) {
+                    $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
+                } else {
+                    foreach ($trick->getIllustrations() as $illustration) {
+                        $uploadedFile = $illustration->getFile();
+                        $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+    
+                        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+    
+                        $uploadedFile->move(
+                            $destination,
+                            $newFilename
+                        );
+    
+                        $illustration->setPath($newFilename);
+                    }
+                
+                    $manager->persist($trick);
+                    $manager->flush();
+    
+                    /* add a success flash message */
+                    $this->addFlash('success', 'La figure a bien été ajouté !');
+    
+                    return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
+                }
+            }
         }
         
         return new Response($this->twig->render("trick/addTrick.html.twig", [
@@ -144,7 +151,7 @@ class TrickController extends AbstractController
         return new Response($this->twig->render("trick/show.html.twig", [
             'trick' => $trick,
             'commentForm' => $form->createView(),
-            'comments' => $commentRepository->getComments(1, 5),
+            'comments' => $commentRepository->getComments(1, 3),
         ]));
     }
 
@@ -154,7 +161,7 @@ class TrickController extends AbstractController
     public function loadComments(CommentRepository $commentRepository, int $page)
     {
         return new Response($this->twig->render("trick/comment.html.twig", [
-            'comments' => $commentRepository->getComments($page, 5),
+            'comments' => $commentRepository->getComments($page, 3),
         ]));
     }
 

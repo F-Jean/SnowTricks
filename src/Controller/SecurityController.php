@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
@@ -33,16 +33,17 @@ class SecurityController extends AbstractController
      */
     private $mailer;
 
-    public function __construct(Environment $twig, ValidationMail $mailer)
+    public function __construct(Environment $twig, ValidationMail $mailer, UserPasswordHasherInterface $passwordHasher)
     {
         $this->twig = $twig;
         $this->mailer = $mailer;
+        $this->passwordHasher = $passwordHasher;
     }
 
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, EntityManagerInterface $manager, UserPasswordEncoderInterface $encoder) 
+    public function registration(Request $request, EntityManagerInterface $manager) 
     {
         $user = new User();
         $user->setAvatar('basicAvatar.png');
@@ -50,8 +51,10 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $password = $encoder->encodePassword($user, $user->getPlainPassword());
-            $user->setPassword($password);
+            $user->setPassword($this->passwordHasher->hashPassword(
+                $user, 
+                $user->getPlainPassword()
+            ));
             $user->setToken(Uuid::v4());
             $manager->persist($user);
             $manager->flush();
@@ -184,7 +187,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reset_password/{resetToken}", name="reset_password")
      */
-    public function resetPassword($resetToken, UserRepository $userRepository, Request $request, UserPasswordEncoderInterface $encoder, EntityManagerInterface $manager)
+    public function resetPassword($resetToken, UserRepository $userRepository, Request $request, EntityManagerInterface $manager)
     {
         $form = $this->createForm(ResetPasswordType::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -197,8 +200,10 @@ class SecurityController extends AbstractController
             }
         
             $user->setResetToken(null);
-            $resetPassword = $encoder->encodePassword($user, $form->get('resetPassword')->getData());
-            $user->setPassword($resetPassword);
+            $user->setPassword($this->passwordHasher->hashPassword(
+                $user, 
+                $form->get('resetPassword')->getData()
+            ));
             $manager->persist($user);
             $manager->flush();
 

@@ -10,7 +10,7 @@ use App\Entity\Category;
 use App\Entity\Illustration;
 use App\Entity\Video;
 use App\Entity\Comment;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 
@@ -19,10 +19,10 @@ class TrickFixtures extends Fixture
     private $userEncoder;
     protected $slugger;
 
-    public function __construct(UserPasswordEncoderInterface $userEncoder, SluggerInterface $slugger)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger)
     {
 
-        $this->userEncoder = $userEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->slugger = $slugger;
     }
 
@@ -38,7 +38,7 @@ class TrickFixtures extends Fixture
         ];
 
         foreach ($users as $user) {
-            $user->setPassword($this->userEncoder->encodePassword($user, 'password'));
+            $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
             $user->setAvatar('basicAvatar.png');
             $user->setEnabled("1");
             $manager->persist($user);
