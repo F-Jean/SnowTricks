@@ -25,15 +25,16 @@ class TrickController extends AbstractController
      */
     private $twig;
 
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig, TrickRepository $trickRepository)
     {
         $this->twig = $twig;
+        $this->trickRepository = $trickRepository;
     }
 
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger, TrickRepository $trickRepository)
+    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
     {
         $user = $this->getUser();
         $trick = new Trick();
@@ -46,7 +47,7 @@ class TrickController extends AbstractController
                 ->setUser($user);
             }
             if ($form->isValid()) {
-                if ($trickRepository->count(['slug' => $trick->getSlug()]) > 0) {
+                if ($this->trickRepository->count(['slug' => $trick->getSlug()]) > 0) {
                     $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
                 } else {
                     foreach ($trick->getIllustrations() as $illustration) {
@@ -89,35 +90,43 @@ class TrickController extends AbstractController
         $user = $this->getUser();
         
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid())
-        {
-            $trick->setAddedAt(new \DateTimeImmutable())
-            ->setUser($user);
-
-            foreach ($trick->getIllustrations() as $illustration)
-            {
-                $uploadedFile = $illustration->getFile();
-                $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
-
-                $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-
-                $uploadedFile->move(
-                    $destination,
-                    $newFilename
-                );
-
-                $illustration->setPath($newFilename);
+        if ($form->isSubmitted()) {
+            if ($trick->getName() !== null) {
+                $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
+                ->setAddedAt(new \DateTimeImmutable())
+                ->setUser($user);
             }
+            if ($form->isValid()) {
+                if ($this->trickRepository->count(['slug' => $trick->getSlug()]) < 1) {
+                    $form->get('name')->addError(new FormError('Veuillez créer un nouveau trick'));
+                    $this->addFlash('error', 'Veuillez créer un nouveau trick');
+                } else {
+                    foreach ($trick->getIllustrations() as $illustration)
+                    {
+                        $uploadedFile = $illustration->getFile();
+                        $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
 
-            $manager->persist($trick);
-            $manager->flush();
+                        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                        $safeFilename = $slugger->slug($originalFilename);
+                        $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
 
-            /* add a success flash message */
-            $this->addFlash('success', 'La figure a bien été modifié !');
+                        $uploadedFile->move(
+                            $destination,
+                            $newFilename
+                        );
 
-            return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
+                        $illustration->setPath($newFilename);
+                    }
+
+                    $manager->persist($trick);
+                    $manager->flush();
+    
+                    /* add a success flash message */
+                    $this->addFlash('success', 'La figure a bien été modifié !');
+    
+                    return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
+                }
+            }
         }
         
         return new Response($this->twig->render("trick/editTrick.html.twig", [
