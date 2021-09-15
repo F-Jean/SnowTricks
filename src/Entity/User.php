@@ -296,4 +296,9 @@ class User implements UserInterface, \Serializable
 
         return $this;
     }
+
+    public function getUserIdentifier(): ?string
+    {
+        return $this->userName;
+    }
 }
