@@ -1,4 +1,5 @@
 security:
+    enable_authenticator_manager: true
     # defines how the data are encoded
     encoders:
         App\Entity\User:
@@ -17,14 +18,11 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: true
             lazy: true
 
             # use provider in_database to protect main
             provider: in_database
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+            custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout
