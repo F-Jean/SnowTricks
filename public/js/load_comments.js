@@ -13,7 +13,11 @@ $(function() {
             dataType: 'html',
             success : function(code_html, statut)
             {
-                $(code_html).appendTo(".comment-list");
+                if(code_html < 4) {
+                    $('.load-comments').hide();
+                } else {
+                    $(code_html).appendTo(".comment-list");
+                }
             },
             error: function(resultat, statut, erreur)
             {

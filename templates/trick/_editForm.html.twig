@@ -6,7 +6,7 @@
     <div 
     id="illustrations" 
     class="row" 
-    data-prototype="{{ include("trick/_illustration.html.twig", {form: trickForm.illustrations.vars.prototype})|e("html_attr") }}" 
+    data-prototype="{{ include("trick/_editIllustration.html.twig", {form: trickForm.illustrations.vars.prototype})|e("html_attr") }}" 
     data-index="{{ trickForm.illustrations|length > 0 ? form.illustrations|last.vars.name + 1 : 0 }}">
         {% for illustration in trickForm.illustrations %}
             <div class="media">

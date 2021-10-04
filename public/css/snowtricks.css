@@ -1,3 +1,18 @@
+@media screen and (max-width: 1220px) {
+    .load.btn {
+        margin: 20px 0px 50px 130px;
+    }
+}
+@media screen and (min-width: 1220px) and (max-width: 1440px) {
+    .load.btn {
+        margin: 20px 0px 50px 0px;
+    }
+}
+@media screen and (min-width: 1440px) {
+    .load.btn {
+        margin: 20px 0px 50px 800px;
+    }
+}
 /* HOMEPAGE MENU */
 header {
     background: #292929;
@@ -76,6 +91,7 @@ a.login-homepage-text {
 .trick-thumbnail {
     margin: 60px 10px 20px 10px;
     border: 1px solid black;
+    width: 327px;
 }
 .trick-illustration {
     border: 1px solid black;
@@ -91,16 +107,17 @@ a.login-homepage-text {
     float: left;
     font-size: 20px;
     padding: 10px 0px 10px 10px;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .trick-options {
     float: right;
-    padding: 10px 20px 10px 0px;
+    padding: 10px 10px 10px 0px;
 }
 a.edit-btn {
-    margin-right: 20px;
-}
-.load {
-    margin: 20px 0px 50px 800px;
+    margin-right: 10px;
 }
 /* Button to go back up the page */
 .btn-go-up {
@@ -216,6 +233,9 @@ iframe.trick-video {
     border: 1px solid black;
     font-size: 15px;
     width: 13%;
+}
+textarea.form-control {
+    height: 300px;
 }
 /* Comment section */
 .comment-user {

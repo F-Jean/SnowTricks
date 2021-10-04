@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Uid\Uuid;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -19,7 +20,7 @@ use Symfony\Component\Uid\Uuid;
  *      fields = {"userName"}, 
  *      message = "Ce nom d'utilisateur est déjà utilisé.")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id

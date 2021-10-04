@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Trick;
 use Twig\Environment;
 use App\Entity\Comment;
+use App\Entity\Illustration;
 use App\Form\TrickType;
 use App\Form\CommentType;
 use App\Repository\TrickRepository;
@@ -89,6 +90,7 @@ class TrickController extends AbstractController
     {
         $user = $this->getUser();
         
+        $originalSlug = $trick->getSlug();
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($trick->getName() !== null) {
@@ -96,36 +98,40 @@ class TrickController extends AbstractController
                 ->setAddedAt(new \DateTimeImmutable())
                 ->setUser($user);
             }
-            if ($form->isValid()) {
-                if ($this->trickRepository->count(['slug' => $trick->getSlug()]) < 1) {
-                    $form->get('name')->addError(new FormError('Veuillez créer un nouveau trick'));
-                    $this->addFlash('error', 'Veuillez créer un nouveau trick');
-                } else {
-                    foreach ($trick->getIllustrations() as $illustration)
-                    {
-                        $uploadedFile = $illustration->getFile();
-                        $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
 
-                        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                        $safeFilename = $slugger->slug($originalFilename);
-                        $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-
-                        $uploadedFile->move(
-                            $destination,
-                            $newFilename
-                        );
-
-                        $illustration->setPath($newFilename);
-                    }
-
-                    $manager->persist($trick);
-                    $manager->flush();
-    
-                    /* add a success flash message */
-                    $this->addFlash('success', 'La figure a bien été modifié !');
-    
-                    return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
+            $newSlug = $trick->getSlug();
+            if ($originalSlug !== $newSlug) {
+                if($this->trickRepository->count(['slug' => $newSlug]) > 0) {
+                    $form->get('name')->addError(new FormError('Cette figure existe déjà !'));
+                    $this->addFlash('error', 'Cette figure existe déjà !');
                 }
+            } 
+            if ($form->isValid()) {
+                foreach ($trick->getIllustrations() as $illustration) {
+                    $uploadedFile = $illustration->getFile();
+                    if($uploadedFile == null) {
+                        continue;
+                    }
+                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
+
+                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
+
+                    $uploadedFile->move(
+                        $destination,
+                        $newFilename
+                    );
+
+                    $illustration->setPath($newFilename);
+                }
+
+                $manager->flush();
+
+                /* add a success flash message */
+                $this->addFlash('success', 'La figure a bien été modifié !');
+
+                return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
             }
         }
         
@@ -178,11 +184,24 @@ class TrickController extends AbstractController
      * @Route("/trick/{slug}/delete", name="trick_delete")
      */
     public function delete(Trick $trick)
-    {
+    { 
+        //Delete illustrations when trick is delete
+        $illustrations = $trick->getIllustrations();
+        if($illustrations) {
+            // Loop on trick illustrations
+            foreach($illustrations as $illustration) {
+                $illustrationName = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images'.'/'.$illustration->getPath();
+                // Check if illustration exist
+                if(file_exists($illustrationName)) {
+                    unlink($illustrationName);
+                }
+            }
+        }
         $em = $this->getDoctrine()->getManager();
         $em->remove($trick);
         $em->flush();
 
+        $this->addFlash('success', 'La figure a bien été supprimé !');
         return $this->redirectToRoute('homepage');
     }
 }

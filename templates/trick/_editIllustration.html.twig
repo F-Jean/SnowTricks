@@ -1,5 +1,11 @@
+{% if form.file is defined %}
 {{ form_row(form.file) }}
+{% endif %}
+{% if form.vars.data is not null %}
 <img src="{{ asset('uploads/trick_images/'~form.vars.data.path) }}" width="325" height="200">
+{% else %}
+<img src="{{ asset('img/cross.png') }}" width="325" height="200">
+{% endif %}
 <div class="form-group">
     <button type="button" class="btn btn-danger btn-remove">Supprimer</button>
 </div>
