@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Trick;
 use Twig\Environment;
 use App\Entity\Comment;
-use App\Entity\Illustration;
 use App\Form\TrickType;
 use App\Form\CommentType;
 use App\Repository\TrickRepository;
@@ -166,17 +165,17 @@ class TrickController extends AbstractController
         return new Response($this->twig->render("trick/show.html.twig", [
             'trick' => $trick,
             'commentForm' => $form->createView(),
-            'comments' => $commentRepository->getComments(1, 3),
+            'comments' => $commentRepository->getComments(1, 3, $trick),
         ]));
     }
 
     /**
      * @Route("/load_comments/{page}", name="load_comments", requirements={"page": "\d+"})
      */
-    public function loadComments(CommentRepository $commentRepository, int $page)
+    public function loadComments(CommentRepository $commentRepository, int $page, Trick $trick)
     {
         return new Response($this->twig->render("trick/comment.html.twig", [
-            'comments' => $commentRepository->getComments($page, 3),
+            'comments' => $commentRepository->getComments($page, 3, $trick),
         ]));
     }
 

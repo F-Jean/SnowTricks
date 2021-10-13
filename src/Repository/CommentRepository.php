@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Trick;
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,9 +20,11 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function getComments(int $page, int $length)
+    public function getComments(int $page, int $length, Trick $trick)
     {
         $queryBuilder = $this->createQueryBuilder('c')
+        ->where('c.trick = :trick')
+        ->setParameter('trick', $trick)
         ->orderBy('c.id', 'desc')
         ->setFirstResult(($page-1) * $length)
         ->setMaxResults($length)

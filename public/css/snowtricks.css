@@ -2,6 +2,23 @@
     .load.btn {
         margin: 20px 0px 50px 130px;
     }
+    h2.trick-group {
+        width: 100%;
+    }
+    div.comment-form {
+        width: 100%;
+    }
+    .comment-form-start {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    .com-text.form-group {
+        width: 100%;
+    }
+    .btn.btn-primary.validate-comment {
+        width: 40%;
+    }
 }
 @media screen and (min-width: 1220px) and (max-width: 1440px) {
     .load.btn {
