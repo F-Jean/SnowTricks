@@ -170,7 +170,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/load_comments/{page}", name="load_comments", requirements={"page": "\d+"})
+     * @Route("/load_comments/{id}/{page}", name="load_comments", requirements={"page": "\d+"})
      */
     public function loadComments(CommentRepository $commentRepository, int $page, Trick $trick)
     {

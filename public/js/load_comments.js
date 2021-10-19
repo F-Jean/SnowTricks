@@ -7,13 +7,20 @@ $(function() {
         e.preventDefault();
         page++;
 
+        const trickId = $('.comments-list').data('trick');
+
+
         $.ajax({
-            url : '/load_comments/' + page,
+            url : '/load_comments/' + trickId + '/' + page,
             method: 'GET',
             dataType: 'html',
             success : function(code_html, statut)
             {
-                $(code_html).appendTo(".comment-list");
+                if(code_html == "") {
+                    $('.load-comments').hide();
+                } else {
+                    $(code_html).appendTo(".comments-list");
+                }
             },
             error: function(resultat, statut, erreur)
             {

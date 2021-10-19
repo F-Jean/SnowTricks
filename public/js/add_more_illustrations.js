@@ -39,3 +39,7 @@ const newItem = (e) => {
 document
     .querySelectorAll('.btn-new')
     .forEach(btn => btn.addEventListener("click", newItem));
+
+    document
+    .querySelectorAll('.btn-remove')
+    .forEach(btn => btn.addEventListener("click", (e) => e.currentTarget.closest('.media').remove()));

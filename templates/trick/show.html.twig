@@ -51,7 +51,7 @@
                     <a class="btn btn-primary" href="{{path('app_login')}}">Se connecter pour commenter</a>
                 </div>
             {% endif %}
-            <section id="comment-list" class="comment-list">
+            <section id="comments-list" class="comments-list" data-trick="{{ trick.id }}">
                 <h1 class="comment-title">{{ trick.comments | length }} Commentaires</h1>
                 {{ include("trick/comment.html.twig") }}
             </section>

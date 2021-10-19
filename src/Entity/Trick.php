@@ -66,7 +66,7 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", fetch="EXTRA_LAZY")
      */
     private $comments;
 
