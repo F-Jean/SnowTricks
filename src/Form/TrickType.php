@@ -19,14 +19,23 @@ class TrickType extends AbstractType
         $builder
             ->add('name',    TextType::class, array(
                 'label' => 'Nom de la figure',
+                'row_attr' => [
+                    'class' => 'trick-title-input'
+                ],
             ))
             ->add('description',    TextareaType::class, array(
                 'label' => 'Description',
+                'row_attr' => [
+                    'class' => 'trick-description-input'
+                ],
             ))
             ->add('category', EntityType::class, array(
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'label' => 'Groupe de la figure',
+                'row_attr' => [
+                    'class' => 'trick-category-input'
+                ],
             ))
             ->add('illustrations', CollectionType::class, [
                 'error_bubbling' => false,

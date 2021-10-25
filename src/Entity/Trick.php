@@ -71,7 +71,7 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Count(
      *      min = 1,
      *      minMessage = "Merci d'ajouter au minimum une image.")
@@ -80,7 +80,7 @@ class Trick
     private $illustrations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Valid
      */
     private $videos;
@@ -201,6 +201,7 @@ class Trick
      */
     public function removeIllustration(Illustration $illustration): void
     {
+        $illustration->setTrick(null);
         $this->illustrations->removeElement($illustration);
     }
 
@@ -228,6 +229,7 @@ class Trick
      */
     public function removeVideo(Video $video): void
     {
+        $video->setTrick(null);
         $this->videos->removeElement($video);
     }
 }

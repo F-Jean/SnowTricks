@@ -14,9 +14,9 @@
         <script src="/js/load_comments.js"></script>
         <script src="/js/add_more_illustrations.js"></script>
 
-
         <!-- Fontawesome -->
         <script src="https://kit.fontawesome.com/0709ae03e6.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     {% endblock %}
 
     {% block body %}
@@ -41,7 +41,11 @@
 
         <!-- Menu -->
         <header class="px-1 pb-1 pt-3">
-            <ul class="d-flex justify-content-end">
+            <input type="checkbox" id="check">
+            <label for="check" class="checkbtn">
+                <i class="fas fa-bars"></i>
+            </label>
+            <ul>
                 <li><a href="{{ path('homepage') }}">Accueil</a></li>
                 <li><a href="/#content-trick">Figures</a></li>
                 <li><a href="{{ path('security_registration') }}">S'enregistrer</a></li>

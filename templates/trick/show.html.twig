@@ -11,6 +11,8 @@
                 <a href="{{ path('trick_delete', {'slug' : trick.slug}) }}" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
             {% endif %}
         </div>
+        <div class="title-background-color">
+        </div>
         <div class="trick-name">
             <h1 class="trick-name-title">{{ trick.name }}</h1>
         </div>
@@ -29,7 +31,7 @@
                 {% endfor %}
             </div>
             <div class="trick-description">
-                <p>{{ trick.description | raw }}</p>
+                <p class="description-text">{{ trick.description | raw }}</p>
                 <div class="trick-infos">
                     <h2 class="trick-group">Groupe de la figure : {{ trick.category.name }}</h2>
                     <h2 class="trick-group">Ajouter le : {{ trick.addedAt|date("m/d/Y") }}</h2>
