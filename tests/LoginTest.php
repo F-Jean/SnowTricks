@@ -24,8 +24,8 @@ class LoginTest extends WebTestCase
 
         // crawler pertmet de récupérer le contenu d'une page
         $form = $crawler->filter("form[name=login]")->form([
-            "login[userName]" => "fjean",
-            "login[password]" => "password"
+            "userName" => "fjean",
+            "password" => "password"
         ]);
         
         $client->submit($form);
@@ -35,6 +35,6 @@ class LoginTest extends WebTestCase
 
         $client->followRedirect();
         // on test si on est bien redirigé vers notre page d'accueil
-        $this->assertRouteSame('/');
+        $this->assertRouteSame('homepage');
     }
 }
