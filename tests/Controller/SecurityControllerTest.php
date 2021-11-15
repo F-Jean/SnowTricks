@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Tests;
+namespace App\Tests\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
- * Class LoginTest
- * @package App\Tests
+ * Class SecurityControllerTest
+ * @package App\Tests\Controller
  */
 class LoginTest extends WebTestCase
 {
-    public function test()
+    public function testLogin()
     {
         // simule l'envoie d'une requête HTTP
         $client = static::createClient();
