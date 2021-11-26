@@ -58,6 +58,7 @@ class SecurityController extends AbstractController
             $user->setToken(Uuid::v4());
             $manager->persist($user);
             $manager->flush();
+            // SERVICE ValidationMail
             $this->mailer->sendEmail($user->getEmail(), $user->getToken());
             $this->addFlash("success", "Inscription réussie ! Allez vérifier votre email avant la connexion.");
 
@@ -172,7 +173,7 @@ class SecurityController extends AbstractController
                 $this->addFlash("error", "Une erreur est survenue :". $e->getMessage());
                 return $this->redirectToRoute('app_login');
             }
-            // sending the email
+            // sending the email (SERVICE ValidationMail)
             $this->mailer->sendResetEmail($user->getEmail(), $user->getResetToken());
 
             $this->addFlash("success", "Un e-mail de réinitialisation de mot de passe vous a été envoyé.");

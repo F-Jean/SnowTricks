@@ -16,6 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\AddIllustration;
+use App\Service\EditIllustration;
+use App\Service\DeleteTrick;
 
 
 class TrickController extends AbstractController
@@ -34,7 +37,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    public function addTrick(Request $request, AddIllustration $illustrator, SluggerInterface $slugger)
     {
         $user = $this->getUser();
         $trick = new Trick();
@@ -50,28 +53,8 @@ class TrickController extends AbstractController
                 if ($this->trickRepository->count(['slug' => $trick->getSlug()]) > 0) {
                     $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
                 } else {
-                    foreach ($trick->getIllustrations() as $illustration) {
-                        $uploadedFile = $illustration->getFile();
-                        $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
-    
-                        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                        $safeFilename = $slugger->slug($originalFilename);
-                        $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-    
-                        $uploadedFile->move(
-                            $destination,
-                            $newFilename
-                        );
-    
-                        $illustration->setPath($newFilename);
-                    }
-                
-                    $manager->persist($trick);
-                    $manager->flush();
-    
-                    /* add a success flash message */
-                    $this->addFlash('success', 'La figure a bien été ajouté !');
-    
+                    // SERVICE AddIllustration
+                    $illustrator->addIllustration($trick);
                     return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
                 }
             }
@@ -85,11 +68,11 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
      */
-    public function editTrick(Trick $trick, Request $request, EntityManagerInterface $manager, SluggerInterface $slugger)
+    public function editTrick(Trick $trick, Request $request, EditIllustration $editIllustrator, SluggerInterface $slugger)
     {
         $user = $this->getUser();
-        
         $originalSlug = $trick->getSlug();
+
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($trick->getName() !== null) {
@@ -106,30 +89,8 @@ class TrickController extends AbstractController
                 }
             } 
             if ($form->isValid()) {
-                foreach ($trick->getIllustrations() as $illustration) {
-                    $uploadedFile = $illustration->getFile();
-                    if($uploadedFile == null) {
-                        continue;
-                    }
-                    $destination = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images';
-
-                    $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    $safeFilename = $slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$uploadedFile->guessExtension();
-
-                    $uploadedFile->move(
-                        $destination,
-                        $newFilename
-                    );
-
-                    $illustration->setPath($newFilename);
-                }
-
-                $manager->flush();
-
-                /* add a success flash message */
-                $this->addFlash('success', 'La figure a bien été modifié !');
-
+                // SERVICE EditIllustration
+                $editIllustrator->editIllustration($trick);
                 return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
             }
         }
@@ -182,25 +143,10 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}/delete", name="trick_delete")
      */
-    public function delete(Trick $trick)
+    public function delete(Trick $trick, DeleteTrick $deleteTrick)
     { 
-        //Delete illustrations when trick is delete
-        $illustrations = $trick->getIllustrations();
-        if($illustrations) {
-            // Loop on trick illustrations
-            foreach($illustrations as $illustration) {
-                $illustrationName = $this->getParameter('kernel.project_dir').'/public/uploads/trick_images'.'/'.$illustration->getPath();
-                // Check if illustration exist
-                if(file_exists($illustrationName)) {
-                    unlink($illustrationName);
-                }
-            }
-        }
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($trick);
-        $em->flush();
-
-        $this->addFlash('success', 'La figure a bien été supprimé !');
+        // SERVICE DeleteTrick
+        $deleteTrick->deleteTrick($trick);
         return $this->redirectToRoute('homepage');
     }
 }

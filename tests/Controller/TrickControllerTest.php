@@ -129,4 +129,29 @@ class TrickControllerTest extends WebTestCase
 
         $this->assertSelectorTextContains('html', 'new comment');
     }
+
+    /**
+     * @test
+     */
+    public function load_more_comments()
+    {
+        $client = static::createClient();
+
+        /** @var UrlGeneratorInterface $urlGenerator */
+        $urlGenerator = $client->getContainer()->get("router");
+
+        /** @var EntityManagerInterface $entityManager */
+        $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
+
+        /** @var Trick $trick */
+        $trick = $entityManager->getRepository(Trick::class)->findBy([]);
+
+        $client->request(
+            Request::METHOD_GET,
+            $urlGenerator->generate("load_comments", ["id" => $trick, "page" => 2])
+        );
+
+        // on vérifie si on récupère bien un code 200
+        $this->assertResponseStatusCodeSame(Response::HTTP_OK);
+    }
 }
