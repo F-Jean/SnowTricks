@@ -2,14 +2,15 @@
 
 namespace App\Service;
 
-use App\Entity\Trick;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class AddIllustration 
 {
-    protected $requestStack;
+    private $slugger;
+    private $manager;
+    private $flashBag;
 
     public function __construct(SluggerInterface $slugger, EntityManagerInterface $manager, FlashBagInterface $flashBag)
     {
@@ -18,7 +19,7 @@ class AddIllustration
         $this->flashBag = $flashBag;
     }
 
-    public function addIllustration(Trick $trick) 
+    public function addIllustration($trick) 
     {
         foreach ($trick->getIllustrations() as $illustration) {
             $uploadedFile = $illustration->getFile();

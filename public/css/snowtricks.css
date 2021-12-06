@@ -537,8 +537,8 @@ textarea#comment_content.form-control {
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 40%;
-    left: 45%;
+    top: 45%;
+    left: 60%;
 }
 
 /* EDITTRICK PAGE */
@@ -656,5 +656,26 @@ input#inputPassword {
     display: inline-block;
 }
 #avatar-btn {
+    margin-top: 15px;
+}
+
+/* FORGOTTEN PASSWORD ACCOUNT PAGE */
+.fp-section {
+    height: 86vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.forgot-pass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.fp-text {
+    margin-top: 40px;
+}
+.fp-container {
     margin-top: 15px;
 }

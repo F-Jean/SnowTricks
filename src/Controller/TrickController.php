@@ -3,41 +3,38 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
-use Twig\Environment;
 use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
 use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
 use Symfony\Component\Form\FormError;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\AddIllustration;
 use App\Service\EditIllustration;
 use App\Service\DeleteTrick;
+use App\Service\CreateComment;
 
 
 class TrickController extends AbstractController
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private $slugger;
+    private $trickRepository;
 
-    public function __construct(Environment $twig, TrickRepository $trickRepository)
+    public function __construct(TrickRepository $trickRepository, SluggerInterface $slugger, CommentRepository $commentRepository)
     {
-        $this->twig = $twig;
+        $this->slugger = $slugger;
         $this->trickRepository = $trickRepository;
+        $this->commentRepository = $commentRepository;
     }
 
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, AddIllustration $illustrator, SluggerInterface $slugger)
+    public function addTrick(Request $request, AddIllustration $illustrator)
     {
         $user = $this->getUser();
         $trick = new Trick();
@@ -45,7 +42,7 @@ class TrickController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick, ['validation_groups' => 'Default'])->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($trick->getName() !== null) {
-                $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
+                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString())
                 ->setAddedAt(new \DateTimeImmutable())
                 ->setUser($user);
             }
@@ -60,15 +57,15 @@ class TrickController extends AbstractController
             }
         }
         
-        return new Response($this->twig->render("trick/addTrick.html.twig", [
+        return $this->render("trick/addTrick.html.twig", [
             'trickForm' => $form->createView(),
-        ]));
+        ]);
     }
 
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
      */
-    public function editTrick(Trick $trick, Request $request, EditIllustration $editIllustrator, SluggerInterface $slugger)
+    public function editTrick(Trick $trick, Request $request, EditIllustration $editIllustrator)
     {
         $user = $this->getUser();
         $originalSlug = $trick->getSlug();
@@ -76,7 +73,7 @@ class TrickController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($trick->getName() !== null) {
-                $trick->setSlug($slugger->slug($trick->getName())->lower()->toString())
+                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString())
                 ->setAddedAt(new \DateTimeImmutable())
                 ->setUser($user);
             }
@@ -95,16 +92,16 @@ class TrickController extends AbstractController
             }
         }
         
-        return new Response($this->twig->render("trick/editTrick.html.twig", [
+        return $this->render("trick/editTrick.html.twig", [
             'trick' => $trick,
             'trickForm' => $form->createView(),
-        ]));
+        ]);
     }
 
     /**
      * @Route("/trick/{slug}", name="trick_show")
      */
-    public function show(Trick $trick, Request $request, EntityManagerInterface $manager, CommentRepository $commentRepository)
+    public function show(Trick $trick, Request $request, CreateComment $createComment)
     {
         // get the actual user of the session
         $user = $this->getUser();
@@ -114,30 +111,26 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            $comment->setPostedAt(new \DateTimeImmutable())
-                    ->setTrick($trick)
-                    ->setUser($user);
-            $manager->persist($comment);
-            $manager->flush();
-
+            // SERVICE CreateComment
+            $createComment($user, $comment, $trick);
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
-        return new Response($this->twig->render("trick/show.html.twig", [
+        return $this->render("trick/show.html.twig", [
             'trick' => $trick,
             'commentForm' => $form->createView(),
-            'comments' => $commentRepository->getComments(1, 3, $trick),
-        ]));
+            'comments' => $this->commentRepository->getComments(1, 3, $trick),
+        ]);
     }
 
     /**
      * @Route("/load_comments/{id}/{page}", name="load_comments", requirements={"page": "\d+"})
      */
-    public function loadComments(CommentRepository $commentRepository, int $page, Trick $trick)
+    public function loadComments(Trick $trick, int $page)
     {
-        return new Response($this->twig->render("trick/comment.html.twig", [
-            'comments' => $commentRepository->getComments($page, 3, $trick),
-        ]));
+        return $this->render("trick/comment.html.twig", [
+            'comments' => $this->commentRepository->getComments($page, 3, $trick),
+        ]);
     }
 
     /**

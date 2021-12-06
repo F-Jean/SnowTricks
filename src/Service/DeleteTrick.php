@@ -2,20 +2,21 @@
 
 namespace App\Service;
 
-use App\Entity\Trick;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class DeleteTrick
 {
-
+    private $manager;
+    private $flashBag;
+    
     public function __construct(EntityManagerInterface $manager, FlashBagInterface $flashBag)
     {
         $this->manager = $manager;
         $this->flashBag = $flashBag;
     }
 
-    public function deleteTrick(Trick $trick) {
+    public function deleteTrick($trick) {
         //Delete illustrations when trick is delete
         $illustrations = $trick->getIllustrations();
         if($illustrations) {
