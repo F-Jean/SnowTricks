@@ -13,7 +13,11 @@ $(function() {
             dataType: 'html',
             success : function(code_html, statut)
             {
-                $(code_html).appendTo(".trick-list");
+                if(code_html == "") {
+                    $('.load').hide();
+                } else {
+                    $(code_html).appendTo(".trick-list");
+                }
             },
             error: function(resultat, statut, erreur)
             {

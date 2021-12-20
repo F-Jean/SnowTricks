@@ -10,19 +10,19 @@ use App\Entity\Category;
 use App\Entity\Illustration;
 use App\Entity\Video;
 use App\Entity\Comment;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 
 class TrickFixtures extends Fixture
 {
-    private $userEncoder;
+    private $passwordHasher;
     protected $slugger;
 
-    public function __construct(UserPasswordEncoderInterface $userEncoder, SluggerInterface $slugger)
+    public function __construct(UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger)
     {
 
-        $this->userEncoder = $userEncoder;
+        $this->passwordHasher = $passwordHasher;
         $this->slugger = $slugger;
     }
 
@@ -38,7 +38,7 @@ class TrickFixtures extends Fixture
         ];
 
         foreach ($users as $user) {
-            $user->setPassword($this->userEncoder->encodePassword($user, 'password'));
+            $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
             $user->setAvatar('basicAvatar.png');
             $user->setEnabled("1");
             $manager->persist($user);
@@ -82,18 +82,10 @@ class TrickFixtures extends Fixture
                 [
                     "name" => "Nose Grab",
                     "description" => "La main avant grab le bout avant (nose) de la board. 
-                    Levez votre jambe avant et étendez votre jambe arrière pour amener 
-                    votre board vers votre main.</br>
-                    Un grab consiste à attraper la planche avec la main pendant le saut. 
-                    Le verbe anglais to grab signifie « attraper. »</br>
-                    Il existe plusieurs types de grabs selon la position de la saisie et 
-                    la main choisie pour l'effectuer.</br>
-                    Un grab est d'autant plus réussi que la saisie est longue. De plus, 
-                    le saut est d'autant plus esthétique que la saisie du snowboard 
-                    est franche, ce qui permet au rideur d'accentuer la torsion de son 
-                    corps grâce à la tension de sa main sur la planche. On dit alors 
-                    que le grab est tweaké (le verbe anglais to tweak signifie « pincer » 
-                    mais a également le sens de « peaufiner »).",
+Levez votre jambe avant et étendez votre jambe arrière pour amener votre board vers votre main. Un grab consiste à attraper la planche avec la main pendant le saut. 
+Le verbe anglais to grab signifie « attraper. » Il existe plusieurs types de grabs selon la position de la saisie et la main choisie pour l'effectuer.
+Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est d'autant plus esthétique que la saisie du snowboard est franche, ce qui permet au rideur d'accentuer la torsion de son corps grâce à la tension de sa main sur la planche. 
+On dit alors que le grab est tweaké (le verbe anglais to tweak signifie « pincer » mais a également le sens de « peaufiner »).",
                     "illustrations" => [
                         "nose-grab_01.jpg",
                         "nose-grab_02.jpg",
@@ -108,8 +100,7 @@ class TrickFixtures extends Fixture
                 ],
                 [
                     "name" => "China air",
-                    "description" => "La main avant grab la partie avant du snowboard. 
-                    Les deux genoux sont pliés.",
+                    "description" => "La main avant grab la partie avant du snowboard. Les deux genoux sont pliés.",
                     "illustrations" => [
                         "china-air_01.jpg",
                         "china-air_02.jpg"
@@ -124,27 +115,12 @@ class TrickFixtures extends Fixture
             "Rotations" => [
                 [
                     "name" => "180",
-                    "description" => "Un demi-tour, soit 180 degrés d'angle.</br>
-                    Le principe est d'effectuer une rotation horizontale pendant le saut, 
-                    puis d'attérir en position switch ou normal. La nomenclature se base 
-                    sur le nombre de degrés de rotation effectués.</br>
-                    Une rotation peut être frontside ou backside : une rotation frontside 
-                    correspond à une rotation orientée vers la carre backside. Cela peut 
-                    paraître incohérent mais l'origine étant que dans un halfpipe ou une 
-                    rampe de skateboard, une rotation frontside se déclenche naturellement 
-                    depuis une position frontside (i.e. l'appui se fait sur la carre 
-                    frontside), et vice-versa. Ainsi pour un rider qui a une position 
-                    regular (pied gauche devant), une rotation frontside se fait dans le 
-                    sens inverse des aiguilles d'une montre.</br>
-                    Une rotation peut être agrémentée d'un grab, ce qui rend le saut plus 
-                    esthétique mais aussi plus difficile car la position tweakée a 
-                    tendance à déséquilibrer le rideur et désaxer la rotation. De plus, 
-                    le sens de la rotation a tendance à favoriser un sens de grab plutôt 
-                    qu'un autre. Les rotations de plus de trois tours existent mais sont 
-                    plus rares, d'abord parce que les modules assez gros pour lancer un 
-                    tel saut sont rares, et ensuite parce que la vitesse de rotation est 
-                    tellement élevée qu'un grab devient difficile, ce qui rend le saut 
-                    considérablement moins esthétique.",
+                    "description" => "Un demi-tour, soit 180 degrés d'angle.
+Le principe est d'effectuer une rotation horizontale pendant le saut, puis d'attérir en position switch ou normal. La nomenclature se base sur le nombre de degrés de rotation effectués.
+Une rotation peut être frontside ou backside : une rotation frontside correspond à une rotation orientée vers la carre backside. Cela peut paraître incohérent mais l'origine étant que dans un halfpipe ou une rampe de skateboard, une rotation frontside se déclenche naturellement depuis une position frontside (i.e. l'appui se fait sur la carre frontside), et vice-versa. 
+Ainsi pour un rider qui a une position regular (pied gauche devant), une rotation frontside se fait dans le sens inverse des aiguilles d'une montre.
+Une rotation peut être agrémentée d'un grab, ce qui rend le saut plus esthétique mais aussi plus difficile car la position tweakée a tendance à déséquilibrer le rideur et désaxer la rotation. De plus, le sens de la rotation a tendance à favoriser un sens de grab plutôt qu'un autre. 
+Les rotations de plus de trois tours existent mais sont plus rares, d'abord parce que les modules assez gros pour lancer un tel saut sont rares, et ensuite parce que la vitesse de rotation est tellement élevée qu'un grab devient difficile, ce qui rend le saut considérablement moins esthétique.",
                     "illustrations" => [
                         "180_01.jpeg",
                         "180_02.jpg"
@@ -158,26 +134,12 @@ class TrickFixtures extends Fixture
                 ],
                 [
                     "name" => "360",
-                    "description" => "360, ou trois six pour un tour complet.</br>
-                    Le principe est d'effectuer une rotation horizontale pendant le saut, puis d'attérir en position switch ou normal. La nomenclature 
-                    se base sur le nombre de degrés de rotation effectués.</br>
-                    Une rotation peut être frontside ou backside : une rotation 
-                    frontside correspond à une rotation orientée vers la carre backside. 
-                    Cela peut paraître incohérent mais l'origine étant que dans un 
-                    halfpipe ou une rampe de skateboard, une rotation frontside se 
-                    déclenche naturellement depuis une position frontside (i.e. l'appui 
-                    se fait sur la carre frontside), et vice-versa. Ainsi pour un rider 
-                    qui a une position regular (pied gauche devant), une rotation 
-                    frontside se fait dans le sens inverse des aiguilles d'une montre.</br>
-                    Une rotation peut être agrémentée d'un grab, ce qui rend le saut 
-                    plus esthétique mais aussi plus difficile car la position tweakée a 
-                    tendance à déséquilibrer le rideur et désaxer la rotation. De plus, 
-                    le sens de la rotation a tendance à favoriser un sens de grab plutôt 
-                    qu'un autre. Les rotations de plus de trois tours existent mais sont 
-                    plus rares, d'abord parce que les modules assez gros pour lancer un 
-                    tel saut sont rares, et ensuite parce que la vitesse de rotation est 
-                    tellement élevée qu'un grab devient difficile, ce qui rend le saut 
-                    considérablement moins esthétique.",
+                    "description" => "360, ou trois six pour un tour complet.
+Le principe est d'effectuer une rotation horizontale pendant le saut, puis d'attérir en position switch ou normal. La nomenclature se base sur le nombre de degrés de rotation effectués.
+Une rotation peut être frontside ou backside : une rotation frontside correspond à une rotation orientée vers la carre backside. 
+Cela peut paraître incohérent mais l'origine étant que dans un halfpipe ou une rampe de skateboard, une rotation frontside se déclenche naturellement depuis une position frontside (i.e. l'appui se fait sur la carre frontside), et vice-versa. Ainsi pour un rider qui a une position regular (pied gauche devant), une rotation frontside se fait dans le sens inverse des aiguilles d'une montre.
+Une rotation peut être agrémentée d'un grab, ce qui rend le saut plus esthétique mais aussi plus difficile car la position tweakée a tendance à déséquilibrer le rideur et désaxer la rotation. De plus, le sens de la rotation a tendance à favoriser un sens de grab plutôt qu'un autre. 
+Les rotations de plus de trois tours existent mais sont plus rares, d'abord parce que les modules assez gros pour lancer un tel saut sont rares, et ensuite parce que la vitesse de rotation est tellement élevée qu'un grab devient difficile, ce qui rend le saut considérablement moins esthétique.",
                     "illustrations" => [
                         "360_01.jpg",
                         "360_02.jpg"
@@ -193,16 +155,9 @@ class TrickFixtures extends Fixture
             "Flips" => [
                 [
                     "name" => "Back flip",
-                    "description" => "Rotation verticale en arrière lors d'un saut. Il 
-                    est possible de faire plusieurs flips à la suite, et d'ajouter un 
-                    grab à la rotation.</br>
-                    Les flips agrémentés d'une vrille existent aussi (Mac Twist, Hakon 
-                    Flip...), mais de manière beaucoup plus rare, et se confondent 
-                    souvent avec certaines rotations horizontales désaxées.</br> 
-                    Néanmoins, en dépit de la difficulté technique relative d'une telle 
-                    figure, le danger de retomber sur la tête ou la nuque est réel et 
-                    conduit certaines stations de ski à interdire de telles figures dans 
-                    ses snowparks.",
+                    "description" => "Rotation verticale en arrière lors d'un saut. Il est possible de faire plusieurs flips à la suite, et d'ajouter un grab à la rotation.
+Les flips agrémentés d'une vrille existent aussi (Mac Twist, Hakon Flip...), mais de manière beaucoup plus rare, et se confondent souvent avec certaines rotations horizontales désaxées. 
+Néanmoins, en dépit de la difficulté technique relative d'une telle figure, le danger de retomber sur la tête ou la nuque est réel et conduit certaines stations de ski à interdire de telles figures dans ses snowparks.",
                     "illustrations" => [
                         "backflip_01.jpeg",
                         "backflip_02.jpeg",
@@ -220,8 +175,7 @@ class TrickFixtures extends Fixture
             "Rotations désaxées" => [
                 [
                     "name" => "McTwist",
-                    "description" => "Un backside 540 avant-flip, exécuté dans un 
-                    half-pipe, un quarterpipe ou un obstacle similaire.",
+                    "description" => "Un backside 540 avant-flip, exécuté dans un half-pipe, un quarterpipe ou un obstacle similaire.",
                     "illustrations" => [
                         "McTwist_01.jpeg",
                         "McTwist_02.jpg"
@@ -234,21 +188,11 @@ class TrickFixtures extends Fixture
                 ],
                 [
                     "name" => "Misty",
-                    "description" => "Le Misty Flip est une rotation arrière hors axe 
-                    540.</br>
-                    Une rotation désaxée est une rotation initialement horizontale mais 
-                    lancée avec un mouvement des épaules particulier qui désaxe la 
-                    rotation.</br>
-                    Certaines de ces rotations, bien qu'initialement horizontales, font 
-                    passer la tête en bas.</br>
-                    Bien que certaines de ces rotations soient plus faciles à faire sur 
-                    un certain nombre de tours (ou de demi-tours) que d'autres, il est 
-                    en théorie possible de d'attérir n'importe quelle rotation désaxée 
-                    avec n'importe quel nombre de tours, en jouant sur la quantité de 
-                    désaxage afin de se retrouver à la position verticale au moment 
-                    voulu.</br>
-                    Il est également possible d'agrémenter une rotation désaxée par un 
-                    grab.)",
+                    "description" => "Le Misty Flip est une rotation arrière hors axe 540.
+Une rotation désaxée est une rotation initialement horizontale mais lancée avec un mouvement des épaules particulier qui désaxe la rotation.
+Certaines de ces rotations, bien qu'initialement horizontales, font passer la tête en bas.
+Bien que certaines de ces rotations soient plus faciles à faire sur un certain nombre de tours (ou de demi-tours) que d'autres, il est en théorie possible de d'attérir n'importe quelle rotation désaxée avec n'importe quel nombre de tours, en jouant sur la quantité de désaxage afin de se retrouver à la position verticale au moment voulu.
+Il est également possible d'agrémenter une rotation désaxée par un grab.)",
                     "illustrations" => [
                         "misty.jpg"
                     ],
@@ -263,15 +207,9 @@ class TrickFixtures extends Fixture
             "Slides" => [
                 [
                     "name" => "Boardslide",
-                    "description" => "Une glissade effectuée où le pied fort du 
-                    snowboarder passe au-dessus du rail à l'approche, avec son snowboard 
-                    se déplaçant perpendiculairement le long du rail ou d'un autre 
-                    obstacle. Lors de l'exécution d'un boardslide frontside, le 
-                    snowboarder fait face à la montée. Lors de l'exécution d'un 
-                    backside boardslide, un snowboarder fait face à la descente. C'est 
-                    souvent déroutant pour les nouveaux riders qui apprennent le trick 
-                    car avec un boardslide frontside vous reculez et avec un boardslide 
-                    backside vous avancez.",
+                    "description" => "Une glissade effectuée où le pied fort du snowboarder passe au-dessus du rail à l'approche, avec son snowboard se déplaçant perpendiculairement le long du rail ou d'un autre obstacle. 
+Lors de l'exécution d'un boardslide frontside, le snowboarder fait face à la montée. Lors de l'exécution d'un backside boardslide, un snowboarder fait face à la descente. 
+C'est souvent déroutant pour les nouveaux riders qui apprennent le trick car avec un boardslide frontside vous reculez et avec un boardslide backside vous avancez.",
                     "illustrations" => [
                         "slide_01.jpg",
                         "slide_02.jpeg",
@@ -289,10 +227,8 @@ class TrickFixtures extends Fixture
             "One foot tricks" => [
                 [
                     "name" => "One-foot Indy",
-                    "description" => "Lors du saut la main arrière grab la partie arrière 
-                    du snowboard ou le pied arrière a été détaché. La jambe arrière est 
-                    écarté vers l'arrière du snowboard avant de revenir en place avant 
-                    la fin du saut en restant toujours détaché.",
+                    "description" => "Lors du saut la main arrière grab la partie arrière du snowboard ou le pied arrière a été détaché. 
+La jambe arrière est écarté vers l'arrière du snowboard avant de revenir en place avant la fin du saut en restant toujours détaché.",
                     "illustrations" => [
                         "one-foot-indy_01.jpg",
                         "one-foot-indy_02.jpeg"
@@ -308,18 +244,10 @@ class TrickFixtures extends Fixture
             "Old school" => [
                 [
                     "name" => "Japan air",
-                    "description" => "La main avant grab la carre front au niveau de la 
-                    fix avant, les genoux sont pliés, et la board est tirée vers le haut.</br>
-                    Un grab consiste à attraper la planche avec la main pendant le saut. 
-                    Le verbe anglais to grab signifie « attraper. »</br>
-                    Il existe plusieurs types de grabs selon la position de la saisie et 
-                    la main choisie pour l'effectuer.</br>
-                    Un grab est d'autant plus réussi que la saisie est longue. De plus, 
-                    le saut est d'autant plus esthétique que la saisie du snowboard est 
-                    franche, ce qui permet au rideur d'accentuer la torsion de son corps 
-                    grâce à la tension de sa main sur la planche. On dit alors que le 
-                    grab est tweaké (le verbe anglais to tweak signifie « pincer » mais 
-                    a également le sens de « peaufiner »).",
+                    "description" => "La main avant grab la carre front au niveau de la fix avant, les genoux sont pliés, et la board est tirée vers le haut.
+Un grab consiste à attraper la planche avec la main pendant le saut. Le verbe anglais to grab signifie « attraper. »
+Il existe plusieurs types de grabs selon la position de la saisie et la main choisie pour l'effectuer.
+Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est d'autant plus esthétique que la saisie du snowboard est franche, ce qui permet au rideur d'accentuer la torsion de son corps grâce à la tension de sa main sur la planche. On dit alors que le grab est tweaké (le verbe anglais to tweak signifie « pincer » mais a également le sens de « peaufiner »).",
                     "illustrations" => [
                             "japan-air_01.jpg",
                             "japan-air_02.jpg"

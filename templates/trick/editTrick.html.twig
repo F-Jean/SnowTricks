@@ -10,8 +10,10 @@
     <!-- EDIT TRICK SECTION -->
     <div class="edit-trick">
         {{ form_start(trickForm) }}
-            {{ include("trick/_editForm.html.twig", {form: trickForm}) }}
-            <button class="btn btn-primary btn-trick">Modifier</button>
+            {{ include("trick/_form.html.twig", {form: trickForm}) }}
+            <div class="btn-edit">
+                <button class="btn btn-primary btn-trick">Modifier</button>
+            </div>
         {{ form_end(trickForm, {render_rest: false}) }}
     </div>
 {% endblock %}

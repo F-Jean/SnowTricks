@@ -14,7 +14,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *   fields = {"slug"},
  *   errorPath = "name", 
- *   message = "Cette figure existe déjà !")
+ *   message = "Cette figure existe déjà !"
+ * )
  */
 class Trick
 {
@@ -32,7 +33,7 @@ class Trick
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(
      *      message = "Veuillez saisir le nom de la figure."
      * )
@@ -60,17 +61,17 @@ class Trick
     private $addedAt;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", fetch="EXTRA_LAZY")
      */
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Count(
      *      min = 1,
      *      minMessage = "Merci d'ajouter au minimum une image.")
@@ -79,13 +80,14 @@ class Trick
     private $illustrations;
 
     /**
-     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Video::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Valid
      */
     private $videos;
 
     public function __construct()
     {
+        $this->addedAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->illustrations = new ArrayCollection();
         $this->videos = new ArrayCollection();
@@ -200,6 +202,7 @@ class Trick
      */
     public function removeIllustration(Illustration $illustration): void
     {
+        $illustration->setTrick(null);
         $this->illustrations->removeElement($illustration);
     }
 
@@ -227,6 +230,7 @@ class Trick
      */
     public function removeVideo(Video $video): void
     {
+        $video->setTrick(null);
         $this->videos->removeElement($video);
     }
 }

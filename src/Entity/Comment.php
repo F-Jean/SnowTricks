@@ -20,7 +20,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $user;
 
@@ -42,6 +42,11 @@ class Comment
      *      )
      */
     private $content;
+
+    public function __construct()
+    {
+        $this->postedAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {

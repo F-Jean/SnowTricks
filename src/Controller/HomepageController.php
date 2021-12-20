@@ -2,42 +2,37 @@
 
 namespace App\Controller;
 
-use Twig\Environment;
 use App\Repository\TrickRepository;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class HomepageController extends AbstractController
 {
-    /**
-     * @var Environment
-     */
-    private $twig;
+    private $trickRepository;
 
-    public function __construct(Environment $twig)
+    public function __construct(TrickRepository $trickRepository)
     {
-        $this->twig = $twig;
+        $this->trickRepository = $trickRepository;
     }
 
     /**
      * @Route("/", name="homepage")
      */
-    public function index(TrickRepository $trickRepository)
+    public function index()
     {
-        return new Response($this->twig->render("homepage/index.html.twig", [
-            'tricks' => $trickRepository->getTricks(1, 5),
-        ]));
+        return $this->render("homepage/index.html.twig", [
+            'tricks' => $this->trickRepository->getTricks(1, 5),
+        ]);
     }
 
     /**
      * @Route("/load_more/{page}", name="trick_load_more", requirements={"page": "\d+"})
      */
-    public function loadMore(TrickRepository $trickRepository, int $page)
+    public function loadMore(int $page)
     {
-        return new Response($this->twig->render("homepage/trick.html.twig", [
-            'tricks' => $trickRepository->getTricks($page, 5),
-        ]));
+        return $this->render("homepage/trick.html.twig", [
+            'tricks' => $this->trickRepository->getTricks($page, 5),
+        ]);
     }
 }

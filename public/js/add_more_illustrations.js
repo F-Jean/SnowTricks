@@ -2,11 +2,9 @@ function previewFile(item) {
     var preview = item.querySelector('img');
     var file = item.querySelector('input[type=file]').files[0];
     var reader = new FileReader();
-
     reader.addEventListener("load", function () {
         preview.src = reader.result;
-    }, 
-    false);
+    }, false);
 
     if (file) {
         reader.readAsDataURL(file);
@@ -31,7 +29,7 @@ const newItem = (e) => {
     // remove the whole div when clicking the remove btn
     item.querySelector(".btn-remove").addEventListener("click", () => item.remove());
     collectionHolder.appendChild(item);
-    item.querySelector("input").addEventListener("change", function() {previewFile(item)});
+    item.querySelector('input[type=file]').addEventListener("change", () => previewFile(item));
     // increase index
     collectionHolder.dataset.index++;
 };
@@ -39,3 +37,7 @@ const newItem = (e) => {
 document
     .querySelectorAll('.btn-new')
     .forEach(btn => btn.addEventListener("click", newItem));
+
+    document
+    .querySelectorAll('.btn-remove')
+    .forEach(btn => btn.addEventListener("click", (e) => e.currentTarget.closest('.media').remove()));

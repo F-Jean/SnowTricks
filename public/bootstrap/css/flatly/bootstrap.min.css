@@ -2040,9 +2040,6 @@ select.form-control[multiple],
 select.form-control[size] {
     height: auto;
 }
-textarea.form-control {
-    height: auto;
-}
 .form-group {
     margin-bottom: 1rem;
 }
