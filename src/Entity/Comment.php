@@ -43,6 +43,11 @@ class Comment
      */
     private $content;
 
+    public function __construct()
+    {
+        $this->postedAt = new \DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;

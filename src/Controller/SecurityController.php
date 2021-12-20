@@ -20,11 +20,6 @@ use App\Service\ConfirmAccount;
 
 class SecurityController extends AbstractController
 {
-
-    public function __construct()
-    {
-    }
-
     /**
      * @Route("/inscription", name="security_registration")
      */
@@ -92,7 +87,6 @@ class SecurityController extends AbstractController
      */
     public function confirmAccount(User $user, ConfirmAccount $accountActivator)
     {
-        $user;
         // SERVICE ConfirmAccount
         $accountActivator->accountActivator($user);
         return $this->redirectToRoute('homepage');
@@ -120,12 +114,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reset_password/{resetToken}", name="reset_password")
      */
-    public function resetPassword($resetToken, Request $request, ResetPassword $reseter)
+    public function resetPassword(User $user, Request $request, ResetPassword $reseter)
     {
         $form = $this->createForm(ResetPasswordType::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $form->get('resetPassword')->getData();
             // SERVICE ResetPassword
-            $reseter->resetToken($resetToken, $form);
+            $reseter->resetToken($user, $newPassword);
             return $this->redirectToRoute('app_login');
         }
 

@@ -11,7 +11,7 @@ $(function() {
 
 
         $.ajax({
-            url : '/load_comments/' + trickId + '/' + page,
+            url : `/load_comments/${trickId}/${page}`,
             method: 'GET',
             dataType: 'html',
             success : function(code_html, statut)

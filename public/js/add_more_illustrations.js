@@ -29,7 +29,7 @@ const newItem = (e) => {
     // remove the whole div when clicking the remove btn
     item.querySelector(".btn-remove").addEventListener("click", () => item.remove());
     collectionHolder.appendChild(item);
-    item.querySelector('input[type=file]').addEventListener("change", function() {previewFile(item)});
+    item.querySelector('input[type=file]').addEventListener("change", () => previewFile(item));
     // increase index
     collectionHolder.dataset.index++;
 };

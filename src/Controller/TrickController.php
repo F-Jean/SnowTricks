@@ -38,22 +38,20 @@ class TrickController extends AbstractController
     {
         $user = $this->getUser();
         $trick = new Trick();
+        $trick->setUser($user);
         
         $form = $this->createForm(TrickType::class, $trick, ['validation_groups' => 'Default'])->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($trick->getName() !== null) {
-                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString())
-                ->setAddedAt(new \DateTimeImmutable())
-                ->setUser($user);
+                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
             }
             if ($form->isValid()) {
-                if ($this->trickRepository->count(['slug' => $trick->getSlug()]) > 0) {
-                    $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
-                } else {
+                if ($this->trickRepository->count(['slug' => $trick->getSlug()]) === 0) {
                     // SERVICE AddIllustration
                     $illustrator->addIllustration($trick);
                     return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
                 }
+                $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
             }
         }
         
@@ -67,23 +65,18 @@ class TrickController extends AbstractController
      */
     public function editTrick(Trick $trick, Request $request, EditIllustration $editIllustrator)
     {
-        $user = $this->getUser();
         $originalSlug = $trick->getSlug();
 
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
         if ($form->isSubmitted()) {
             if ($trick->getName() !== null) {
-                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString())
-                ->setAddedAt(new \DateTimeImmutable())
-                ->setUser($user);
+                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
             }
 
             $newSlug = $trick->getSlug();
-            if ($originalSlug !== $newSlug) {
-                if($this->trickRepository->count(['slug' => $newSlug]) > 0) {
-                    $form->get('name')->addError(new FormError('Cette figure existe déjà !'));
-                    $this->addFlash('error', 'Cette figure existe déjà !');
-                }
+            if ($originalSlug !== $newSlug && $this->trickRepository->count(['slug' => $newSlug]) > 0) {
+                $form->get('name')->addError(new FormError('Cette figure existe déjà !'));
+                $this->addFlash('error', 'Cette figure existe déjà !');
             } 
             if ($form->isValid()) {
                 // SERVICE EditIllustration
@@ -107,6 +100,7 @@ class TrickController extends AbstractController
         $user = $this->getUser();
 
         $comment = new Comment();
+        $comment->setUser($user);
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())

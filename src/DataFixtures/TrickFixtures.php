@@ -16,7 +16,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TrickFixtures extends Fixture
 {
-    private $userEncoder;
+    private $passwordHasher;
     protected $slugger;
 
     public function __construct(UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger)

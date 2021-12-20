@@ -34,7 +34,7 @@
                 <p class="description-text">{{ trick.description | raw }}</p>
                 <div class="trick-infos">
                     <h2 class="trick-group">Groupe de la figure : {{ trick.category.name }}</h2>
-                    <h2 class="trick-group">Ajouter le : {{ trick.addedAt|date("m/d/Y") }}</h2>
+                    <h2 class="trick-group">Ajouter le : {{ trick.addedAt|date("d/m/Y") }}</h2>
                 </div>
             </div>
         </section>
@@ -54,7 +54,7 @@
                 </div>
             {% endif %}
             <section id="comments-list" class="comments-list" data-trick="{{ trick.id }}">
-                <h1 class="comment-title">{{ trick.comments | length }} Commentaires</h1>
+                <h1 class="comment-title">{{ trick.comments | length }} Commentaire(s)</h1>
                 {{ include("trick/comment.html.twig") }}
             </section>
             <div>

@@ -14,10 +14,8 @@ class CreateComment
     }
     
     public function __invoke($user, $comment, $trick) {
-        $comment->setPostedAt(new \DateTimeImmutable())
-                    ->setTrick($trick)
-                    ->setUser($user);
-            $this->manager->persist($comment);
-            $this->manager->flush();
+        $comment->setTrick($trick);
+        $this->manager->persist($comment);
+        $this->manager->flush();
     }
 }

@@ -87,6 +87,7 @@ class Trick
 
     public function __construct()
     {
+        $this->addedAt = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->illustrations = new ArrayCollection();
         $this->videos = new ArrayCollection();
