@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1639993230">
-  <project timestamp="1639993230">
+<coverage generated="1639994155">
+  <project timestamp="1639994155">
     <package name="App\Controller">
       <file name="/home/fjean/dev/projets-openClassrooms/dev_app/drafts/P6/snowtriks/src/Controller/HomepageController.php">
         <class name="App\Controller\HomepageController" namespace="App\Controller">
