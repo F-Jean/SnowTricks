@@ -25,7 +25,7 @@ class TrickControllerTest extends WebTestCase
 
         /*
             on récupère le router pour générer directement une url
-            car plus tard l'url peut évolué on ne veut pas l'écrire en dure
+            car plus tard l'url peut évolué donc on ne veut pas l'écrire en dure
         */
         /** @var UrlGeneratorInterface $urlGenerator */
         $urlGenerator = $client->getContainer()->get("router");
