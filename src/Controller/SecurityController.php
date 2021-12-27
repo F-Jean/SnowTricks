@@ -12,18 +12,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Service\UserRegistration;
-use App\Service\UploadAvatar;
-use App\Service\ForgottenPassword;
-use App\Service\ResetPassword;
-use App\Service\ConfirmAccount;
+use App\Service\UserData;
 
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, UserRegistration $registrate) 
+    public function registration(Request $request, UserData $userData) 
     {
         $user = new User();
         $user->setAvatar('basicAvatar.png');
@@ -31,8 +27,8 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            // SERVICE UserRegistration
-            $registrate->userRegistration($user);
+            // SERVICE UserData
+            $userData->userRegistration($user);
             return $this->redirectToRoute('app_login');
         }
 
@@ -65,14 +61,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/account", name="user_account")
      */
-    public function userAccount(Request $request, UploadAvatar $avatar)
+    public function userAccount(Request $request, UserData $userData)
     {
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user,)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // SERVICE UploadAvatar
-            $avatar->uploadAvatar($user);
+            // SERVICE UserData
+            $userData->uploadAvatar($user);
             return $this->redirectToRoute('user_account');
         }
 
@@ -85,24 +81,24 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirm_account/{token}", name="confirm_account")
      */
-    public function confirmAccount(User $user, ConfirmAccount $accountActivator)
+    public function confirmAccount(User $user, UserData $userData)
     {
-        // SERVICE ConfirmAccount
-        $accountActivator->accountActivator($user);
+        // SERVICE UserData
+        $userData->accountActivator($user);
         return $this->redirectToRoute('homepage');
     }
 
     /**
      * @Route("/forgotten_password", name="forgotten_password")
      */
-    public function forgottenPassword(Request $request, ForgottenPassword $passwordChecker)
+    public function forgottenPassword(Request $request, UserData $userData)
     {
         $form = $this->createForm(ForgottenPasswordType::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Fetching data
             $data = $form->getData();
-            // SERVICE ForgottenPassword
-            $passwordChecker->checkUser($data);
+            // SERVICE UserData
+            $userData->checkUser($data);
             return $this->redirectToRoute('app_login');
         }
 
@@ -114,13 +110,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reset_password/{resetToken}", name="reset_password")
      */
-    public function resetPassword(User $user, Request $request, ResetPassword $reseter)
+    public function resetPassword(User $user, Request $request, UserData $userData)
     {
         $form = $this->createForm(ResetPasswordType::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $newPassword = $form->get('resetPassword')->getData();
-            // SERVICE ResetPassword
-            $reseter->resetToken($user, $newPassword);
+            // SERVICE UserData
+            $userData->resetToken($user, $newPassword);
             return $this->redirectToRoute('app_login');
         }
 

@@ -144,11 +144,11 @@ class TrickControllerTest extends WebTestCase
         $entityManager = $client->getContainer()->get("doctrine.orm.entity_manager");
 
         /** @var Trick $trick */
-        $trick = $entityManager->getRepository(Trick::class)->findBy([]);
+        $trick = $entityManager->getRepository(Trick::class)->findOneBy([]);
 
         $client->request(
             Request::METHOD_GET,
-            $urlGenerator->generate("load_comments", ["id" => $trick, "page" => 2])
+            $urlGenerator->generate("load_comments", ["id" => $trick->getId(), "page" => 2])
         );
 
         // on vérifie si on récupère bien un code 200

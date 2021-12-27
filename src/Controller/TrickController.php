@@ -13,10 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Service\AddIllustration;
-use App\Service\EditIllustration;
-use App\Service\DeleteTrick;
-use App\Service\CreateComment;
+use App\Service\HandleTrick;
 
 
 class TrickController extends AbstractController
@@ -34,7 +31,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, AddIllustration $illustrator)
+    public function addTrick(Request $request, HandleTrick $handleTrick)
     {
         $user = $this->getUser();
         $trick = new Trick();
@@ -47,8 +44,8 @@ class TrickController extends AbstractController
             }
             if ($form->isValid()) {
                 if ($this->trickRepository->count(['slug' => $trick->getSlug()]) === 0) {
-                    // SERVICE AddIllustration
-                    $illustrator->addIllustration($trick);
+                    // SERVICE HandleTrick
+                    $handleTrick->addIllustration($trick);
                     return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
                 }
                 $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
@@ -63,7 +60,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
      */
-    public function editTrick(Trick $trick, Request $request, EditIllustration $editIllustrator)
+    public function editTrick(Trick $trick, Request $request, HandleTrick $handleTrick)
     {
         $originalSlug = $trick->getSlug();
 
@@ -79,8 +76,8 @@ class TrickController extends AbstractController
                 $this->addFlash('error', 'Cette figure existe déjà !');
             } 
             if ($form->isValid()) {
-                // SERVICE EditIllustration
-                $editIllustrator->editIllustration($trick);
+                // SERVICE HandleTrick
+                $handleTrick->editIllustration($trick);
                 return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
             }
         }
@@ -94,7 +91,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}", name="trick_show")
      */
-    public function show(Trick $trick, Request $request, CreateComment $createComment)
+    public function show(Trick $trick, Request $request, HandleTrick $handleTrick)
     {
         // get the actual user of the session
         $user = $this->getUser();
@@ -105,8 +102,8 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            // SERVICE CreateComment
-            $createComment($user, $comment, $trick);
+            // SERVICE HandleTrick
+            $handleTrick->handleComment($user, $comment, $trick);
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
@@ -130,10 +127,10 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}/delete", name="trick_delete")
      */
-    public function delete(Trick $trick, DeleteTrick $deleteTrick)
+    public function delete(Trick $trick, HandleTrick $handleTrick)
     { 
-        // SERVICE DeleteTrick
-        $deleteTrick->deleteTrick($trick);
+        // SERVICE HandleTrick
+        $handleTrick->deleteTrick($trick);
         return $this->redirectToRoute('homepage');
     }
 }

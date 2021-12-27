@@ -26,8 +26,8 @@ class TrickFixtures extends Fixture
         $this->slugger = $slugger;
     }
 
-    public function load(ObjectManager $manager)
-    {
+    private function createUsers(ObjectManager $manager) : array {
+
         $users = [
             'fjean' => (new User())->setUsername('fjean')->setEmail('fjean@symfony.com'), 
             'marie' => (new User())->setUsername('marie')->setEmail('marie@symfony.com'),
@@ -43,6 +43,12 @@ class TrickFixtures extends Fixture
             $user->setEnabled("1");
             $manager->persist($user);
         }
+        return $users;
+    }
+
+    private function createComments(ObjectManager $manager) {
+
+        $users = $this->createUsers($manager);
 
         $comments = [
             '1' => (new Comment())->setContent("ça à l'air dure par contre.")->setUser($users['fjean']), 
@@ -76,6 +82,13 @@ class TrickFixtures extends Fixture
             '29' => (new Comment())->setContent("Pas vraiment pour les grands débutants c'est sur")->setUser($users['antoine']),
             '30' => (new Comment())->setContent("Si elle est bien rentré oui ça peut être classe")->setUser($users['john'])
         ];
+        return $comments;
+    }
+
+    private function createCategories(ObjectManager $manager) {
+
+        $users = $this->createUsers($manager);
+        $comments = $this->createComments($manager);
 
         $categories = [
             "Grabs" => [
@@ -260,6 +273,12 @@ Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est
                 ]         
             ]
         ];
+        return $categories;
+    }
+
+    public function load(ObjectManager $manager)
+    {
+        $categories = $this->createCategories($manager);
 
         foreach ($categories as $categoryName => $tricks) {
             $category = new Category();
@@ -269,11 +288,10 @@ Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est
 
             foreach ($tricks as $trickData) {
                 $trick = new Trick();
-                $trick->setUser($trickData['user']);
-                $trick->setName($trickData['name'])
+                $trick->setUser($trickData['user'])
+                ->setName($trickData['name'])
                 ->setDescription($trickData['description'])
                 ->setAddedAt(new \DateTimeImmutable())
-                ->setUser($user)
                 ->setCategory($category)
                 ->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
                 
