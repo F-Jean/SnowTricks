@@ -18,11 +18,14 @@ use App\Service\HandleTrick;
 
 class TrickController extends AbstractController
 {
+    private $handleTrick;
     private $slugger;
     private $trickRepository;
+    private $commentRepository;
 
-    public function __construct(TrickRepository $trickRepository, SluggerInterface $slugger, CommentRepository $commentRepository)
+    public function __construct(TrickRepository $trickRepository, SluggerInterface $slugger, CommentRepository $commentRepository, HandleTrick $handleTrick)
     {
+        $this->$handleTrick = $handleTrick;
         $this->slugger = $slugger;
         $this->trickRepository = $trickRepository;
         $this->commentRepository = $commentRepository;
@@ -31,7 +34,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/new", name="trick_add")
      */
-    public function addTrick(Request $request, HandleTrick $handleTrick)
+    public function addTrick(Request $request)
     {
         $user = $this->getUser();
         $trick = new Trick();
@@ -43,12 +46,9 @@ class TrickController extends AbstractController
                 $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
             }
             if ($form->isValid()) {
-                if ($this->trickRepository->count(['slug' => $trick->getSlug()]) === 0) {
-                    // SERVICE HandleTrick
-                    $handleTrick->addIllustration($trick);
-                    return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
-                }
-                $form->get('name')->addError(new FormError('Cette figure existe déjà.'));
+                // SERVICE AddIllustration
+                $this->handleTrick->addIllustration($trick);
+                return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
             }
         }
         
@@ -60,7 +60,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
      */
-    public function editTrick(Trick $trick, Request $request, HandleTrick $handleTrick)
+    public function editTrick(Trick $trick, Request $request)
     {
         $originalSlug = $trick->getSlug();
 
@@ -69,15 +69,9 @@ class TrickController extends AbstractController
             if ($trick->getName() !== null) {
                 $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
             }
-
-            $newSlug = $trick->getSlug();
-            if ($originalSlug !== $newSlug && $this->trickRepository->count(['slug' => $newSlug]) > 0) {
-                $form->get('name')->addError(new FormError('Cette figure existe déjà !'));
-                $this->addFlash('error', 'Cette figure existe déjà !');
-            } 
             if ($form->isValid()) {
                 // SERVICE HandleTrick
-                $handleTrick->editIllustration($trick);
+                $this->handleTrick->editIllustration($trick);
                 return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
             }
         }
@@ -91,7 +85,7 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}", name="trick_show")
      */
-    public function show(Trick $trick, Request $request, HandleTrick $handleTrick)
+    public function show(Trick $trick, Request $request)
     {
         // get the actual user of the session
         $user = $this->getUser();
@@ -103,7 +97,7 @@ class TrickController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             // SERVICE HandleTrick
-            $handleTrick->handleComment($user, $comment, $trick);
+            $this->handleTrick->handleComment($user, $comment, $trick);
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
 
@@ -127,10 +121,10 @@ class TrickController extends AbstractController
     /**
      * @Route("/trick/{slug}/delete", name="trick_delete")
      */
-    public function delete(Trick $trick, HandleTrick $handleTrick)
+    public function delete(Trick $trick)
     { 
         // SERVICE HandleTrick
-        $handleTrick->deleteTrick($trick);
+        $this->handleTrick->deleteTrick($trick);
         return $this->redirectToRoute('homepage');
     }
 }

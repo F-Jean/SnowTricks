@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Validator as TrickAssert;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -16,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *   errorPath = "name", 
  *   message = "Cette figure existe déjà !"
  * )
+ * @TrickAssert\SlugExists
  */
 class Trick
 {

@@ -16,10 +16,17 @@ use App\Service\UserData;
 
 class SecurityController extends AbstractController
 {
+    private $userData;
+
+    public function __construct(UserData $userData)
+    {
+        $this->$userData = $userData;
+    }
+
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, UserData $userData) 
+    public function registration(Request $request) 
     {
         $user = new User();
         $user->setAvatar('basicAvatar.png');
@@ -28,7 +35,7 @@ class SecurityController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             // SERVICE UserData
-            $userData->userRegistration($user);
+            $this->userData->userRegistration($user);
             return $this->redirectToRoute('app_login');
         }
 
@@ -61,14 +68,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/account", name="user_account")
      */
-    public function userAccount(Request $request, UserData $userData)
+    public function userAccount(Request $request)
     {
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user,)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // SERVICE UserData
-            $userData->uploadAvatar($user);
+            $this->userData->uploadAvatar($user);
             return $this->redirectToRoute('user_account');
         }
 
@@ -81,24 +88,24 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirm_account/{token}", name="confirm_account")
      */
-    public function confirmAccount(User $user, UserData $userData)
+    public function confirmAccount(User $user)
     {
         // SERVICE UserData
-        $userData->accountActivator($user);
+        $this->userData->accountActivator($user);
         return $this->redirectToRoute('homepage');
     }
 
     /**
      * @Route("/forgotten_password", name="forgotten_password")
      */
-    public function forgottenPassword(Request $request, UserData $userData)
+    public function forgottenPassword(Request $request)
     {
         $form = $this->createForm(ForgottenPasswordType::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             // Fetching data
             $data = $form->getData();
             // SERVICE UserData
-            $userData->checkUser($data);
+            $this->userData->checkUser($data);
             return $this->redirectToRoute('app_login');
         }
 
@@ -110,13 +117,13 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reset_password/{resetToken}", name="reset_password")
      */
-    public function resetPassword(User $user, Request $request, UserData $userData)
+    public function resetPassword(User $user, Request $request)
     {
         $form = $this->createForm(ResetPasswordType::class)->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $newPassword = $form->get('resetPassword')->getData();
             // SERVICE UserData
-            $userData->resetToken($user, $newPassword);
+            $this->userData->resetToken($user, $newPassword);
             return $this->redirectToRoute('app_login');
         }
 

@@ -28,4 +28,22 @@ class TrickRepository extends ServiceEntityRepository
         ;
         return $queryBuilder->getQuery()->getResult();
     }
+
+    public function slugExists(Trick $trick): bool
+    {
+        $queryBuilder = $this->createQueryBuilder('t')
+        ->select('COUNT(t.id)')
+        ->andWhere('t.slug = :slug')
+        ->setParameter('slug', $trick->getSlug());
+
+        if ($trick->getId() === null) {
+        $queryBuilder
+        ->andWhere('t != :trick')
+        ->setParameter('trick', $trick);
+        }
+
+        return intval($queryBuilder
+        ->getQuery()
+        ->getSingleScalarResult()) > 0;
+    }
 }
