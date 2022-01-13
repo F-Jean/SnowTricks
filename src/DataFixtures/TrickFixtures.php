@@ -46,9 +46,7 @@ class TrickFixtures extends Fixture
         return $users;
     }
 
-    private function createComments(ObjectManager $manager) {
-
-        $users = $this->createUsers($manager);
+    private function createComments($users) {
 
         $comments = [
             '1' => (new Comment())->setContent("ça à l'air dure par contre.")->setUser($users['fjean']), 
@@ -85,10 +83,7 @@ class TrickFixtures extends Fixture
         return $comments;
     }
 
-    private function createCategories(ObjectManager $manager) {
-
-        $users = $this->createUsers($manager);
-        $comments = $this->createComments($manager);
+    private function createCategories($users, $comments) {
 
         $categories = [
             "Grabs" => [
@@ -243,8 +238,8 @@ C'est souvent déroutant pour les nouveaux riders qui apprennent le trick car av
                     "description" => "Lors du saut la main arrière grab la partie arrière du snowboard ou le pied arrière a été détaché. 
 La jambe arrière est écarté vers l'arrière du snowboard avant de revenir en place avant la fin du saut en restant toujours détaché.",
                     "illustrations" => [
-                        "one-foot-indy_01.jpg",
-                        "one-foot-indy_02.jpeg"
+                        "one-foot-indy_01.jpeg",
+                        "one-foot-indy_02.jpg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=7WJb_igyZ5w",
@@ -278,7 +273,9 @@ Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est
 
     public function load(ObjectManager $manager)
     {
-        $categories = $this->createCategories($manager);
+        $users = $this->createUsers($manager);
+        $comments = $this->createComments($users);
+        $categories = $this->createCategories($users, $comments);
 
         foreach ($categories as $categoryName => $tricks) {
             $category = new Category();

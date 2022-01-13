@@ -36,7 +36,7 @@ class TrickRepository extends ServiceEntityRepository
         ->andWhere('t.slug = :slug')
         ->setParameter('slug', $trick->getSlug());
 
-        if ($trick->getId() === null) {
+        if ($trick->getId() !== null) {
         $queryBuilder
         ->andWhere('t != :trick')
         ->setParameter('trick', $trick);

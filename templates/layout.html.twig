@@ -48,8 +48,8 @@
             <ul>
                 <li><a href="{{ path('homepage') }}">Accueil</a></li>
                 <li><a href="/#content-trick">Figures</a></li>
-                <li><a href="{{ path('security_registration') }}">S'enregistrer</a></li>
                 {% if not app.user %}
+                <li><a href="{{ path('security_registration') }}">S'enregistrer</a></li>
                     <li><a href="{{ path('app_login') }}">Connexion</a></li>
                 {% else %}
                     <li><a href="{{ path('user_account') }}" class="menu-username">{{ app.user.username }}</a></li>
