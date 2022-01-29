@@ -27,7 +27,6 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            // SERVICE UserData
             $userData->userRegistration($user);
             return $this->redirectToRoute('app_login');
         }
@@ -66,8 +65,8 @@ class SecurityController extends AbstractController
         $user = $this->getUser();
 
         $form = $this->createForm(UserType::class, $user,)->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // SERVICE UserData
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $userData->uploadAvatar($user);
             return $this->redirectToRoute('user_account');
         }
@@ -81,10 +80,9 @@ class SecurityController extends AbstractController
     /**
      * @Route("/confirm_account/{token}", name="confirm_account")
      */
-    public function confirmAccount(User $user)
+    public function confirmAccount(User $user, UserData $userData)
     {
-        // SERVICE UserData
-        $this->userData->accountActivator($user);
+        $userData->accountActivator($user);
         return $this->redirectToRoute('homepage');
     }
 
@@ -94,10 +92,10 @@ class SecurityController extends AbstractController
     public function forgottenPassword(Request $request, UserData $userData)
     {
         $form = $this->createForm(ForgottenPasswordType::class)->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             // Fetching data
             $data = $form->getData();
-            // SERVICE UserData
             $userData->checkUser($data);
             return $this->redirectToRoute('app_login');
         }
@@ -113,9 +111,9 @@ class SecurityController extends AbstractController
     public function resetPassword(User $user, Request $request, UserData $userData)
     {
         $form = $this->createForm(ResetPasswordType::class)->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $newPassword = $form->get('resetPassword')->getData();
-            // SERVICE UserData
             $userData->resetToken($user, $newPassword);
             return $this->redirectToRoute('app_login');
         }

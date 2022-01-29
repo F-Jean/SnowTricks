@@ -5,26 +5,23 @@ namespace App\Repository;
 use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
-/**
- * @method Trick|null find($id, $lockMode = null, $lockVersion = null)
- * @method Trick|null findOneBy(array $criteria, array $orderBy = null)
- * @method Trick[]    findAll()
- * @method Trick[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
+
 class TrickRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, SluggerInterface $slugger)
     {
         parent::__construct($registry, Trick::class);
+        $this->slugger = $slugger;
     }
 
     public function getTricks(int $page, int $length)
     {
         $queryBuilder = $this->createQueryBuilder('t')
-        ->orderBy('t.id', 'desc')
-        ->setFirstResult(($page-1) * $length)
-        ->setMaxResults($length)
+            ->orderBy('t.id', 'desc')
+            ->setFirstResult(($page-1) * $length)
+            ->setMaxResults($length)
         ;
         return $queryBuilder->getQuery()->getResult();
     }
@@ -32,18 +29,22 @@ class TrickRepository extends ServiceEntityRepository
     public function slugExists(Trick $trick): bool
     {
         $queryBuilder = $this->createQueryBuilder('t')
-        ->select('COUNT(t.id)')
-        ->andWhere('t.slug = :slug')
-        ->setParameter('slug', $trick->getSlug());
+            ->select('COUNT(t.id)')
+            ->andWhere('t.slug = :slug')
+            ->setParameter('slug', $this->slugger->slug($trick->getName())->lower()->toString())
+        ;
 
-        if ($trick->getId() !== null) {
+        if ($trick->getId() !== null) 
+        {
         $queryBuilder
-        ->andWhere('t != :trick')
-        ->setParameter('trick', $trick);
+            ->andWhere('t != :trick')
+            ->setParameter('trick', $trick)
+        ;
         }
 
         return intval($queryBuilder
-        ->getQuery()
-        ->getSingleScalarResult()) > 0;
+            ->getQuery()
+            ->getSingleScalarResult()) > 0
+        ;
     }
 }

@@ -37,7 +37,7 @@ class Trick
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(
-     *      message = "Veuillez saisir le nom de la figure."
+     *   message = "Veuillez saisir le nom de la figure."
      * )
      */
     private $name;
@@ -52,7 +52,7 @@ class Trick
     /**
      * @ORM\Column(type="text")
      * @Assert\NotBlank(
-     *      message = "Veuillez saisir une description."
+     *   message = "Veuillez saisir une description."
      * )
      */
     private $description;
@@ -68,16 +68,20 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", fetch="EXTRA_LAZY", cascade={"persist"}, orphanRemoval=true)
      */
     private $comments;
 
     /**
      * @ORM\OneToMany(targetEntity=Illustration::class, mappedBy="trick", cascade={"persist"}, orphanRemoval=true)
      * @Assert\Count(
-     *      min = 1,
-     *      minMessage = "Merci d'ajouter au minimum une image.")
+     *   min = 1,
+     *   minMessage = "Merci d'ajouter au minimum une image."
+     * )
      * @Assert\Valid
+     * @Assert\NotBlank(
+     *   message = "Merci de sélectionner une image ou de supprimer le champ vide"
+     * )
      */
     private $illustrations;
 
@@ -108,7 +112,6 @@ class Trick
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -120,7 +123,6 @@ class Trick
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -132,7 +134,6 @@ class Trick
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
-
         return $this;
     }
 
@@ -144,7 +145,6 @@ class Trick
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -156,7 +156,6 @@ class Trick
     public function setAddedAt(\DateTimeImmutable $addedAt): self
     {
         $this->addedAt = $addedAt;
-
         return $this;
     }
 
@@ -168,7 +167,6 @@ class Trick
     public function setSlug(?string $slug): self
     {
         $this->slug = $slug;
-
         return $this;
     }
 

@@ -20,7 +20,8 @@ class SlugExistsValidator extends ConstraintValidator
      */
     public function validate($trick, Constraint $constraint): void
     {
-        if ($this->trickRepository->slugExists($trick)) {
+        if ($this->trickRepository->slugExists($trick)) 
+        {
             $this->context->buildViolation($constraint->message)
             ->addViolation()
             ;

@@ -21,13 +21,12 @@ class TrickFixtures extends Fixture
 
     public function __construct(UserPasswordHasherInterface $passwordHasher, SluggerInterface $slugger)
     {
-
         $this->passwordHasher = $passwordHasher;
         $this->slugger = $slugger;
     }
 
-    private function createUsers(ObjectManager $manager) : array {
-
+    private function createUsers(ObjectManager $manager) : array 
+    {
         $users = [
             'fjean' => (new User())->setUsername('fjean')->setEmail('fjean@symfony.com'), 
             'marie' => (new User())->setUsername('marie')->setEmail('marie@symfony.com'),
@@ -37,7 +36,8 @@ class TrickFixtures extends Fixture
             'claire' => (new User())->setUsername('claire')->setEmail('claire@symfony.com')
         ];
 
-        foreach ($users as $user) {
+        foreach ($users as $user) 
+        {
             $user->setPassword($this->passwordHasher->hashPassword($user, 'password'));
             $user->setAvatar('basicAvatar.png');
             $user->setEnabled("1");
@@ -46,8 +46,8 @@ class TrickFixtures extends Fixture
         return $users;
     }
 
-    private function createComments($users) {
-
+    private function createComments($users) 
+    {
         $comments = [
             '1' => (new Comment())->setContent("ça à l'air dure par contre.")->setUser($users['fjean']), 
             '2' => (new Comment())->setContent("En vrai facile")->setUser($users['marie']),
@@ -83,8 +83,8 @@ class TrickFixtures extends Fixture
         return $comments;
     }
 
-    private function createCategories($users, $comments) {
-
+    private function createCategories($users, $comments) 
+    {
         $categories = [
             "Grabs" => [
                 [
@@ -258,7 +258,7 @@ Il existe plusieurs types de grabs selon la position de la saisie et la main cho
 Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est d'autant plus esthétique que la saisie du snowboard est franche, ce qui permet au rideur d'accentuer la torsion de son corps grâce à la tension de sa main sur la planche. On dit alors que le grab est tweaké (le verbe anglais to tweak signifie « pincer » mais a également le sens de « peaufiner »).",
                     "illustrations" => [
                             "japan-air_01.jpg",
-                            "japan-air_02.jpg"
+                            "japan-air_02.jpeg"
                     ],
                     "videos" => [
                         "https://www.youtube.com/watch?v=I7N45iRPrhw",
@@ -277,13 +277,15 @@ Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est
         $comments = $this->createComments($users);
         $categories = $this->createCategories($users, $comments);
 
-        foreach ($categories as $categoryName => $tricks) {
+        foreach ($categories as $categoryName => $tricks) 
+        {
             $category = new Category();
             $category->setName($categoryName);
 
             $manager->persist($category);
 
-            foreach ($tricks as $trickData) {
+            foreach ($tricks as $trickData) 
+            {
                 $trick = new Trick();
                 $trick->setUser($trickData['user'])
                 ->setName($trickData['name'])
@@ -292,20 +294,23 @@ Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est
                 ->setCategory($category)
                 ->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
                 
-                foreach ($trickData["videos"] as $videoData) {
+                foreach ($trickData["videos"] as $videoData) 
+                {
                     $video = new Video();
                     $video->setUrl($videoData);
                     $urlVideo = $video->getUrl();
                     $ytUrl = "https://www.youtube.com/embed/";
                     $dmUrl = "https://www.dailymotion.com/embed/video/";
-                    if (preg_match("#youtube#", $urlVideo)) {
+                    if (preg_match("#youtube#", $urlVideo)) 
+                    {
                         // regex to isolate a youtube url' id specifically
                         preg_match('#https:\/\/www\.youtube\.com\/watch\?v=(.+)#', $urlVideo, $matches);
                         $ytId = $matches[1];
                         // adding embed url to isolate id
                         $ytUrlVideo = $ytUrl . $ytId;
                         $video->setUrl($ytUrlVideo);
-                    } elseif (preg_match("#dailymotion#", $urlVideo)) {
+                    } elseif (preg_match("#dailymotion#", $urlVideo)) 
+                    {
                         // regex to isolate a dailymotion url' id specifically
                         preg_match('#https:\/\/www\.dailymotion\.com\/video\/(.+)#', $urlVideo, $matches);
                         $dmId = $matches[1];
@@ -317,14 +322,16 @@ Un grab est d'autant plus réussi que la saisie est longue. De plus, le saut est
 
                     $manager->persist($video);
                 }
-                foreach ($trickData["illustrations"] as $illustrationData) {
+                foreach ($trickData["illustrations"] as $illustrationData) 
+                {
                     $illustration = new Illustration();
                     $illustration->setPath($illustrationData);
                     $trick->addIllustration($illustration);
 
                     $manager->persist($illustration);
                 }
-                foreach ($trickData["comments"] ?? [] as $comment) {
+                foreach ($trickData["comments"] ?? [] as $comment) 
+                {
                     $comment->setTrick($trick)
                     ->setPostedAt(new \DateTimeImmutable());
                     $manager->persist($comment);

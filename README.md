@@ -38,6 +38,9 @@ afin qu'elle fonctionne ajouter à la suite :
 MAILER_DSN=gmail://votreEmail:votreMDP@default?verify_peer=0
 ```
 
+En cas d'erreur il est possible que vous ayez besoin d'activer le paramètre :
+"Autoriser les applications moins sécurisées" de votre compte Google.
+
 Lancer la création :
 
 ```

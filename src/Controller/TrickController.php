@@ -6,9 +6,7 @@ use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Form\TrickType;
 use App\Form\CommentType;
-use App\Repository\TrickRepository;
 use App\Repository\CommentRepository;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -19,13 +17,11 @@ use App\Service\HandleTrick;
 class TrickController extends AbstractController
 {
     private $slugger;
-    private $trickRepository;
     private $commentRepository;
 
-    public function __construct(TrickRepository $trickRepository, SluggerInterface $slugger, CommentRepository $commentRepository)
+    public function __construct(SluggerInterface $slugger, CommentRepository $commentRepository)
     {
         $this->slugger = $slugger;
-        $this->trickRepository = $trickRepository;
         $this->commentRepository = $commentRepository;
     }
 
@@ -38,16 +34,14 @@ class TrickController extends AbstractController
         $trick = new Trick();
         $trick->setUser($user);
         
-        $form = $this->createForm(TrickType::class, $trick, ['validation_groups' => 'Default'])->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($trick->getName() !== null) {
-                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
-            }
-            if ($form->isValid()) {
-                // SERVICE AddIllustration
-                $handleTrick->addIllustration($trick);
-                return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
-            }
+        $form = $this->createForm(TrickType::class, $trick, ['validation_groups' => ['Default', 'add']])
+        ->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
+
+            $handleTrick->addTrick($trick);
+            return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
         }
         
         return $this->render("trick/addTrick.html.twig", [
@@ -60,18 +54,12 @@ class TrickController extends AbstractController
      */
     public function editTrick(Trick $trick, Request $request, HandleTrick $handleTrick)
     {
-        $originalSlug = $trick->getSlug();
-
         $form = $this->createForm(TrickType::class, $trick,)->handleRequest($request);
-        if ($form->isSubmitted()) {
-            if ($trick->getName() !== null) {
-                $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
-            }
-            if ($form->isValid()) {
-                // SERVICE HandleTrick
-                $handleTrick->editIllustration($trick);
-                return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $trick->setSlug($this->slugger->slug($trick->getName())->lower()->toString());
+
+            $handleTrick->editTrick($trick, $form);
+            return $this->redirectToRoute('homepage', ['_fragment'=>'content-trick']);
         }
         
         return $this->render("trick/editTrick.html.twig", [
@@ -94,7 +82,6 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            // SERVICE HandleTrick
             $handleTrick->handleComment($user, $comment, $trick);
             return $this->redirectToRoute('trick_show', ['slug' => $trick->getSlug()]);
         }
@@ -121,7 +108,6 @@ class TrickController extends AbstractController
      */
     public function delete(Trick $trick, HandleTrick $handleTrick)
     { 
-        // SERVICE HandleTrick
         $handleTrick->deleteTrick($trick);
         return $this->redirectToRoute('homepage');
     }

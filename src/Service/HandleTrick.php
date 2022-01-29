@@ -2,8 +2,8 @@
 
 namespace App\Service;
 
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 
 class HandleTrick
@@ -12,16 +12,21 @@ class HandleTrick
     private $manager;
     private $flashBag;
 
-    public function __construct(SluggerInterface $slugger, EntityManagerInterface $manager, FlashBagInterface $flashBag)
+    public function __construct(
+        SluggerInterface $slugger, 
+        EntityManagerInterface $manager, 
+        FlashBagInterface $flashBag
+    )
     {
         $this->slugger = $slugger;
         $this->manager = $manager;
         $this->flashBag = $flashBag;
     }
 
-    public function addIllustration($trick) 
+    public function addTrick($trick) 
     {
-        foreach ($trick->getIllustrations() as $illustration) {
+        foreach ($trick->getIllustrations() as $illustration) 
+        {
             $uploadedFile = $illustration->getFile();
             $destination = __DIR__.'/../../public/uploads/trick_images';
 
@@ -44,10 +49,18 @@ class HandleTrick
         $this->flashBag->add('success', 'La figure a bien été ajouté !');
     }
 
-    public function editIllustration($trick) {
-        foreach ($trick->getIllustrations() as $illustration) {
+    public function editTrick($trick) 
+    {
+        foreach ($trick->getIllustrations() as $illustration) 
+        {
             $uploadedFile = $illustration->getFile();
-            if($uploadedFile == null) {
+            if($uploadedFile == null) 
+            {
+                // is it a new illus
+                if ($illustration->getId() == null) 
+                {
+                    $trick->getIllustrations()->removeElement($illustration);
+                }
                 continue;
             }
             $destination = __DIR__.'/../../public/uploads/trick_images';
@@ -70,21 +83,26 @@ class HandleTrick
         $this->flashBag->add('success', 'La figure a bien été modifié !');
     }
 
-    public function handleComment($user, $comment, $trick) {
+    public function handleComment($user, $comment, $trick) 
+    {
         $comment->setTrick($trick);
         $this->manager->persist($comment);
         $this->manager->flush();
     }
 
-    public function deleteTrick($trick) {
+    public function deleteTrick($trick) 
+    {
         //Delete illustrations when trick is delete
         $illustrations = $trick->getIllustrations();
-        if($illustrations) {
+        if($illustrations) 
+        {
             // Loop on trick illustrations
-            foreach($illustrations as $illustration) {
+            foreach($illustrations as $illustration) 
+            {
                 $illustrationName = __DIR__.'/../../public/uploads/trick_images'.'/'.$illustration->getPath();
                 // Check if illustration exist
-                if(file_exists($illustrationName)) {
+                if(file_exists($illustrationName)) 
+                {
                     unlink($illustrationName);
                 }
             }

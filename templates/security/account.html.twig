@@ -4,17 +4,21 @@
     <section class="user-account">
         <div>
             {% if app.user %}
-            <h1 class="user-name">Bonjour {{ app.user.username }}</h1>
+                <h1 class="user-name">Bonjour {{ app.user.username }}</h1>
             {% endif %}
         </div>
         <div class="avatar-container">
-            <img src="{{ asset('uploads/users_avatar/'~user.avatar) }}" class="dot" alt="">
+            <img src="{{ asset('uploads/users_avatar/'~user.avatar) }}" 
+            class="dot" alt="">
         </div>
         <div class="avatar-input">
             {{ form_start(userForm, { 'attr': {'class': 'avatar-form'} }) }}
                 <h2 class="avatar-text">Modifier votre avatar :</h2>
                 {{ form_row(userForm.avatarFile) }}
-                <button id="avatar-btn" class="btn btn-lg btn-primary" type="submit">Modifier</button>
+                <button id="avatar-btn" class="btn btn-lg btn-primary" 
+                type="submit">
+                    Modifier
+                </button>
             {{ form_end(userForm) }}
         </div>
     </section>

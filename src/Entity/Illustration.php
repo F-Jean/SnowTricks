@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\IllustrationRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=IllustrationRepository::class)
@@ -25,6 +26,8 @@ class Illustration
 
     /** 
      * @var UploadedFile
+     * @Assert\NotNull(groups="add")
+     * @Assert\Image(groups="add")
      */
     private $file;
 
@@ -47,7 +50,6 @@ class Illustration
     public function setPath(string $path): self
     {
         $this->path = $path;
-
         return $this;
     }
 
@@ -59,7 +61,6 @@ class Illustration
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
-
         return $this;
     }
 
@@ -80,7 +81,6 @@ class Illustration
     public function setFile(UploadedFile $file)
     {
         $this->file = $file;
-
         return $this;
     }
 }
