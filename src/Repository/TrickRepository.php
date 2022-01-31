@@ -36,10 +36,10 @@ class TrickRepository extends ServiceEntityRepository
 
         if ($trick->getId() !== null) 
         {
-        $queryBuilder
-            ->andWhere('t != :trick')
-            ->setParameter('trick', $trick)
-        ;
+            $queryBuilder
+                ->andWhere('t != :trick')
+                ->setParameter('trick', $trick)
+            ;
         }
 
         return intval($queryBuilder

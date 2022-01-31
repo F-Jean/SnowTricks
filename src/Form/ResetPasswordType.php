@@ -28,17 +28,11 @@ class ResetPasswordType extends AbstractType
                         'minMessage' => 'Le mot de passe doit faire minimum {{ limit }} caractères.'
                     ]),
                     new Regex([
-                        '/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/',
+                        'pattern' => '/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/',
                         'message' => 'Le mot de passe {{ value }} ne respect pas les demandes.'
                     ]),
                 ],
             ))
         ;
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults([
-        ]);
     }
 }
