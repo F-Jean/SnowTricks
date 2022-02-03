@@ -1,3 +1,5 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/ace024fb46164ff7967ede3d1c04c587)](https://www.codacy.com/gh/F-Jean/SnowTricks/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=F-Jean/SnowTricks&amp;utm_campaign=Badge_Grade)
+
 # SNOWTRICK
 
 CRUD sur les figures de snowboard.
