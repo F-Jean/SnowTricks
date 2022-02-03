@@ -6,24 +6,43 @@
             <h1 id="login-title">Connexion</h1>
             <div class="login-inputs">
                 <div>
-                    <label for="inputUserName" class="login-infos">Nom d'utilisateur</label>
+                    <label for="inputUserName" class="login-infos">
+                        Nom d'utilisateur
+                    </label>
                 </div>
                 <div>
-                    <input type="text" value="{{ last_username }}" name="userName" id="inputUserName" class="form-control" required autofocus>
+                    <input 
+                    type="text" 
+                    value="{{ last_username }}" 
+                    name="userName" 
+                    id="inputUserName" 
+                    class="form-control" 
+                    required autofocus>
                 </div>
                 <div>
-                    <label for="inputPassword" class="login-infos">Mot de passe</label>
+                    <label for="inputPassword" class="login-infos">
+                        Mot de passe
+                    </label>
                 </div>
                 <div>
-                    <input type="password" name="password" id="inputPassword" class="form-control" required>
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <input 
+                    type="password" 
+                    name="password" 
+                    id="inputPassword" 
+                    class="form-control" 
+                    required>
+                    <input 
+                    type="hidden" 
+                    name="_csrf_token" 
+                    value="{{ csrf_token('authenticate') }}">
                 </div>
             </div>
             {% if error %}
                 <div class="login-error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
             {#
-                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                Uncomment this section and add a remember_me option below your 
+                firewall to activate remember me functionality.
                 See https://symfony.com/doc/current/security/remember_me.html
                 <div class="checkbox mb-3">
                     <label>
@@ -31,10 +50,16 @@
                     </label>
                 </div>
             #}
-            <button id="login-btn" class="btn btn-primary" type="submit">Se connecter</button>
+            <button id="login-btn" class="btn btn-primary" type="submit">
+                Se connecter
+            </button>
             <div class="login-links">
-                <a href="/inscription/#register-title" class="login-link1">S'enregistrer</a></br>
-                <a href="{{ path('forgotten_password') }}" class="login-link2">Mot de passe oublié ?</a>
+                <a href="/inscription/#register-title" class="login-link1">
+                    S'enregistrer
+                </a></br>
+                <a href="{{ path('forgotten_password') }}" class="login-link2">
+                    Mot de passe oublié ?
+                </a>
             </div>
         </form>
     </div>

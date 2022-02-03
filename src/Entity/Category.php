@@ -40,7 +40,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -52,15 +51,14 @@ class Category
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
         return $this;
     }
 
-/**
- * @return string
- */
-public function __toString()
-{
-    return (string) $this->getId();
-}
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
 }

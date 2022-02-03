@@ -14,11 +14,13 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(
- *      fields = {"email"}, 
- *      message = "L'email est déjà utilisé.")
+ *   fields = {"email"}, 
+ *   message = "L'email est déjà utilisé."
+ * )
  * @UniqueEntity(
- *      fields = {"userName"}, 
- *      message = "Ce nom d'utilisateur est déjà utilisé.")
+ *   fields = {"userName"}, 
+ *   message = "Ce nom d'utilisateur est déjà utilisé."
+ * )
  */
 class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInterface
 {
@@ -32,10 +34,10 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email(
-     *      message = "L'email '{{ value }}' n'est pas un email valide."
+     *   message = "L'email '{{ value }}' n'est pas un email valide."
      * )
      * @Assert\NotBlank(
-     *      message = "Veuillez saisir un email."
+     *   message = "Veuillez saisir un email."
      * )
      */
     private $email;
@@ -43,13 +45,13 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(
-     *      min = 3,
-     *      max = 20, 
-     *      minMessage = "Votre nom d'utilisateur doit contenir au minimum {{ limit }} lettres.",
-     *      maxMessage = "Votre nom d'utilisateur ne peut pas faire plus de {{ limit }} lettres."
+     *   min = 3,
+     *   max = 20, 
+     *   minMessage = "Votre nom d'utilisateur doit contenir au minimum {{ limit }} lettres.",
+     *   maxMessage = "Votre nom d'utilisateur ne peut pas faire plus de {{ limit }} lettres."
      * )
      * @Assert\NotBlank(
-     *      message = "Veuillez saisir un nom d'utilisateur."
+     *   message = "Veuillez saisir un nom d'utilisateur."
      * )
      */
     private $userName;
@@ -66,11 +68,11 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
 
     /**
      * @Assert\NotBlank(
-     *      message = "Veuillez saisir un mot de passe."
+     *   message = "Veuillez saisir un mot de passe."
      * )
      * @Assert\Length(
-     *      min = 8,
-     *      minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères."     
+     *   min = 8,
+     *   minMessage = "Le mot de passe doit faire minimum {{ limit }} caractères."     
      * )
      * 
      * \S*: any set of characters
@@ -80,8 +82,8 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
      * (?=\S*[\d]): and at least one number
      * (?=\S*[\W]): and at least one special character
      * @Assert\Regex(
-     *      "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/",
-     *      message = "Le mot de passe {{ value }} ne respect pas les demandes."
+     *   "/^\S*(?=\S{8,})(?=\S*[a-z])(?=\S*[A-Z])(?=\S*[\d])(?=\S*[\W])\S*$/",
+     *   message = "Le mot de passe {{ value }} ne respect pas les demandes."
      * )
      */
     private $plainPassword;
@@ -136,7 +138,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setEmail(string $email): self
     {
         $this->email = $email;
-
         return $this;
     }
 
@@ -148,7 +149,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setUserName(string $userName): self
     {
         $this->userName = $userName;
-
         return $this;
     }
 
@@ -160,7 +160,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setAvatar(string $avatar): self
     {
         $this->avatar = $avatar;
-
         return $this;
     }
 
@@ -181,7 +180,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setAvatarFile(UploadedFile $avatarFile)
     {
         $this->avatarFile = $avatarFile;
-
         return $this;
     }
 
@@ -203,7 +201,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setPassword(string $password): self
     {
         $this->password = $password;
-
         return $this;
     }
 
@@ -219,7 +216,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-
         return $this;
     }
 
@@ -258,7 +254,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setToken(?Uuid $token): self
     {
         $this->token = $token;
-
         return $this;
     }
 
@@ -270,7 +265,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
-
         return $this;
     }
 
@@ -282,7 +276,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setResetToken(?Uuid $resetToken): self
     {
         $this->resetToken = $resetToken;
-
         return $this;
     }
 
@@ -294,7 +287,6 @@ class User implements UserInterface, \Serializable, PasswordAuthenticatedUserInt
     public function setResetPassword(?string $resetPassword): self
     {
         $this->resetPassword = $resetPassword;
-
         return $this;
     }
 

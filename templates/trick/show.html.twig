@@ -7,12 +7,15 @@
         </div>
         <div class="trick-options-banner">
             {% if is_granted('ROLE_USER') %}
-                <a href="{{ path('trick_edit', {'slug' : trick.slug}) }}" class="btn btn-primary edit-btn"><i class="fas fa-edit"></i></a>
-                <a href="{{ path('trick_delete', {'slug' : trick.slug}) }}" class="btn btn-primary delete-btn"><i class="fas fa-trash-alt"></i></a>
+                <a href="{{ path('trick_edit', {'slug' : trick.slug}) }}" class="btn btn-primary edit-btn">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{{ path('trick_delete', {'slug' : trick.slug}) }}" class="btn btn-primary delete-btn">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
             {% endif %}
         </div>
-        <div class="title-background-color">
-        </div>
+        <div class="title-background-color"></div>
         <div class="trick-name">
             <h1 class="trick-name-title">{{ trick.name }}</h1>
         </div>
@@ -22,10 +25,21 @@
         <section class="trick-show">
             <div class="trick-medias">
                 {% for illustration in trick.illustrations %}
-                    <img src="{{ asset('uploads/trick_images/'~illustration.path) }}" alt="" class="trick-show-illustration" width="325" height="200">
+                    <img 
+                    src="{{ asset('uploads/trick_images/'~illustration.path) }}" 
+                    alt="" 
+                    class="trick-show-illustration" 
+                    width="325" 
+                    height="200">
                 {% endfor %}
                 {% for video in trick.videos %}
-                    <iframe class="trick-video" width="325" height="200" src="{{ asset(video.url) }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                    <iframe class="trick-video" 
+                    width="325" 
+                    height="200" 
+                    src="{{ asset(video.url) }}" 
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
                         Votre navigateur ne peut pas lire la vidéo.
                     </iframe>
                 {% endfor %}

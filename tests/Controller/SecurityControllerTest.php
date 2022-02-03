@@ -49,9 +49,7 @@ class LoginTest extends WebTestCase
     public function login_failed()
     {
         $client = static::createClient();
-
         $crawler = $client->request(Request::METHOD_GET, '/login');
-
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
 
         $form = $crawler->filter("form[name=login]")->form([
@@ -62,7 +60,6 @@ class LoginTest extends WebTestCase
         $client->submit($form);
 
         $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
-
         $client->followRedirect();
         // on test si on a bien le message d'erreur
         $this->assertSelectorTextContains('html', 'Identifiants invalides.');

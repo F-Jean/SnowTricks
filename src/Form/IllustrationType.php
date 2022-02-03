@@ -16,16 +16,19 @@ class IllustrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-        ->add('path', HiddenType::class)
-            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event){
+            ->add('path', HiddenType::class)
+            ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event)
+            {
                 $illustration = $event->getData();
-                if($illustration === null) {
+                if($illustration === null) 
+                {
                     $event->getForm()->add('file', FileType::class, [
                         'label' => false,
                         'required' => false,
                     ]);
                 }
-            });
+            })
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

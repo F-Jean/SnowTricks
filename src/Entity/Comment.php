@@ -26,7 +26,7 @@ class Comment
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="comments")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $trick;
 
@@ -38,8 +38,8 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(
-     *      message = "Veuillez saisir un commentaire."
-     *      )
+     *   message = "Veuillez saisir un commentaire."
+     * )
      */
     private $content;
 
@@ -61,7 +61,6 @@ class Comment
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -73,7 +72,6 @@ class Comment
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
-
         return $this;
     }
 
@@ -85,7 +83,6 @@ class Comment
     public function setPostedAt(\DateTimeImmutable $postedAt): self
     {
         $this->postedAt = $postedAt;
-
         return $this;
     }
 
@@ -97,7 +94,6 @@ class Comment
     public function setContent(string $content): self
     {
         $this->content = $content;
-
         return $this;
     }
 }
