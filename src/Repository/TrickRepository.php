@@ -42,9 +42,9 @@ class TrickRepository extends ServiceEntityRepository
             ;
         }
 
-        return intval($queryBuilder
+        return (int)$queryBuilder
             ->getQuery()
-            ->getSingleScalarResult()) > 0
+            ->getSingleScalarResult() > 0
         ;
     }
 }
