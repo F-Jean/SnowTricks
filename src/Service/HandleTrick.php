@@ -83,7 +83,7 @@ class HandleTrick
         $this->flashBag->add('success', 'La figure a bien été modifié !');
     }
 
-    public function handleComment($user, $comment, $trick) 
+    public function handleComment($comment, $trick) 
     {
         $comment->setTrick($trick);
         $this->manager->persist($comment);
